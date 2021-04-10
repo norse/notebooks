@@ -11,6 +11,8 @@ locally, but we also links to
 [Google Colab](https://research.google.com/colaboratory/faq.html) where you can run
 them in your browser for free.
 
+Note that you can run the code both using CPUs, GPUs, and TPUs. If you run the code on Google collaboratory, select `Runtime -> Change Runtime Type` to run the models on GPUs or TPUs. That will also run significantly faster and save a lot of your time.
+
 ## Level: Beginner
 
 | | | |
