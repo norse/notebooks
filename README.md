@@ -27,6 +27,7 @@ Note that you can run the code both using CPUs, GPUs, and TPUs. If you run the c
 | | | |
 | ------------------ | --- | --- |
 | *Training on MNIST* | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/norse/notebooks/blob/master/mnist_classifiers.ipynb) | Learn how to solve MNIST with spikes
+| *Working with event-based data* | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/norse/notebooks/blob/master/poker-dvs_classifier.ipynb) | Learn how to work with event-based datasets
 | *Optimization of neuron parameters* | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/norse/notebooks/blob/master/parameter-learning.ipynb) | Explore how automatic differentiation can be useful to optimize neurons
 
 
