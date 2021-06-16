@@ -5,7 +5,7 @@
 # Norse Notebook Tutorials
 
 These notebooks are designed to familiarize yourself with the [Spiking Neural
-Network simulaor, Norse](https://github.com/norse/norse).
+Network simulator, Norse](https://github.com/norse/norse).
 You are welcome to clone and run the notebooks
 locally, but we also links to 
 [Google Colab](https://research.google.com/colaboratory/faq.html) where you can run
@@ -27,7 +27,7 @@ Note that you can run the code both using CPUs, GPUs, and TPUs. If you run the c
 | | | |
 | ------------------ | --- | --- |
 | *Training on MNIST* | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/norse/notebooks/blob/master/mnist_classifiers.ipynb) | Learn how to solve MNIST with spikes
-| *Working with event-based data* | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/norse/notebooks/blob/master/poker-dvs_classifier.ipynb) | Learn how to work with event-based datasets
+| *Working with event-based data* | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/norse/notebooks/blob/master/poker-dvs_classifier.ipynb) | Learn how to work with event-based datasets by classifying a set of poker cards
 | *Optimization of neuron parameters* | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/norse/notebooks/blob/master/parameter-learning.ipynb) | Explore how automatic differentiation can be useful to optimize neurons
 
 
