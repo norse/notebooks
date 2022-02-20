@@ -5,6 +5,11 @@ title: Norse Tutorial Notebook
 author: Norse authors
 logo: images/logo.png
 
+exclude_patterns:
+  - _build
+  - .venv
+  - notebooks
+
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
@@ -19,6 +24,12 @@ latex:
 bibtex_bibfiles:
   - references.bib
 
+# Launch configuration
+launch_buttons:
+  binderhub_url: "https://mybinder.org/v2/gh/norse/norse/HEAD"
+  colab_url: "https://colab.research.google.com"
+  thebe: true
+  
 # Information about where the book exists on the web
 repository:
   url: https://github.com/norse/notebooks  # Online location of your book

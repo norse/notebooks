@@ -4,23 +4,23 @@
 
 # Norse Notebook Tutorials
 
-These notebooks are designed to familiarize yourself with the [Spiking Neural
-Network simulator, Norse](https://github.com/norse/norse).
-You are welcome to clone and run the notebooks
-locally, but we also links to 
-[Google Colab](https://research.google.com/colaboratory/faq.html) where you can run
-them in your browser for free.
+These notebooks are designed to familiarize yourself with the [Spiking Neural Network simulator, Norse](https://github.com/norse/norse).
+This material can be **run the notebooks directly in your browser**.
+However, please note that the online execution relies on CPU, which can cause performance problems for larger networks.
+If you desire hardware acceleration (like GPU or TPU) you can either clone this repository and experiment locally, or use Google Colab.
 
-Note that you can run the code both using CPUs, GPUs, and TPUs. If you run the code on Google collaboratory, select `Runtime -> Change Runtime Type` to run the models on GPUs or TPUs. That will also run significantly faster and save a lot of your time.
+If this is your first brush with computational neuroscience, we recommend [this excellent serious of tutorials by Neuromatch Academy](https://compneuro.neuromatch.io/tutorials/W0D1_PythonWorkshop1/student/W0D1_Tutorial1.html).
+They provide excellent interactive tutorials on neuron dynamics, linear algebra, calculus, statistics, and deep learning.
 
 ## Level: Beginner
 
-| | | |
-| ------------------ | --- | --- |
-| *Introduction to Norse* | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/norse/notebooks/blob/master/introduction-to-norse.ipynb) | First encouter with Norse |
-| *Simulating and plotting spiking data* | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/norse/notebooks/blob/master/spiking_introduction.ipynb) | Learn how to describe and visualise event data |
-| *Encoding data to spikes* | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/norse/notebooks/blob/master/encoding.ipynb) | Learn how to encode conventional data into spikes |
-| *Single Neuron Experiments* | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/norse/notebooks/blob/master/single-neuron-experiments.ipynb) | Learn how single neurons behave |
+| Notebook | Topic | 
+| ------------------ | --- | 
+| [Introduction to PyTorch and spiking neurons](https://norse.github.io/notebooks/intro_spikes.html) | Introduces biological neurons and PyTorch | 
+| [Introduction to Spiking Neural Networks in Norse](https://norse.github.io/notebooks/intro_norse.html) | Build and train spiking models in Norse |
+| [Simulating and plotting spiking data](https://norse.github.io/notebooks/intro_plotting.html) | Learn how to describe and visualise event data |
+| *Encoding data to spikes* | Learn how to encode conventional data into spikes |
+| *Single Neuron Experiments* | Learn how single neurons behave |
 
 ## Level: Intermediate
 
@@ -41,7 +41,47 @@ Note that you can run the code both using CPUs, GPUs, and TPUs. If you run the c
 
 For more information we refer to our [documentation](https://norse.ai/docs) as well as [our suite of tasks](https://github.com/norse/norse/task/).
 
-You are also encouraged to explore the [main repository](https://github.com/norse/norse/) and contribute by either improving the tutorials, write code, or donate to support our work. Thank you!
+## Flowchart
+
+Don't know where to start? Follow this flow chart to get you going!
+**Please note** that we assume basic familiarity with Python.
+
+```mermaid
+flowchart TD
+    Background[What are you most familiar with?]
+    Background -- Computer Science --> Spikes
+    Background -- Machine learning --> Encoding
+    Background -- Neuroscience --> PyTorch
+
+    Spikes[]
+    Encoding
+    PyTorch[<a href='https://colab.research.google.com/github/norse/notebooks/blob/master/intro_norse.ipynb'>Introduction to spiking networks with Norse <img alt='Open in Google Colab' src='https://colab.research.google.com/assets/colab-badge.svg' style='width:100px'/></a>]
+
+    More[What would you like to know more about?]
+    Spikes --> More
+    Encoding --> More
+    PyTorch --> More
+
+    SL{Supervised learning}
+    DVS{Event-based vision}
+    Neuroscience{Neuroscience}
+
+    More --> SL 
+    SL --> MNIST
+    SL --> HPC
+    SL --> Poker
+
+    More --> DVS
+    DVS --> Poker
+    DVS --> Aestream
+    
+    More --> Neuroscience
+    Neuroscience --> Parameters
+    Neuroscience --> Plasticity
+    Neuroscience --> Visualization
+```
+
+We encourde you to explore the [main repository](https://github.com/norse/norse/) and contribute by either improving the tutorials, write code, or donate to support our work. Thank you!
 
 
 

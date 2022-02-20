@@ -2,6 +2,10 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 
 format: jb-book
-root: readme
-chapters:
-- file: markdown
+root: README
+parts:
+  - caption: Beginner
+    chapters:
+      - file: intro_spikes
+      - file: intro_norse
+      - file: intro_plotting
