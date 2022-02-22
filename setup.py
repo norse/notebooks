@@ -1,8 +1,16 @@
 import setuptools
 from setuptools import setup
 
+import os
+from os import path
+
+pwd = path.abspath(path.dirname(__file__))
+
+with open(path.join(pwd, "requirements.txt")) as fp:
+    install_requires = fp.read()
+
 setup(
-    install_requires=["norse", "matplotlib", "jupyter-book", "av"],
+    install_requires=install_requires,
     name="norse-notebooks",
     version="0.0.1",
     description="Tutorial notebooks for Norse - a library for deep learning with spiking neural networks",
