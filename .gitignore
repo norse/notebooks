@@ -2,3 +2,4 @@
 MNIST/
 .vscode/
 .venv/
+_build/

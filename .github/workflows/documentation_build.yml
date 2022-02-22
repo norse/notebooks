@@ -5,7 +5,7 @@ on:
 
 jobs:
   build-docs:
-    name: "Publish documentation"
+    name: "Build documentation"
     runs-on: ubuntu-latest
 
     steps: 
