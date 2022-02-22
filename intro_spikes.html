@@ -1,0 +1,687 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spiking neurons in PyTorch &#8212; Norse Tutorial Notebook</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Spiking neural networks with Norse" href="intro_norse.html" />
+    <link rel="prev" title="Norse Notebook Tutorials" href="README.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Norse Tutorial Notebook</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="README.html">
+   Norse Notebook Tutorials
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Introduction
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Spiking neurons in PyTorch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro_norse.html">
+   Spiking neural networks with Norse
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro_plotting.html">
+   Simulating and plotting neurons
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro_encoding.html">
+   Encoding data to Spikes
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Supervised Learning
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="mnist_classifiers.html">
+   Training an MNIST classifier
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/intro_spikes.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/norse/notebooks"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/norse/notebooks/issues/new?title=Issue%20on%20page%20%2Fintro_spikes.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/norse/norse/HEAD/v2/gh/norse/notebooks/master?urlpath=tree/intro_spikes.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/norse/notebooks/blob/master/intro_spikes.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        <button type="button" class="btn btn-secondary topbarbtn"
+            onclick="initThebeSBT()" title="Launch Thebe" data-toggle="tooltip" data-placement="left"><i
+                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Spiking neurons in PyTorch
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#table-of-contents">
+     Table of contents
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#using-pytorch">
+   1. Using PyTorch
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#installing-prerequisites">
+     1.1 Installing prerequisites
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-data-with-pytorch">
+     1.2.1 Creating data with PyTorch
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-a-network">
+     1.2.2 Creating a network
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#using-the-network">
+     1.3 Using the network
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#using-norse">
+   2. Using Norse
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#describing-time">
+     2.1 Describing “time”
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-a-spiking-network">
+     2.2 Creating a spiking network
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#applying-data-to-the-network">
+     2.3 Applying data to the network
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#next-steps">
+   3 Next steps
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Spiking neurons in PyTorch</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Spiking neurons in PyTorch
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#table-of-contents">
+     Table of contents
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#using-pytorch">
+   1. Using PyTorch
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#installing-prerequisites">
+     1.1 Installing prerequisites
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-data-with-pytorch">
+     1.2.1 Creating data with PyTorch
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-a-network">
+     1.2.2 Creating a network
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#using-the-network">
+     1.3 Using the network
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#using-norse">
+   2. Using Norse
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#describing-time">
+     2.1 Describing “time”
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-a-spiking-network">
+     2.2 Creating a spiking network
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#applying-data-to-the-network">
+     2.3 Applying data to the network
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#next-steps">
+   3 Next steps
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="spiking-neurons-in-pytorch">
+<h1>Spiking neurons in PyTorch<a class="headerlink" href="#spiking-neurons-in-pytorch" title="Permalink to this headline">¶</a></h1>
+<p>Norse is a library where you can <em>simulate</em> neural networks that are driven by atomic and sparse events <strong>over time</strong>, rather than large and dense tensors <em>without</em> time.</p>
+<p>This notebook shows you how how to install and use PyTorch and Norse. We will skip most of the details, and <em>we will not cover training</em>. Many more resources exist in our <a class="reference external" href="https://github.com/norse/notebooks">notebook repository</a> if you’re feeling adventurous. Also, our documentation tells you much more about what Norse is and why we built it at: <a class="reference external" href="https://norse.github.io/norse/">https://norse.github.io/norse/</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can execute the notebooks on this website by hitting <i class="fas fa-rocket"></i> above and pressing <i class="fas fa-play"></i> Live Code.</p>
+</div>
+<div class="section" id="table-of-contents">
+<h2>Table of contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>Using PyTorch</p></li>
+<li><p>Installation</p></li>
+<li><p>Creating a data and a network</p></li>
+<li><p>Applying data to the network</p></li>
+<li><p>Using Norse</p></li>
+<li><p>Creating temporal data</p></li>
+<li><p>Creating a spiking network</p></li>
+<li><p>Applying data to the network</p></li>
+<li><p>Next steps</p></li>
+</ol>
+</div>
+</div>
+<hr class="docutils" />
+<div class="tex2jax_ignore mathjax_ignore section" id="using-pytorch">
+<h1>1. Using PyTorch<a class="headerlink" href="#using-pytorch" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installing-prerequisites">
+<h2>1.1 Installing prerequisites<a class="headerlink" href="#installing-prerequisites" title="Permalink to this headline">¶</a></h2>
+<p>Before we can get started, we need to install the necessary software. But! That’s simple. Just run the cell below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install --quiet norse
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now that it’s installed, we can import PyTorch and Norse directly into Python.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">norse.torch</span> <span class="k">as</span> <span class="nn">norse</span>
+
+<span class="c1"># We set the random seed for reproducibility</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="creating-data-with-pytorch">
+<h2>1.2.1 Creating data with PyTorch<a class="headerlink" href="#creating-data-with-pytorch" title="Permalink to this headline">¶</a></h2>
+<p>First, we need some <strong>data</strong>. Let’s start by creating a vector of 5 random numbers, that can be visualized like this.</p>
+<p><img alt="" src="_images/vector.svg" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([ 1.5410, -0.2934, -2.1788,  0.5684, -1.0845])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="creating-a-network">
+<h2>1.2.2 Creating a network<a class="headerlink" href="#creating-a-network" title="Permalink to this headline">¶</a></h2>
+<p>We will now create a simple neural <strong>network</strong> in PyTorch, consisting of a <code class="docutils literal notranslate"><span class="pre">Linear</span></code> layer and an <em>activation function</em>. The <code class="docutils literal notranslate"><span class="pre">Linear</span></code> layer combines the five inputs into a single output, like so:</p>
+<p><img alt="" src="_images/one_layer.svg" /></p>
+<p>The activation <em>activation function</em> determines <em>how</em> the neurons react to the data. For now, we will just use a <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.ReLU.html">simple rectified linear unit (ReLU)</a>, which clips data data to the interval <span class="math notranslate nohighlight">\([0, \inf)\)</span>. If the data is below 0, the <em>activation function</em> returns 0. If the data is above zero, ReLU returns that same data without change (identity).</p>
+<p><img alt="" src="_images/relu.svg" /></p>
+<p>Now that we installed the ReLU <em>activation function</em>, our network looks like this:</p>
+<p><img alt="" src="_images/two_layers.svg" /></p>
+<p>Finally, we need to put the two <em>layers</em> together by wrapping them in a <code class="docutils literal notranslate"><span class="pre">torch.nn.Sequential</span></code> module.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">network</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Together, our data and network now looks like this:</p>
+<p><img alt="" src="_images/network.svg" /></p>
+</div>
+<div class="section" id="using-the-network">
+<h2>1.3 Using the network<a class="headerlink" href="#using-the-network" title="Permalink to this headline">¶</a></h2>
+<p>It’s now straight forward to give the <strong>network</strong> our <strong>data</strong>. That will give us a single number as output, but with any negative numbers zero’ed out because the ReLU layer removes them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">network</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([0.], grad_fn=&lt;ReluBackward0&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Try to run the cell multiple times - you should get the same result. Why? Because the input never changes. So, what happens if the input changes?</p>
+<p>Below, we’ll use the <strong>network</strong> again, but with a different input vector. Try running it several times. Do you understand what is happening? Why is it sometimes zero?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">network</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([0.0756], grad_fn=&lt;ReluBackward0&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="using-norse">
+<h1>2. Using Norse<a class="headerlink" href="#using-norse" title="Permalink to this headline">¶</a></h1>
+<p>Now that we’ve seen how to use networks and data in PyTorch, we can extend the same principle to Norse. But before we do that, we need to discuss time.</p>
+<p>Neurons in biology receive data more than that single vector we used above. They exist in time and have intricate dynamics. What you see below is a small animation of a <strong>constant</strong> input that produces different outputs <strong>over time</strong>.</p>
+<p><img alt="" src="https://ncskth.github.io/norse-rl/_images/spikes.gif" /></p>
+<div class="section" id="describing-time">
+<h2>2.1 Describing “time”<a class="headerlink" href="#describing-time" title="Permalink to this headline">¶</a></h2>
+<p>In order to <em>simulate</em> our neuron over time we need be able to express “time”.
+There are <a class="reference external" href="https://en.wikipedia.org/wiki/Dynamical_system">many ways to approach this</a> and in Norse, this is approached by discretizing time into small bins.
+That is, “time” in Norse is not continuous.
+It consists of small “steps” that are very very small (1ms by default).</p>
+<p>Practically speaking, we can approach this by creating multiple versions of our <strong>data</strong> vector. Each “version” would then represent one timestep, like in the above simulation.</p>
+<p><img alt="" src="_images/time_vector.svg" /></p>
+<p>One way to represent that would be to create a <strong>single matrix</strong>, where each “slice” represents a timesteps.</p>
+<p><img alt="" src="_images/time_matrix.svg" /></p>
+<p>In PyTorch, we can create such a matrix by adding four timesteps as the outer dimension.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[ 1.8530,  0.4681, -0.1577,  1.4437,  0.2596],
+        [-0.1740, -0.6787,  0.9383,  0.4889, -0.6731],
+        [ 0.8728,  1.0554, -0.0048, -0.5181, -0.3067],
+        [-1.5810,  1.7066, -0.4462,  0.7440,  1.5210]])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="creating-a-spiking-network">
+<h2>2.2 Creating a spiking network<a class="headerlink" href="#creating-a-spiking-network" title="Permalink to this headline">¶</a></h2>
+<p>As you remember, the ReLU function isn’t spiking or even biological. That’s where Norse comes in. Norse includes spiking neuron models that we can add directly into the previous network description. In this case, we’ll use a leaky integrate-and-fire (LIF) model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">network</span> <span class="o">=</span> <span class="n">norse</span><span class="o">.</span><span class="n">SequentialState</span><span class="p">(</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">norse</span><span class="o">.</span><span class="n">LIF</span><span class="p">()</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You probably noticed that we are no longer using the <code class="docutils literal notranslate"><span class="pre">torch.nn.Sequential</span></code> but <code class="docutils literal notranslate"><span class="pre">norse.SequentialState</span></code>. The reason is that every time we feed in one timestep, we also need to <em>remember</em> how “excited” the neuron is. This is also known as the <em>state</em> of the neuron. <code class="docutils literal notranslate"><span class="pre">torch.nn.Sequential</span></code> doesn’t know anything about states, so we need to patch it. We will ignore this for now, but you are welcome to <a class="reference external" href="https://norse.github.io/norse/pages/working.html">read more about state handling in our documentation</a>.</p>
+<p>With time, our network can be visualized like this:</p>
+<p><img alt="" src="_images/network_time.svg" /></p>
+<p>Note the two changes: the are using <em>several</em> input data vectors and the ReLU <em>activation function</em> is replaced with a LIF <em>activation function</em>.</p>
+</div>
+<div class="section" id="applying-data-to-the-network">
+<h2>2.3 Applying data to the network<a class="headerlink" href="#applying-data-to-the-network" title="Permalink to this headline">¶</a></h2>
+<p>Applying the data is as simple as we did above. We would now expect that for each timestep, we would get a single output in return (just as before). Because we have four timesteps, we would expect 4 numbers:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">network</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="c1"># We ignore the state for now, see above</span>
+<span class="n">output</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0.],
+        [0.],
+        [0.],
+        [0.]], grad_fn=&lt;StackBackward0&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>As promised, here are exactly the four values we would expect.</p>
+<p>Before we conclude, we encourage you to play around with the data above. Here are some leading questions</p>
+<ul class="simple">
+<li><p>How do you simulate the network for 10 timesteps?</p></li>
+<li><p>How do you increase the number of neurons from 1 to 2?</p></li>
+<li><p>What happens if you add a linear layer in the end that goes from 1 to 3 neurons?</p></li>
+</ul>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="next-steps">
+<h1>3 Next steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h1>
+<p>You may wonder why the data above are all zeros. Take a look at this animation.</p>
+<p><img alt="" src="https://ncskth.github.io/norse-rl/_images/spikes.gif" /></p>
+<p>If the input is too low (like in the left panel), nothing will happen: the neuron stays silent. If we want the network to provide a certain output <em>we need to train it</em>. That is the topic for future notebooks and documentation. Specifically, we would recommend these notebooks</p>
+<ul class="simple">
+<li><p>How to train a single spiking neuron with Norse: <a class="reference external" href="https://colab.research.google.com/github/norse/notebooks/blob/master/single-neuron-experiments.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></li>
+<li><p>How to work with state and time in Norse <a class="reference external" href="https://colab.research.google.com/github/norse/notebooks/blob/master/introduction-to-norse.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></li>
+<li><p>How to work with event-based datasets with Tonic: <a class="reference external" href="https://colab.research.google.com/github/norse/notebooks/blob/master/poker-dvs_classifier.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></li>
+</ul>
+<p>Much more informtion can be found in our <a class="reference external" href="https://github.com/norse/notebooks">notebooks</a> and the <a class="reference external" href="https://norse.github.io/norse/index.html">Norse documentation</a>. Good luck!</p>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "norse/notebooks",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="README.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Norse Notebook Tutorials</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="intro_norse.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Spiking neural networks with Norse</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Norse authors<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
