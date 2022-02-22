@@ -1,4 +1,0 @@
-av
-jupyter-book
-matplotlib
-norse
