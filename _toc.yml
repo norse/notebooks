@@ -9,7 +9,6 @@ parts:
       - file: intro_spikes
       - file: intro_norse
       - file: intro_plotting
-      - file: intro_encoding
   - caption: Supervised Learning
     chapters:
       - file: mnist_classifiers

@@ -19,7 +19,6 @@ They provide excellent interactive tutorials on neuron dynamics, linear algebra,
 | [Introduction to PyTorch and spiking neurons](https://norse.github.io/notebooks/intro_spikes.html) | Introduces biological neurons and PyTorch | 
 | [Introduction to Spiking Neural Networks in Norse](https://norse.github.io/notebooks/intro_norse.html) | Build and train spiking models in Norse |
 | [Simulating and plotting spiking data](https://norse.github.io/notebooks/intro_plotting.html) | Learn how to describe and visualise event data |
-| [Encoding data to spikes](https://norse.github.io/notebooks/intro_spikes.html) | Learn how to encode conventional data into biological spikes |
 | *Single Neuron Experiments* | Learn how single neurons behave |
 
 ## Level: Intermediate
