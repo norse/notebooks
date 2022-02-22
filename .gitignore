@@ -3,3 +3,4 @@ MNIST/
 .vscode/
 .venv/
 _build/
+*.pyc
