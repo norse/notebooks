@@ -19,16 +19,16 @@ They provide excellent interactive tutorials on neuron dynamics, linear algebra,
 | [Introduction to PyTorch and spiking neurons](https://norse.github.io/notebooks/intro_spikes.html) | Introduces biological neurons and PyTorch | 
 | [Introduction to Spiking Neural Networks in Norse](https://norse.github.io/notebooks/intro_norse.html) | Build and train spiking models in Norse |
 | [Simulating and plotting spiking data](https://norse.github.io/notebooks/intro_plotting.html) | Learn how to describe and visualise event data |
-| *Encoding data to spikes* | Learn how to encode conventional data into spikes |
+| [Encoding data to spikes](https://norse.github.io/notebooks/intro_spikes.html) | Learn how to encode conventional data into biological spikes |
 | *Single Neuron Experiments* | Learn how single neurons behave |
 
 ## Level: Intermediate
 
-| | | |
-| ------------------ | --- | --- |
-| *Training on MNIST* | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/norse/notebooks/blob/master/mnist_classifiers.ipynb) | Learn how to solve MNIST with spikes
-| *Working with event-based data* | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/norse/notebooks/blob/master/poker-dvs_classifier.ipynb) | Learn how to work with event-based datasets by classifying a set of poker cards
-| *Optimization of neuron parameters* | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/norse/notebooks/blob/master/parameter-learning.ipynb) | Explore how automatic differentiation can be useful to optimize neurons
+| | |
+| ------------------ | --- | 
+| [Training with MNIST](https://norse.github.io/notebooks/mnist_classifiers.html) | Learn how to solve MNIST with spikes
+| *Working with event-based data* | Learn how to work with event-based datasets by classifying a set of poker cards
+| *Optimization of neuron parameters* | Explore how automatic differentiation can be useful to optimize neurons
 
 
 ## Level: Advanced
@@ -41,47 +41,7 @@ They provide excellent interactive tutorials on neuron dynamics, linear algebra,
 
 For more information we refer to our [documentation](https://norse.ai/docs) as well as [our suite of tasks](https://github.com/norse/norse/task/).
 
-## Flowchart
-
-Don't know where to start? Follow this flow chart to get you going!
-**Please note** that we assume basic familiarity with Python.
-
-```mermaid
-flowchart TD
-    Background[What are you most familiar with?]
-    Background -- Computer Science --> Spikes
-    Background -- Machine learning --> Encoding
-    Background -- Neuroscience --> PyTorch
-
-    Spikes[]
-    Encoding
-    PyTorch[<a href='https://colab.research.google.com/github/norse/notebooks/blob/master/intro_norse.ipynb'>Introduction to spiking networks with Norse <img alt='Open in Google Colab' src='https://colab.research.google.com/assets/colab-badge.svg' style='width:100px'/></a>]
-
-    More[What would you like to know more about?]
-    Spikes --> More
-    Encoding --> More
-    PyTorch --> More
-
-    SL{Supervised learning}
-    DVS{Event-based vision}
-    Neuroscience{Neuroscience}
-
-    More --> SL 
-    SL --> MNIST
-    SL --> HPC
-    SL --> Poker
-
-    More --> DVS
-    DVS --> Poker
-    DVS --> Aestream
-    
-    More --> Neuroscience
-    Neuroscience --> Parameters
-    Neuroscience --> Plasticity
-    Neuroscience --> Visualization
-```
-
-We encourde you to explore the [main repository](https://github.com/norse/norse/) and contribute by either improving the tutorials, write code, or donate to support our work. Thank you!
+We are also more than happy to accept contributions such as improving or adding notebooks, suggestions for improvements, issues for bugs, or donations to support our work. Thank you!
 
 
 
