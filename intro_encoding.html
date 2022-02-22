@@ -1,0 +1,782 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Encoding data to Spikes &#8212; Norse Tutorial Notebook</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Training an MNIST classifier" href="mnist_classifiers.html" />
+    <link rel="prev" title="Simulating and plotting neurons" href="intro_plotting.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Norse Tutorial Notebook</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="README.html">
+   Norse Notebook Tutorials
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Introduction
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro_spikes.html">
+   Spiking neurons in PyTorch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro_norse.html">
+   Spiking neural networks with Norse
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro_plotting.html">
+   Simulating and plotting neurons
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Encoding data to Spikes
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Supervised Learning
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="mnist_classifiers.html">
+   Training an MNIST classifier
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/intro_encoding.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/norse/notebooks"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/norse/notebooks/issues/new?title=Issue%20on%20page%20%2Fintro_encoding.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/norse/norse/HEAD/v2/gh/norse/notebooks/master?urlpath=tree/intro_encoding.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/norse/notebooks/blob/master/intro_encoding.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        <button type="button" class="btn btn-secondary topbarbtn"
+            onclick="initThebeSBT()" title="Launch Thebe" data-toggle="tooltip" data-placement="left"><i
+                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Encoding data to Spikes
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-0-installation">
+   Step 0: Installation
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#types-of-encoding">
+   1. Types of encoding
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#rate-coding">
+   1.1 Rate coding
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#spike-latency-coding">
+   1.2 Spike latency coding
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#population-coding">
+   1.3 Population coding
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#using-encodings-in-norse">
+   2. Using encodings in Norse
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#rate-encoding-using-lif">
+     2.1 Rate encoding using LIF
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#rate-encoding-using-poisson-codes">
+     2.2 Rate encoding using poisson codes
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#spike-latency-encoding">
+     2.3 Spike latency encoding
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#population-encoding">
+     2.4 Population encoding
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#encoding-mnist-data">
+   3. Encoding MNIST data
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#visualizing-mnist">
+     3.1 Visualizing MNIST
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#encoding-mnist-digits">
+     3.2 Encoding MNIST digits
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#project-ideas">
+     4. Project Ideas
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Encoding data to Spikes</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Encoding data to Spikes
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-0-installation">
+   Step 0: Installation
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#types-of-encoding">
+   1. Types of encoding
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#rate-coding">
+   1.1 Rate coding
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#spike-latency-coding">
+   1.2 Spike latency coding
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#population-coding">
+   1.3 Population coding
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#using-encodings-in-norse">
+   2. Using encodings in Norse
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#rate-encoding-using-lif">
+     2.1 Rate encoding using LIF
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#rate-encoding-using-poisson-codes">
+     2.2 Rate encoding using poisson codes
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#spike-latency-encoding">
+     2.3 Spike latency encoding
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#population-encoding">
+     2.4 Population encoding
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#encoding-mnist-data">
+   3. Encoding MNIST data
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#visualizing-mnist">
+     3.1 Visualizing MNIST
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#encoding-mnist-digits">
+     3.2 Encoding MNIST digits
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#project-ideas">
+     4. Project Ideas
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="section" id="encoding-data-to-spikes">
+<h1>Encoding data to Spikes<a class="headerlink" href="#encoding-data-to-spikes" title="Permalink to this headline">¶</a></h1>
+<p>Spikes are binary (0 or 1). Most data, like images, videos, and audio isn’t. Therefore, we would like a way to <em>represent</em> data by “coding” them to spikes – a proccess known as <strong>spike encoding</strong>.</p>
+<p>In this notebook we will</p>
+<ol class="simple">
+<li><p>present different encoding methods</p></li>
+<li><p>show how the encoding methods are used in Norse</p></li>
+<li><p>demonstrate how to encode images for use in training</p></li>
+<li><p>discuss project ideas related to encoding</p></li>
+</ol>
+<p>Please note that <strong>SNNs can work perfectly well <em>without</em> spike encoding</strong> (if you remember to normalize).
+However, this tutorial discusses spike encoding because it fits with the idea of spikes as the atomic unit of operation in SNNs.
+Please also note that the tutorial here only provides a <em>superficial</em> treatment of spike encoding.
+For further reference see <a class="reference external" href="https://en.wikipedia.org/wiki/Neural_coding">Wikipedia</a> and <a class="reference external" href="https://mitpress.mit.edu/books/spikes">literature on the topic</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can execute the notebooks on this website by hitting <i class="fas fa-rocket"></i> above and pressing <i class="fas fa-play"></i> Live Code.</p>
+</div>
+</div>
+<div class="section" id="step-0-installation">
+<h1>Step 0: Installation<a class="headerlink" href="#step-0-installation" title="Permalink to this headline">¶</a></h1>
+<p>First of all, we will need to install Norse. Please run the cell below. Read on while it’s running.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install --quiet norse matplotlib
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="types-of-encoding">
+<h1>1. Types of encoding<a class="headerlink" href="#types-of-encoding" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial we will discuss three methods for encoding: poisson encoding, spike latency encoding, and population encoding.
+Before getting to that, let’s understand the dilemma.</p>
+<div class="figure align-default" id="kitten">
+<a class="reference internal image-reference" href="_images/kitten.png"><img alt="_images/kitten.png" src="_images/kitten.png" style="height: 200px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">An image of a kitten consists of a number or pixels containing Red/Green/Blue (RGB) values.
+<a class="reference external" href="https://commons.wikimedia.org/w/index.php?curid=41009866">CC BY-SA 2.0</a></span><a class="headerlink" href="#kitten" title="Permalink to this image">¶</a></p>
+</div>
+<p>Normal pictures, like this cute kitten consists of a matrix of pixels.
+This <em>could</em> be used to directly drive a neuron, just like we would for a normal activation function (like ReLU).
+However, it is incompatible with a binary spike pattern (spike / no-spike).
+We can define a spike as:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{spike} = \text{time}\; \times \;\text{neuron}
+\]</div>
+<p>Our job, therefore, becomes <strong>finding a mapping from the numerical domain to the spiking domain</strong>.
+Therefore, we need to figure our 1) <em>how many neurons</em> to we map to and 2) <em>when</em> do the neurons fire.</p>
+</div>
+<div class="section" id="rate-coding">
+<h1>1.1 Rate coding<a class="headerlink" href="#rate-coding" title="Permalink to this headline">¶</a></h1>
+<p>A naïve approach would be to interpret the numbers in the image as <em>numbers of spikes</em>.
+That could look like this:</p>
+<div class="figure align-default" id="spike-coding">
+<a class="reference internal image-reference" href="_images/spike_coding.svg"><img alt="_images/spike_coding.svg" height="150px" src="_images/spike_coding.svg" /></a>
+<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">A naïve but effective spike encoding that maps pixel numbers into <em>numbers of spikes</em>.</span><a class="headerlink" href="#spike-coding" title="Permalink to this image">¶</a></p>
+</div>
+<p>A popular variant of this rate coding is the <a class="reference external" href="https://en.wikipedia.org/wiki/Poisson_distribution">Poisson encoding</a> which takes a probabilistic approach: instead of coding a <em>fixed</em> number of spikes, the spikes are drawn from a probability distribution that produces <em>roughly</em> that amount of spikes.
+The benefit here is that the noise can actually increase robustness.</p>
+</div>
+<div class="section" id="spike-latency-coding">
+<h1>1.2 Spike latency coding<a class="headerlink" href="#spike-latency-coding" title="Permalink to this headline">¶</a></h1>
+<p>Another approach would be to interpret the numbers as <em>how fast</em> a neuron would spike.
+The higher the value, the faster the neuron would spike.
+Note, that this is a much sparser encoding since each neuron would only spike once – as opposed to rate coding which produces many more spikes.</p>
+<div class="figure align-default" id="latency-coding">
+<a class="reference internal image-reference" href="_images/latency_coding.svg"><img alt="_images/latency_coding.svg" height="150px" src="_images/latency_coding.svg" /></a>
+<p class="caption"><span class="caption-number">Fig. 3 </span><span class="caption-text">Latency coding interprets numbers as “speed” with which the neurons will spike.
+Large numbers = immediate spikes.</span><a class="headerlink" href="#latency-coding" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="population-coding">
+<h1>1.3 Population coding<a class="headerlink" href="#population-coding" title="Permalink to this headline">¶</a></h1>
+<p>Both the above codings mapped pixels to neurons 1:1.
+Population coding builds on the idea of a <em><a class="reference external" href="https://en.wikipedia.org/wiki/Receptive_field">receptive field</a></em> where neurons are sensitive to certain ranges of stimulus - or numbers.
+Imagine having a continuum between 0 - 100.
+A neuron with a receptive field around 10, would react strongly (emitting <em>lots</em> of spikes) to the number 10.
+Less so to the number 20, and maybe not at all to the number 30.
+So, population coding maps a single pixel to many neurons.</p>
+<p>Receptive fields are typically drawn as gaussians (normal distributions).</p>
+<div class="figure align-default" id="id1">
+<a class="reference internal image-reference" href="_images/population_coding.svg"><img alt="_images/population_coding.svg" height="150px" src="_images/population_coding.svg" /></a>
+<p class="caption"><span class="caption-number">Fig. 4 </span><span class="caption-text">Population coding maps a single number to many neurons, each with a different receptive field that determines how much the neuron spikes.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="using-encodings-in-norse">
+<h1>2. Using encodings in Norse<a class="headerlink" href="#using-encodings-in-norse" title="Permalink to this headline">¶</a></h1>
+<p>The encodings in norse are fairly straight-forward in that they take an input tensor (numbers) and produces an output tensor of spikes – with an extra dimension for time.</p>
+<p>All the encoding modules can be found in <a class="reference external" href="https://norse.github.io/norse/norse.torch.html#encoding"><code class="docutils literal notranslate"><span class="pre">norse.torch.module.encode</span></code></a>, and accessed directly from <code class="docutils literal notranslate"><span class="pre">norse.torch</span></code>.</p>
+<div class="section" id="rate-encoding-using-lif">
+<h2>2.1 Rate encoding using LIF<a class="headerlink" href="#rate-encoding-using-lif" title="Permalink to this headline">¶</a></h2>
+<p>To convert numerical values into rates, we are typically using some form of dynamical equation.
+In this case a LIF neuron, where the inputs are interpreted as constant input currents.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">norse.torch</span> <span class="k">as</span> <span class="nn">snn</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">])</span>
+
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">ConstantCurrentLIFEncoder</span><span class="p">(</span><span class="n">seq_length</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span> <span class="c1"># Encode for 100 timesteps</span>
+
+<span class="n">snn</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_spikes_2d</span><span class="p">(</span><span class="n">encoder</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:&gt;
+</pre></div>
+</div>
+<img alt="_images/intro_encoding_9_1.png" src="_images/intro_encoding_9_1.png" />
+</div>
+</div>
+<p>As expected, four input values gets mapped to four neurons (y-axis).
+Neuron 0 receives a small input (2) and spikes a few times. Neuron 3 reveives the largest input (16) and seems to spike constantly!</p>
+</div>
+<div class="section" id="rate-encoding-using-poisson-codes">
+<h2>2.2 Rate encoding using poisson codes<a class="headerlink" href="#rate-encoding-using-poisson-codes" title="Permalink to this headline">¶</a></h2>
+<p>The idea is similar to the LIF encoder, but now with a stochastic element.
+The code is almost the same:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">PoissonEncoder</span><span class="p">(</span><span class="n">seq_length</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span> <span class="c1"># Encode for 100 timesteps</span>
+
+<span class="n">snn</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_spikes_2d</span><span class="p">(</span><span class="n">encoder</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:&gt;
+</pre></div>
+</div>
+<img alt="_images/intro_encoding_12_1.png" src="_images/intro_encoding_12_1.png" />
+</div>
+</div>
+<p>Try to run the cell above: the stochastic nature of the poisson encoder makes the spike output quite unpredictable!</p>
+</div>
+<div class="section" id="spike-latency-encoding">
+<h2>2.3 Spike latency encoding<a class="headerlink" href="#spike-latency-encoding" title="Permalink to this headline">¶</a></h2>
+<p>We will yet again use the LIF equation to determine when the first spike will arrive.
+Notice how, for each neuron, there are no subsequent spikes because the entire idea of the encoding mechanism is to rely on the timing of the <em>first</em> spike</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
+
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">SpikeLatencyLIFEncoder</span><span class="p">(</span><span class="n">seq_length</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="c1"># Encode for 10 timesteps</span>
+
+<span class="n">snn</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_spikes_2d</span><span class="p">(</span><span class="n">encoder</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:&gt;
+</pre></div>
+</div>
+<img alt="_images/intro_encoding_15_1.png" src="_images/intro_encoding_15_1.png" />
+</div>
+</div>
+<p>Notice also how the first neuron never spikes! That’s because the neuron does not provide sufficient input to elicit a spike in the LIF equation.</p>
+</div>
+<div class="section" id="population-encoding">
+<h2>2.4 Population encoding<a class="headerlink" href="#population-encoding" title="Permalink to this headline">¶</a></h2>
+<p>Population encoding will automatically create <span class="math notranslate nohighlight">\(n\)</span> neurons for every input number.
+Each <span class="math notranslate nohighlight">\(n\)</span> neuron will then be given a number, based on how <em>close</em> the neuron is to the receptive field.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
+
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">PopulationEncoder</span><span class="p">(</span><span class="n">out_features</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="c1"># Use 5 neurons to encode for each input</span>
+
+<span class="n">snn</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_spikes_2d</span><span class="p">(</span><span class="n">encoder</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">show_colorbar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:&gt;
+</pre></div>
+</div>
+<img alt="_images/intro_encoding_18_1.png" src="_images/intro_encoding_18_1.png" />
+</div>
+</div>
+<p>Unfortunately, this still does not directly provide spikes.
+Therefore, we need to still use some form of spike encoding to go to the spiking domain.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
+
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+    <span class="n">snn</span><span class="o">.</span><span class="n">PopulationEncoder</span><span class="p">(</span><span class="n">out_features</span> <span class="o">=</span> <span class="mi">5</span><span class="p">),</span> <span class="c1"># Use 5 neurons to encode for each input</span>
+    <span class="n">snn</span><span class="o">.</span><span class="n">PoissonEncoder</span><span class="p">(</span><span class="n">seq_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>         <span class="c1"># Encode for 20 timesteps</span>
+<span class="p">)</span>
+<span class="n">snn</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_spikes_2d</span><span class="p">(</span><span class="n">encoder</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:&gt;
+</pre></div>
+</div>
+<img alt="_images/intro_encoding_20_1.png" src="_images/intro_encoding_20_1.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="encoding-mnist-data">
+<h1>3. Encoding MNIST data<a class="headerlink" href="#encoding-mnist-data" title="Permalink to this headline">¶</a></h1>
+<p>We can test out these encoders on “real” data such as the beloved MNIST dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torchvision</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">MNIST</span><span class="p">(</span>
+    <span class="n">root</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span>
+    <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">torchvision</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">example</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="visualizing-mnist">
+<h2>3.1 Visualizing MNIST<a class="headerlink" href="#visualizing-mnist" title="Permalink to this headline">¶</a></h2>
+<p>MNIST consists of black-and-white pictures of 28x28 pictures that looks like so:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">snn</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_heatmap_2d</span><span class="p">(</span><span class="n">example</span><span class="p">,</span> <span class="n">show_colorbar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:&gt;
+</pre></div>
+</div>
+<img alt="_images/intro_encoding_24_1.png" src="_images/intro_encoding_24_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="encoding-mnist-digits">
+<h2>3.2 Encoding MNIST digits<a class="headerlink" href="#encoding-mnist-digits" title="Permalink to this headline">¶</a></h2>
+<p>As we can see, the values are somewhere between 0 and 1.
+We can take that directly and encode this with a <code class="docutils literal notranslate"><span class="pre">PoissonEncoder</span></code>, just like we saw above!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">encoder</span> <span class="o">=</span> <span class="n">snn</span><span class="o">.</span><span class="n">PoissonEncoder</span><span class="p">(</span><span class="n">seq_length</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">snn</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_spikes_2d</span><span class="p">(</span><span class="n">encoder</span><span class="p">(</span><span class="n">example</span><span class="p">)</span><span class="o">.</span> <span class="n">view</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:&gt;
+</pre></div>
+</div>
+<img alt="_images/intro_encoding_26_1.png" src="_images/intro_encoding_26_1.png" />
+</div>
+</div>
+<p>This may look weird, but this shows how 28x28=784 neurons are encoded to produce spikes over 100 timesteps.
+This is obviously quite wasteful, but as a sidenode the spike encoding is actually not that inefficient, considering that the spikes are binary and quite sparse.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Try encoding different datasets than MNIST! There are many freely available datasets <a class="reference external" href="https://pytorch.org/docs/stable/torchvision/datasets.html">on the PyTorch website</a>.</p>
+</div>
+</div>
+<div class="section" id="project-ideas">
+<h2>4. Project Ideas<a class="headerlink" href="#project-ideas" title="Permalink to this headline">¶</a></h2>
+<p>To summarize, we briefly glossed over different encoding types and demonstrated how you can apply encoding to MNIST digits.
+The same principle can apply to audio, video, text, etc.</p>
+<p>Here are some project ideas:</p>
+<ul class="simple">
+<li><p>Design a task which uses a biologically plausible Audio to Spike conversion like
+<a class="reference external" href="https://github.com/electronicvisions/lauscher">lauscher</a>.</p></li>
+<li><p>What other data could be used as input to a Spiking Neural Network and how?</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Event_camera">Event based cameras</a> produce sparse data, much like the spikes we have seen above. Tonic, a dataloader for neuromorphic datasets, has a lot of <a class="reference external" href="https://tonic.readthedocs.io/en/latest/reference/datasets.html">event-based datasets to play with</a></p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "norse/notebooks",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="intro_plotting.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Simulating and plotting neurons</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="mnist_classifiers.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Training an MNIST classifier</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Norse authors<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

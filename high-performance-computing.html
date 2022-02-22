@@ -1,0 +1,643 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>High-Performance Computing with Norse and PyTorch Lightning &#8212; Norse Tutorial Notebook</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Norse Tutorial Notebook</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="README.html">
+   Norse Notebook Tutorials
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Introduction
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro_spikes.html">
+   Spiking neurons in PyTorch
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro_norse.html">
+   Spiking neural networks with Norse
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro_plotting.html">
+   Simulating and plotting neurons
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro_encoding.html">
+   Encoding data to Spikes
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Supervised Learning
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="mnist_classifiers.html">
+   Training an MNIST classifier
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/high-performance-computing.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/norse/notebooks"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/norse/notebooks/issues/new?title=Issue%20on%20page%20%2Fhigh-performance-computing.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/norse/norse/HEAD/v2/gh/norse/notebooks/master?urlpath=tree/high-performance-computing.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/norse/notebooks/blob/master/high-performance-computing.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        <button type="button" class="btn btn-secondary topbarbtn"
+            onclick="initThebeSBT()" title="Launch Thebe" data-toggle="tooltip" data-placement="left"><i
+                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-1-change-runtime-type">
+   Step -1: Change Runtime Type
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-0-installations">
+   Step 0: Installations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-1-building-our-own-model">
+   Step 1: Building our own model
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-is-pytorch-lightning">
+     1.1 What is PyTorch Lightning?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pytorch-lightning-models">
+     1.2 PyTorch Lightning models
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#loading-in-data">
+     1.3 Loading in data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#training-our-model">
+     1.4 Training our model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#help-my-model-is-taking-forever">
+     1.5 Help! My model is taking forever!
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#scaling-to-hpc-with-pytorch-lightning">
+     1.6 Scaling to HPC with PyTorch Lightning
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#slurm-support-out-of-the-box">
+   1.7 SLURM Support out of the Box
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-2-discussion">
+   Step 2: Discussion
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-3-implementation">
+   Step 3: Implementation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-4-profit">
+   Step 4: Profit
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>High-Performance Computing with Norse and PyTorch Lightning</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-1-change-runtime-type">
+   Step -1: Change Runtime Type
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-0-installations">
+   Step 0: Installations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-1-building-our-own-model">
+   Step 1: Building our own model
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-is-pytorch-lightning">
+     1.1 What is PyTorch Lightning?
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pytorch-lightning-models">
+     1.2 PyTorch Lightning models
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#loading-in-data">
+     1.3 Loading in data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#training-our-model">
+     1.4 Training our model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#help-my-model-is-taking-forever">
+     1.5 Help! My model is taking forever!
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#scaling-to-hpc-with-pytorch-lightning">
+     1.6 Scaling to HPC with PyTorch Lightning
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#slurm-support-out-of-the-box">
+   1.7 SLURM Support out of the Box
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-2-discussion">
+   Step 2: Discussion
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-3-implementation">
+   Step 3: Implementation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-4-profit">
+   Step 4: Profit
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="high-performance-computing-with-norse-and-pytorch-lightning">
+<h1>High-Performance Computing with Norse and PyTorch Lightning<a class="headerlink" href="#high-performance-computing-with-norse-and-pytorch-lightning" title="Permalink to this headline">¶</a></h1>
+<p><img alt="" src="https://raw.githubusercontent.com/norse/norse-hbp-workshop/main/images/plnorse.png" /></p>
+<p>Norse provides two necessary requirements for scaling spiking neural network simulations to cluster-wide simulations: a solid infrastructure (PyTorch) and proper state handling. PyTorch permits us to apply a highly developed toolchain (as we will see in a minute) to solve our problems. This saves a dramatic amount of time. Proper state handling permits us to paralellize our simulations, which is practically impossible in many other neuron simulators.</p>
+<p>In this small tutorial, you will learn to use Norse with the PyTorch-based framework, <a class="reference external" href="https://pytorch-lightning.readthedocs.io/en/latest/">PyTorch Lightning</a> (PL). PL makes it <em>lightning</em>-fast (pun intended I’m sure) to build and scale your networks.</p>
+<p>The workshop is structured as follows</p>
+<ul class="simple">
+<li><p>Build our first PyTorch Lightning SNN model (~10 minutes)</p></li>
+<li><p>Discuss relevant toy problems with your study mates (~5 minutes)</p></li>
+<li><p>Try out your own ideas (~15 minutes)</p></li>
+</ul>
+<div class="section" id="step-1-change-runtime-type">
+<h2>Step -1: Change Runtime Type<a class="headerlink" href="#step-1-change-runtime-type" title="Permalink to this headline">¶</a></h2>
+<p>This step is specific to google collab and doesn’t apply if you execute this notebook at home or somewhere else. Select “Runtime” above and choose “GPU” as the accelerator. This will make sure
+that all of the example code below will run.</p>
+</div>
+<div class="section" id="step-0-installations">
+<h2>Step 0: Installations<a class="headerlink" href="#step-0-installations" title="Permalink to this headline">¶</a></h2>
+<p>First of all, we will need to install Norse and PyTorch Lightning. Please run the cell below. Read on while it’s running.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install norse pytorch-lightning
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="step-1-building-our-own-model">
+<h2>Step 1: Building our own model<a class="headerlink" href="#step-1-building-our-own-model" title="Permalink to this headline">¶</a></h2>
+<p>In this part we will get a lightning quick overview of PyTorch Lightning, train a model, and then try to accelerate it. We have little time, so try to just skim over it now and remember that the material is available after the workshop.</p>
+<div class="section" id="what-is-pytorch-lightning">
+<h3>1.1 What is PyTorch Lightning?<a class="headerlink" href="#what-is-pytorch-lightning" title="Permalink to this headline">¶</a></h3>
+<p><img alt="" src="https://pytorch-lightning.readthedocs.io/en/stable/_static/images/logo.svg" /></p>
+<p>The primitives of PyTorch are designed as atoms that we can stitch together to form complicated models. On a more higher level there are some things that become <em>very</em> repetitive once you’ve built your first few models: preprocessing data, defining training loops, measuring loss, plotting your results. This is where PyTorch Lightning comes in. The help us to “Spend more time on research, less on engineering.”</p>
+</div>
+<div class="section" id="pytorch-lightning-models">
+<h3>1.2 PyTorch Lightning models<a class="headerlink" href="#pytorch-lightning-models" title="Permalink to this headline">¶</a></h3>
+<p>In vanilla PyTorch we would use the <code class="docutils literal notranslate"><span class="pre">torch.nn.Module</span></code> as a base class. Here, we have to extend the <code class="docutils literal notranslate"><span class="pre">LightningModule</span></code> and implement (at least) three methods:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">__init__</span></code> - The constructor where you build your model</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">configure_optimizers</span></code> - This is where you define how your model is optimized</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">training_step</span></code> - This is where the model is being applied</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">pytorch_lightning</span> <span class="k">as</span> <span class="nn">pl</span>
+<span class="kn">import</span> <span class="nn">norse.torch</span> <span class="k">as</span> <span class="nn">norse</span>
+
+<span class="k">class</span> <span class="nc">SpikingModel</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">LightningModule</span><span class="p">):</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">norse</span><span class="o">.</span><span class="n">SequentialState</span><span class="p">(</span>
+            <span class="n">norse</span><span class="o">.</span><span class="n">ConstantCurrentLIFEncoder</span><span class="p">(</span><span class="n">seq_length</span><span class="o">=</span><span class="mi">32</span><span class="p">),</span> <span class="c1"># Encode in time</span>
+            <span class="n">norse</span><span class="o">.</span><span class="n">ConvNet</span><span class="p">(),</span>                                <span class="c1"># Apply convolution</span>
+        <span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_index</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">batch</span>
+        <span class="c1"># Input has shape (32, 1, 28, 28): (batch, channel, x, y)</span>
+        <span class="n">out</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># Note the output state; we ignore it for now</span>
+        <span class="c1"># Output has shape (32, 32, 10) because we encoded each input in 32 timesteps</span>
+        <span class="c1"># Here we sum up the time dimension and see which class got most spikes</span>
+        <span class="n">out</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Notice that we are not specifiying anything about the data. We are simply assuming that it arrives through the <code class="docutils literal notranslate"><span class="pre">batch</span></code> variable that contains both the input (<code class="docutils literal notranslate"><span class="pre">x</span></code>) and the labels (<code class="docutils literal notranslate"><span class="pre">y</span></code>). Now we simply need to load in the data and start training:</p>
+</div>
+<div class="section" id="loading-in-data">
+<h3>1.3 Loading in data<a class="headerlink" href="#loading-in-data" title="Permalink to this headline">¶</a></h3>
+<p>MNIST is a pretty boring example, so that’s why we chose it. For now, we just want to get the data loading out of the way so we can start training and scaling our model:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torchvision</span>
+<span class="c1"># We need to normalize the data so we get *some* response from the neurons</span>
+<span class="n">data_transform</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
+    <span class="n">torchvision</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+    <span class="n">torchvision</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.1307</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.3081</span><span class="p">,)),</span>
+<span class="p">])</span>
+<span class="n">dataloader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
+    <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">MNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">data_transform</span><span class="p">),</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="training-our-model">
+<h3>1.4 Training our model<a class="headerlink" href="#training-our-model" title="Permalink to this headline">¶</a></h3>
+<p>We are now ready to train our model! The only thing we need is a wrapper class to take care of loading in the data and feeding it to our <code class="docutils literal notranslate"><span class="pre">LightningModule</span></code> module:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">SpikingModel</span><span class="p">()</span> <span class="c1"># Our model from before</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">()</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="help-my-model-is-taking-forever">
+<h3>1.5 Help! My model is taking forever!<a class="headerlink" href="#help-my-model-is-taking-forever" title="Permalink to this headline">¶</a></h3>
+<p>Yep it is. And this is even just a simple MNIST model! We don’t have time to wait for this: go ahead and stop it by pressing the ■ icon above. Notice that PyTorchLightning helpfully warned us that we
+have an unused GPU!</p>
+<p>Let’s try that again, only this time with a GPU:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">SpikingModel</span><span class="p">()</span> <span class="c1"># Our model from before</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">gpus</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># Notice the gpus flag</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="scaling-to-hpc-with-pytorch-lightning">
+<h3>1.6 Scaling to HPC with PyTorch Lightning<a class="headerlink" href="#scaling-to-hpc-with-pytorch-lightning" title="Permalink to this headline">¶</a></h3>
+<p>To summarize what we saw so far, we managed to build a model, train it with a dataset, and scale it to 1 (but potentially many) GPUs with around 50 lines of code. Not bad!</p>
+<p>You may be wondering where the HPC element in this comes in, but we have actually achieved the most significant objective already: a scalable model. Because Norse is handling state correctly, and because PyTorch Lightning takes care of the synchronization of losses across an arbitrary number of machines, you are able to run this on multiple nodes and several GPUs if you wanted to!</p>
+<p>To be slightly more specific, PyTorch Lightning already features support for HPC clusters because your model is easy to scale. The different way to distribute models (e. g. in HPC) is called <a class="reference external" href="https://pytorch-lightning.readthedocs.io/en/stable/accelerators.html?highlight=hpc"><code class="docutils literal notranslate"><span class="pre">accelerators</span></code> in PyTorch Lightning</a>. Here is an example that will run your model in an HPC (which won’t work here for obvious reasons):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">SpikingModel</span><span class="p">()</span> <span class="c1"># Our model from before</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span><span class="n">accelerator</span><span class="o">=</span><span class="n">DDPHPCAccelerator</span><span class="p">())</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can read more about their <a class="reference external" href="https://pytorch-lightning.readthedocs.io/en/stable/accelerators.html?highlight=hpc#ddp-hpc-accelerator">DDPHPCAccelerator here</a> or <a class="reference external" href="https://pytorch-lightning.readthedocs.io/en/stable/trainer.html#accelerator">see how the accelerator parameter works with the Tranier module here</a>.</p>
+</div>
+</div>
+<div class="section" id="slurm-support-out-of-the-box">
+<h2>1.7 SLURM Support out of the Box<a class="headerlink" href="#slurm-support-out-of-the-box" title="Permalink to this headline">¶</a></h2>
+<p>You can run your PyTorch-Lightning model with almost no hassle on your favorite SLURM
+cluster (JUWELS anyone?) of choice! See <a class="reference external" href="https://pytorch-lightning.readthedocs.io/en/latest/slurm.html">https://pytorch-lightning.readthedocs.io/en/latest/slurm.html</a>.
+It will helpfully save your progress and restart from the last checkpoint accross
+job submissions. You can get your model running accross 2 super computing
+nodes and 8 V100 GPU cards without almost no effort of your own.</p>
+</div>
+<div class="section" id="step-2-discussion">
+<h2>Step 2: Discussion<a class="headerlink" href="#step-2-discussion" title="Permalink to this headline">¶</a></h2>
+<p>Now that you know how PyTorch works, have seen how Norse builds models, and knows how PyTorch Lightning can accelerate your models, it’s time time to discuss how to apply your knowledge!</p>
+<p>MNIST is a good example for non-trivial supervised learning. And, as you saw, Norse can indeed solve it.
+However, there are much more interesting datasets out there and they might not necessarily be solvable with supervised learning. Norse also supports <a class="reference external" href="https://github.com/norse/norse/blob/master/norse/torch/functional/stdp.py">STDP</a> (although still in an early stage) and other learning rules.</p>
+<p>So, here is our challenge to you: consider your own work/domain/expertise and how spike-based learning (supervised/non-supervised, local/global, etc.) is be relevant. Specifically, ask yourself whether you can come up with neuron-based simulations that are sufficiently large to require HPC access. Could you model this with Norse? Discuss this with your discord group now. Here are some questions you can ask your group to kickstart the discussion:</p>
+<ul class="simple">
+<li><p>Do you think idea X can be solved with spike-based learning?</p></li>
+<li><p>How would the dataset look like?</p>
+<ul>
+<li><p>Can you learn that with biologically inspired learning algorithms?</p></li>
+<li><p>Would you need supervised learning?</p></li>
+</ul>
+</li>
+<li><p>What learning algorithm would you use to solve X?</p></li>
+</ul>
+<p>When you are done (don’t spend more than ~5-10 minutes) move on to the final implementation section.</p>
+</div>
+<div class="section" id="step-3-implementation">
+<h2>Step 3: Implementation<a class="headerlink" href="#step-3-implementation" title="Permalink to this headline">¶</a></h2>
+<p>In the final minutes of this workshop, we encourage you to boil down your problem to a really small toy example. You will spend the rest of the workshop trying to implement it, so we recommend that you recruit the aid of your workshop group and try to get something simple working. Please be realistic (in this workshop): we are severely time restricted.</p>
+<p>Here are a few recommendations:</p>
+<ul class="simple">
+<li><p>Try to only modify the data and the neural network</p>
+<ul>
+<li><p>You can, for instance, modify the code above to solve a simple XOR problem: the network would be much simpler and the data could be generated</p></li>
+</ul>
+</li>
+<li><p>Look at <a class="reference external" href="https://pytorch-lightning.readthedocs.io">the examples in the PyTorch Lightning documentation</a> for inspiration (in the left sidebar)</p></li>
+<li><p>Loot at <a class="reference external" href="https://github.com/norse/norse/tree/master/norse/dataset">the datasets available in Norse</a>. They are event-based so you do not have to worry about encoding</p></li>
+</ul>
+</div>
+<div class="section" id="step-4-profit">
+<h2>Step 4: Profit<a class="headerlink" href="#step-4-profit" title="Permalink to this headline">¶</a></h2>
+<p>We only scratched the surface of what PyTorch Lightning provides. They also provide excellent logging/dashboarding with <a class="reference external" href="https://www.tensorflow.org/tensorboard/">Tensorboard</a>, allow model checkpointing, model discretization, and much more.</p>
+<p>We hope this was enlightening. The workshop material is available online at <a class="reference external" href="https://github.com/norse/norse-hbp-workshop">https://github.com/norse/norse-hbp-workshop</a>, so you can revisit it any time.</p>
+<p>Thank you for your attention!</p>
+<p><img alt="" src="https://raw.githubusercontent.com/norse/norse/master/logo.png" /></p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "norse/notebooks",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Norse authors<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
