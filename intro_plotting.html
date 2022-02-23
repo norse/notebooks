@@ -405,12 +405,19 @@ If this confuses you, take a look at the earlier <a class="reference external" h
 </div>
 </div>
 </div>
-<p>Now, how can we tell what happens? We have chosen to record the output state, so we can use some utilities provided by Norse to plot the voltage state (this is just a <a class="reference external" href="https://matplotlib.org/">Matplotlib</a> wrapper):</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">output</span></code> now stores the output spikes and the <code class="docutils literal notranslate"><span class="pre">states</span></code> contain the internal variables of the neuron dynamics, such as the voltage trace.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>What does <code class="docutils literal notranslate"><span class="pre">states</span></code> consist of? What happens if you print it out?</p>
+<p>And what happens if you go back to the previous cell and sets <code class="docutils literal notranslate"><span class="pre">record_states=False</span></code>?</p>
+</div>
+<p>Now, how can we tell what happens? We have chosen to record the output state, so immediately plot the voltage state with <a class="reference external" href="https://matplotlib.org/">Matplotlib</a>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch.utils.plot</span> <span class="kn">import</span> <span class="n">plot_neuron_states</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plot_neuron_states</span><span class="p">(</span><span class="n">states</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">detach</span><span class="p">())</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time [ms]&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Voltage&#39;</span><span class="p">)</span>
@@ -421,34 +428,34 @@ If this confuses you, take a look at the earlier <a class="reference external" h
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Voltage&#39;)
 </pre></div>
 </div>
-<img alt="_images/intro_plotting_8_1.png" src="_images/intro_plotting_8_1.png" />
+<img alt="_images/intro_plotting_9_1.png" src="_images/intro_plotting_9_1.png" />
 </div>
 </div>
-<p>As you can see the voltage trace does not reach the default threshold value of <code class="docutils literal notranslate"><span class="pre">1.0</span></code>. Indeed we can compute the maximal value and timestep at which it is attained:</p>
+<p>As you can see the neuron receives an input around timestep 100, which causes the neuron voltage membrane to react.
+However, the voltage trace does not reach the default threshold value of <code class="docutils literal notranslate"><span class="pre">1.0</span></code>. Indeed we can compute the maximal value and timestep at which it is attained:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">voltages</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">v</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">states</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">voltages</span> <span class="o">=</span> <span class="n">states</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
 <span class="n">max_voltage</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">voltages</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;maximal value: </span><span class="si">{</span><span class="n">max_voltage</span><span class="si">}</span><span class="s2"> </span>
-<span class="s2">timestep: </span><span class="si">{</span><span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">voltages</span><span class="p">)</span><span class="si">}</span><span class="s2"> ms</span>
-<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+<span class="sa">f</span><span class="s2">&quot;maximal voltage: </span><span class="si">{</span><span class="n">max_voltage</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">voltages</span><span class="p">)</span><span class="si">}</span><span class="s2"> ms&quot;</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>maximal value: 0.33088549971580505 
-timestep: 126 ms
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;maximal voltage: 0.33088549971580505 at 126 ms&#39;
 </pre></div>
 </div>
 </div>
 </div>
-<p>Therefore we can simply rescale the input to ellicit at least one output spike (we also now only show the membrane evolution between 0 and 200 ms).</p>
+<p>Note how that value is much below 1.0.
+Therefore we can simply rescale the input to ellicit at least one output spike (we also now only show the membrane evolution between 0 and 200 ms).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scaled_data</span> <span class="o">=</span> <span class="mf">1.001</span> <span class="o">*</span> <span class="p">(</span><span class="n">data</span> <span class="o">/</span> <span class="n">max_voltage</span><span class="p">)</span> <span class="c1"># rescale data according to max voltage + some headroom just computed</span>
 <span class="n">output</span><span class="p">,</span> <span class="n">states</span> <span class="o">=</span> <span class="n">lif</span><span class="p">(</span><span class="n">scaled_data</span><span class="p">[:</span><span class="mi">200</span><span class="p">])</span> 
 
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plot_neuron_states</span><span class="p">(</span><span class="n">states</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">detach</span><span class="p">())</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time [ms]&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Voltage&#39;</span><span class="p">)</span>
@@ -459,9 +466,14 @@ timestep: 126 ms
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Voltage&#39;)
 </pre></div>
 </div>
-<img alt="_images/intro_plotting_12_1.png" src="_images/intro_plotting_12_1.png" />
+<img alt="_images/intro_plotting_13_1.png" src="_images/intro_plotting_13_1.png" />
 </div>
 </div>
+<p>What happens here is that the neuron receives an input around timestep 100 - and again at 120.
+The neuron racts more strongly than before (the voltage values are higher).
+Around timestep 123, after the second current injection, the neuron gets sufficient momentum to elicit a spike.
+After the spike, the neuron resets, but there is some residual current that still produces an effect in the voltage membrane.
+Exactly why this happens is explained much better in the book <a class="reference external" href="https://neuronaldynamics.epfl.ch/online/Ch5.S1.html">Neural Dynamics by W. Gerstner et al</a>.</p>
 <p>As a small exercise, can you figure out how to visualize the current term (<code class="docutils literal notranslate"><span class="pre">&quot;i&quot;</span></code>)?</p>
 </div>
 <div class="tex2jax_ignore mathjax_ignore section" id="simulating-multiple-neurons">
@@ -472,44 +484,45 @@ timestep: 126 ms
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">timesteps</span> <span class="o">=</span> <span class="mi">1000</span> <span class="c1"># simulate for 1 second (1 ms timestep)</span>
 <span class="n">num_neurons</span> <span class="o">=</span> <span class="mi">1000</span>
 
-<span class="n">input_spikes</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="n">timesteps</span><span class="p">,</span> <span class="n">num_neurons</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">0.01</span> <span class="c1"># expect ~ 10 input spikes per neuron</span>
+<span class="c1"># expect ~ 10 input spikes per neuron</span>
+<span class="n">input_spikes</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="n">timesteps</span><span class="p">,</span> <span class="n">num_neurons</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">0.01</span> 
 </pre></div>
 </div>
 </div>
 </div>
-<p>We can verify our expectation that there are around <span class="math notranslate nohighlight">\(10\)</span> input spikes per neuron by computing</p>
+<p>We can verify our expectation that there are around <span class="math notranslate nohighlight">\(10\)</span> input spikes per neuron by computing the <em>sum</em> of the spikes over time</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">input_spikes</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_spikes</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(10.2500)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(10.0030)
 </pre></div>
 </div>
 </div>
 </div>
+<p>… And by plotting the activity histogram</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">plot_histogram_2d</span><span class="p">(</span><span class="n">input_spikes</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">input_spikes</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">poisson_fn</span><span class="p">(</span><span class="n">lamb</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">lamb</span><span class="o">**</span><span class="n">k</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span> <span class="n">lamb</span><span class="p">)</span> <span class="o">/</span> <span class="p">((</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">lgamma</span><span class="p">()</span><span class="o">.</span><span class="n">exp</span><span class="p">())</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">poisson_fn</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">timesteps</span><span class="o">*</span><span class="mf">0.01</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">30</span><span class="p">))</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">num_neurons</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Number of spikes&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Occurrences&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f27127606a0&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Occurrences&#39;)
 </pre></div>
 </div>
-<img alt="_images/intro_plotting_18_1.png" src="_images/intro_plotting_18_1.png" />
+<img alt="_images/intro_plotting_20_1.png" src="_images/intro_plotting_20_1.png" />
 </div>
 </div>
-<p>To run the simulation, we prepare a list of spikes and a state-variable, where the neuron states will be updated in. During the simulation, the states will update independently, resulting in different behaviours.</p>
+<p>The histogram tells us that for our random data over 1000 timesteps, <em>most</em> neuron will receive 10 input spikes, less around 5 or 15 times, almost none will receive 0 or 20, and so on.</p>
+<p>To run an actual simulation, we simply inject these input_spikes into our <code class="docutils literal notranslate"><span class="pre">LIF</span></code> neuron. This will provide an output of 1000 timesteps with 1000 neurons per timestep (so, a <code class="docutils literal notranslate"><span class="pre">1000x1000</span></code> matrix) and a state-variable, where the neuron states will be updated in. During the simulation, the states will update independently, resulting in different behaviours for every neuron.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lif</span> <span class="o">=</span> <span class="n">LIF</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">LIFParameters</span><span class="p">(</span><span class="n">v_th</span><span class="o">=</span><span class="mf">0.3</span><span class="p">),</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -518,21 +531,33 @@ timestep: 126 ms
 </div>
 </div>
 </div>
-<p>We can visualise the spikes that the neurons produced as follows:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch.utils.plot</span> <span class="kn">import</span> <span class="n">plot_spikes_2d</span>
-
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plot_spikes_2d</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;TIme [ms]&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spikes</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;TIme [ms]&#39;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([1000, 1000])
 </pre></div>
 </div>
-<img alt="_images/intro_plotting_22_1.png" src="_images/intro_plotting_22_1.png" />
+</div>
+</div>
+<p>We can visualise the spikes that the neurons produced as follows:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">spikes</span><span class="o">.</span><span class="n">to_sparse</span><span class="p">()</span><span class="o">.</span><span class="n">indices</span><span class="p">(),</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time [ms]&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Neuron index&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Neuron index&#39;)
+</pre></div>
+</div>
+<img alt="_images/intro_plotting_26_1.png" src="_images/intro_plotting_26_1.png" />
 </div>
 </div>
 <p>We can compute the number of spikes per neuron again as follows</p>
@@ -543,29 +568,29 @@ timestep: 126 ms
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(2.6540, grad_fn=&lt;MeanBackward0&gt;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(2.5470, grad_fn=&lt;MeanBackward0&gt;)
 </pre></div>
 </div>
 </div>
 </div>
-<p>We gave different inputs for different neurons.
-For some neurons, it’s clear that the inputs weren’t enough to cause any spikes!
+<p>We gave different inputs to different neurons.
+For some neurons,  enough to cause any spikes!
 For the other neurons, however, there are gradually more spikes as the input current increases.</p>
-<p>We can inspect this spike pattern by summing up all the events in the time dimension and look at the individual activity for each neuron:</p>
+<p>We can inspect this spike pattern by summing up all the events in the time dimension and look at the activity histogram for the population:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch.utils.plot</span> <span class="kn">import</span> <span class="n">plot_histogram_2d</span>
-
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plot_histogram_2d</span><span class="p">(</span><span class="n">spikes</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">spikes</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Spike Count&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Occurrence&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;Spike Count&#39;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Occurrence&#39;)
 </pre></div>
 </div>
-<img alt="_images/intro_plotting_26_1.png" src="_images/intro_plotting_26_1.png" />
+<img alt="_images/intro_plotting_30_1.png" src="_images/intro_plotting_30_1.png" />
 </div>
 </div>
 <div class="section" id="conclusion">

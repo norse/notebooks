@@ -210,6 +210,31 @@ const thebe_selector_output = ".output, .cell_output"
 
             <!-- Launch buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/norse/norse/HEAD/v2/gh/norse/notebooks/master?urlpath=tree/intro_norse.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/norse/notebooks/blob/master/intro_norse.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        <button type="button" class="btn btn-secondary topbarbtn"
+            onclick="initThebeSBT()" title="Launch Thebe" data-toggle="tooltip" data-placement="left"><i
+                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
+        
+    </div>
+</div>
+
         </div>
 
         <!-- Table of contents -->
@@ -404,7 +429,7 @@ perficially). One way to do that is to go to their <a class="reference external"
 <p>Installing Norse is as simple as executing the following:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!pip install --quiet norse matplotlib
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install --quiet norse matplotlib
 </pre></div>
 </div>
 </div>
@@ -412,7 +437,7 @@ perficially). One way to do that is to go to their <a class="reference external"
 <p>When that is done, you can now directly use Norse (and it’s parent-library <a class="reference external" href="https://pytorch.org/">PyTorch</a>) like so:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">norse</span>
 </pre></div>
 </div>
@@ -437,7 +462,7 @@ perficially). One way to do that is to go to their <a class="reference external"
 <p>First of, we have to generate some random data to play with. As you may know, data is split into batches containing multiple data points. And because we have RGB data, we have three channels (Red, Green, Blue) and, in our case, a 28 x 28 pixel image. In sum, we have a <code class="docutils literal notranslate"><span class="pre">batch</span></code> dimension, a <code class="docutils literal notranslate"><span class="pre">channel</span></code> dimension, and two <code class="docutils literal notranslate"><span class="pre">pixel</span></code> dimensions:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># Fix randomness</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># Fix randomness</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span> <span class="c1"># 8 batch, 3 channels, 28x28 pixels</span>
 </pre></div>
@@ -447,7 +472,7 @@ perficially). One way to do that is to go to their <a class="reference external"
 <p>This is just random, nonsense data, but we can now inspect the <em>first</em> datapoint in our batch using <a class="reference external" href="https://matplotlib.org/">Matplotlib</a>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -456,7 +481,7 @@ perficially). One way to do that is to go to their <a class="reference external"
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7f5f3cac68e0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7fd6e49f43d0&gt;
 </pre></div>
 </div>
 <img alt="_images/intro_norse_11_2.png" src="_images/intro_norse_11_2.png" />
@@ -471,7 +496,7 @@ perficially). One way to do that is to go to their <a class="reference external"
 <p>The only twist we have added is to use simulated, biological neurons. For technical reasons they are called  Leaky Integrate-and-Fire (LIF) neurons. But in principle they are quite simple: they take some data, think about about it, and spit out a signal. Here’s how it works:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
 <span class="kn">import</span> <span class="nn">norse.torch</span> <span class="k">as</span> <span class="nn">norse</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">norse</span><span class="o">.</span><span class="n">SequentialState</span><span class="p">(</span>
@@ -497,7 +522,7 @@ perficially). One way to do that is to go to their <a class="reference external"
 <hr class="docutils" />
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">output</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> 
 </pre></div>
 </div>
 </div>
@@ -511,7 +536,7 @@ perficially). One way to do that is to go to their <a class="reference external"
 <p>To validate our assumption, run this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">output</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
 </div>
@@ -531,7 +556,7 @@ This is, of course just a random example because our network is not trained yet.
 <p>“Wait”, you may think, “if the state keeps track of each <em>neuron layer</em>, we should have <code class="docutils literal notranslate"><span class="pre">6</span></code> states right”? Exactly! But, while it contains 6 elements, we actually only need states for the <strong>spiking neuron layers</strong>. Since we have <em>two</em> stateful layers (<code class="docutils literal notranslate"><span class="pre">LIFCell</span></code> layers) in our model, we only need to keep track of two states:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="vm">__class__</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">state</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="vm">__class__</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">state</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -558,12 +583,12 @@ Norse models are trained in <em>the exact same way</em> that PyTorch models are 
 <p><strong>Optional</strong>: Find out why we are using <code class="docutils literal notranslate"><span class="pre">.detach</span></code>. What happens if you remove it? Why?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">detach</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">detach</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f5f3c0548b0&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fd6d6fc74c0&gt;]
 </pre></div>
 </div>
 <img alt="_images/intro_norse_28_1.png" src="_images/intro_norse_28_1.png" />
@@ -573,7 +598,7 @@ Norse models are trained in <em>the exact same way</em> that PyTorch models are 
 <p>That’s because <strong>the neuron only received input during one timestep</strong>. That’s not nearly enough to make it spike. What happens if we try to give it multiple inputs, say, 32?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">timesteps</span> <span class="o">=</span> <span class="mi">32</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">timesteps</span> <span class="o">=</span> <span class="mi">32</span>
 <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="n">state</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="k">for</span> <span class="n">timestep</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">timesteps</span><span class="p">):</span>
@@ -584,12 +609,12 @@ Norse models are trained in <em>the exact same way</em> that PyTorch models are 
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">detach</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">detach</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f5f3c03df40&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fd6d6faab80&gt;]
 </pre></div>
 </div>
 <img alt="_images/intro_norse_31_1.png" src="_images/intro_norse_31_1.png" />
@@ -606,7 +631,7 @@ We can not take the <strong>difference</strong> between what <em>we expect</em> 
 \]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">actual_output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">actual_output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 <span class="n">expected_output</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">difference</span> <span class="o">=</span> <span class="n">expected_output</span> <span class="o">-</span> <span class="n">actual_output</span>
 </pre></div>
@@ -616,7 +641,7 @@ We can not take the <strong>difference</strong> between what <em>we expect</em> 
 <p>The only remaining thing is to use PyTorch’s clever optimization mechanisms to update the model so it <strong>learns</strong> to do better than before:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">RMSprop</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">RMSprop</span>
 </pre></div>
 </div>
 </div>
@@ -628,7 +653,7 @@ We can not take the <strong>difference</strong> between what <em>we expect</em> 
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">RMSprop</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>   <span class="c1"># Constructs the optimizer</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">RMSprop</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>   <span class="c1"># Constructs the optimizer</span>
 <span class="n">difference</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>                                 <span class="c1"># Records impact of weights - see note on optimization above</span>
 <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>                                      <span class="c1"># Takes a &#39;step&#39; in the right direction</span>
 </pre></div>
@@ -642,7 +667,7 @@ We can not take the <strong>difference</strong> between what <em>we expect</em> 
 Let’s try to run the model one more time and plot the outputs — just like before.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">timesteps</span> <span class="o">=</span> <span class="mi">32</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">timesteps</span> <span class="o">=</span> <span class="mi">32</span>
 <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="n">state</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="k">for</span> <span class="n">timestep</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">timesteps</span><span class="p">):</span>
@@ -654,7 +679,7 @@ Let’s try to run the model one more time and plot the outputs — just like be
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f5f2c51ff70&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fd6d445fa30&gt;]
 </pre></div>
 </div>
 <img alt="_images/intro_norse_38_1.png" src="_images/intro_norse_38_1.png" />
