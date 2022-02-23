@@ -17,6 +17,6 @@ jobs:
       - name: Install system dependencies
         run: sudo apt update && sudo apt install ffmpeg -y
       - name: Install python dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r requirements-book.txt
       - name: Compile docs
         run: jupyter-book build .

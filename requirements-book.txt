@@ -1,0 +1,4 @@
+av
+jupyter-book
+norse
+matplotlib
