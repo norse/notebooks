@@ -12,7 +12,7 @@ If you desire hardware acceleration (like GPU or TPU) you can either clone this 
 If this is your first brush with computational neuroscience, we recommend [this excellent serious of tutorials by Neuromatch Academy](https://compneuro.neuromatch.io/tutorials/W0D1_PythonWorkshop1/student/W0D1_Tutorial1.html).
 They provide excellent interactive tutorials on neuron dynamics, linear algebra, calculus, statistics, and deep learning.
 
-## Level: Beginner
+## Introductory notebooks
 
 | Notebook | Topic | 
 | ------------------ | --- | 
@@ -21,22 +21,26 @@ They provide excellent interactive tutorials on neuron dynamics, linear algebra,
 | [Simulating and plotting spiking data](https://norse.github.io/notebooks/intro_plotting.html) | Learn how to describe and visualise event data |
 | *Single Neuron Experiments* | Learn how single neurons behave |
 
-## Level: Intermediate
+## Supervised Learning
 
-| | |
+| Notebook | Topic | 
 | ------------------ | --- | 
 | [Training with MNIST](https://norse.github.io/notebooks/mnist_classifiers.html) | Learn how to solve MNIST with spikes
-| *Working with event-based data* | Learn how to work with event-based datasets by classifying a set of poker cards
+| [Learning event-based DVS Poker](https://norse.github.io/notebooks/poker-dvs_classifier.html) | Learn how to work with event-based datasets by classifying a set of poker cards
 | *Optimization of neuron parameters* | Explore how automatic differentiation can be useful to optimize neurons
 
+## Neuroscience 
+| Notebook | Topic | 
+| ------------------ | --- | 
+| [Optimizing neuron parameters](https://norse.github.io/notebooks/parameter-learning.html) | Learn how to solve MNIST with spikes
+| [Spike time dependent plasticity](https://norse.github.io/notebooks/stp_example.html) | Learn how to work with event-based datasets by classifying a set of poker cards
 
-## Level: Advanced
 
-| | | |
-| ------------------ | --- | --- |
-| *High Performance Computing with Norse* | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/norse/notebooks/blob/master/high-performance-computing.ipynb) | Scale Norse models to HPCs! |
-| *Using plasticity in Norse* | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/norse/notebooks/blob/master/stp_example.ipynb) | Learn how plasticity works in Norse |
-| *Stochastic Computing* | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/norse/notebooks/blob/master/stochastic-computing.ipynb) | Explore stochastic computing with spiking neurons |
+## Miscellaneous 
+| Notebook | Topic | 
+| ------------------ | --- | 
+| [High Performance Computing with Norse](https://norse.github.io/notebooks/stp_example.html)  | Scale Norse models to HPCs! |
+| [Stochastic Computing](https://norse.github.io/notebooks/stochastic-computing.html) | Explore stochastic computing with spiking neurons |
 
 For more information we refer to our [documentation](https://norse.ai/docs) as well as [our suite of tasks](https://github.com/norse/norse/task/).
 

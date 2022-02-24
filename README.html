@@ -252,18 +252,23 @@ const thebe_selector_output = ".output, .cell_output"
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#level-beginner">
-   Level: Beginner
+  <a class="reference internal nav-link" href="#introductory-notebooks">
+   Introductory notebooks
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#level-intermediate">
-   Level: Intermediate
+  <a class="reference internal nav-link" href="#supervised-learning">
+   Supervised Learning
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#level-advanced">
-   Level: Advanced
+  <a class="reference internal nav-link" href="#neuroscience">
+   Neuroscience
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#miscellaneous">
+   Miscellaneous
   </a>
  </li>
 </ul>
@@ -287,18 +292,23 @@ const thebe_selector_output = ".output, .cell_output"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#level-beginner">
-   Level: Beginner
+  <a class="reference internal nav-link" href="#introductory-notebooks">
+   Introductory notebooks
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#level-intermediate">
-   Level: Intermediate
+  <a class="reference internal nav-link" href="#supervised-learning">
+   Supervised Learning
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#level-advanced">
-   Level: Advanced
+  <a class="reference internal nav-link" href="#neuroscience">
+   Neuroscience
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#miscellaneous">
+   Miscellaneous
   </a>
  </li>
 </ul>
@@ -321,8 +331,8 @@ However, please note that the online execution relies on CPU, which can cause pe
 If you desire hardware acceleration (like GPU or TPU) you can either clone this repository and experiment locally, or use Google Colab.</p>
 <p>If this is your first brush with computational neuroscience, we recommend <a class="reference external" href="https://compneuro.neuromatch.io/tutorials/W0D1_PythonWorkshop1/student/W0D1_Tutorial1.html">this excellent serious of tutorials by Neuromatch Academy</a>.
 They provide excellent interactive tutorials on neuron dynamics, linear algebra, calculus, statistics, and deep learning.</p>
-<div class="section" id="level-beginner">
-<h2>Level: Beginner<a class="headerlink" href="#level-beginner" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="introductory-notebooks">
+<h2>Introductory notebooks<a class="headerlink" href="#introductory-notebooks" title="Permalink to this headline">¶</a></h2>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Notebook</p></th>
@@ -345,19 +355,19 @@ They provide excellent interactive tutorials on neuron dynamics, linear algebra,
 </tbody>
 </table>
 </div>
-<div class="section" id="level-intermediate">
-<h2>Level: Intermediate<a class="headerlink" href="#level-intermediate" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="supervised-learning">
+<h2>Supervised Learning<a class="headerlink" href="#supervised-learning" title="Permalink to this headline">¶</a></h2>
 <table class="colwidths-auto table">
 <thead>
-<tr class="row-odd"><th class="head"><p></p></th>
-<th class="head"><p></p></th>
+<tr class="row-odd"><th class="head"><p>Notebook</p></th>
+<th class="head"><p>Topic</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference external" href="https://norse.github.io/notebooks/mnist_classifiers.html">Training with MNIST</a></p></td>
 <td><p>Learn how to solve MNIST with spikes</p></td>
 </tr>
-<tr class="row-odd"><td><p><em>Working with event-based data</em></p></td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://norse.github.io/notebooks/poker-dvs_classifier.html">Learning event-based DVS Poker</a></p></td>
 <td><p>Learn how to work with event-based datasets by classifying a set of poker cards</p></td>
 </tr>
 <tr class="row-even"><td><p><em>Optimization of neuron parameters</em></p></td>
@@ -366,26 +376,37 @@ They provide excellent interactive tutorials on neuron dynamics, linear algebra,
 </tbody>
 </table>
 </div>
-<div class="section" id="level-advanced">
-<h2>Level: Advanced<a class="headerlink" href="#level-advanced" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="neuroscience">
+<h2>Neuroscience<a class="headerlink" href="#neuroscience" title="Permalink to this headline">¶</a></h2>
 <table class="colwidths-auto table">
 <thead>
-<tr class="row-odd"><th class="head"><p></p></th>
-<th class="head"><p></p></th>
-<th class="head"><p></p></th>
+<tr class="row-odd"><th class="head"><p>Notebook</p></th>
+<th class="head"><p>Topic</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><em>High Performance Computing with Norse</em></p></td>
-<td><p><a class="reference external" href="https://colab.research.google.com/github/norse/notebooks/blob/master/high-performance-computing.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://norse.github.io/notebooks/parameter-learning.html">Optimizing neuron parameters</a></p></td>
+<td><p>Learn how to solve MNIST with spikes</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://norse.github.io/notebooks/stp_example.html">Spike time dependent plasticity</a></p></td>
+<td><p>Learn how to work with event-based datasets by classifying a set of poker cards</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="miscellaneous">
+<h2>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h2>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Notebook</p></th>
+<th class="head"><p>Topic</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://norse.github.io/notebooks/stp_example.html">High Performance Computing with Norse</a></p></td>
 <td><p>Scale Norse models to HPCs!</p></td>
 </tr>
-<tr class="row-odd"><td><p><em>Using plasticity in Norse</em></p></td>
-<td><p><a class="reference external" href="https://colab.research.google.com/github/norse/notebooks/blob/master/stp_example.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
-<td><p>Learn how plasticity works in Norse</p></td>
-</tr>
-<tr class="row-even"><td><p><em>Stochastic Computing</em></p></td>
-<td><p><a class="reference external" href="https://colab.research.google.com/github/norse/notebooks/blob/master/stochastic-computing.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p></td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://norse.github.io/notebooks/stochastic-computing.html">Stochastic Computing</a></p></td>
 <td><p>Explore stochastic computing with spiking neurons</p></td>
 </tr>
 </tbody>
