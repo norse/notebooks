@@ -12,3 +12,12 @@ parts:
   - caption: Supervised Learning
     chapters:
       - file: mnist_classifiers
+      - file: poker-dvs_classifier
+  - caption: Neuroscience
+    chapters:
+      - file: parameter-learning
+      - file: stp_example
+  - caption: Miscellaneous
+    chapters:
+      - file: high-performance-computing
+      - file: stochastic-computation
