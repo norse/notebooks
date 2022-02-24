@@ -133,6 +133,40 @@ const thebe_selector_output = ".output, .cell_output"
    Training an MNIST classifier
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="poker-dvs_classifier.html">
+   Training a classifier on the event-based POKER-DVS dataset
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Neuroscience
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="parameter-learning.html">
+   Parameter learning in SNN with Norse
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="stp_example.html">
+   Spike Time Dependent Plasticity
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Miscellaneous
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="high-performance-computing.html">
+   High-Performance Computing with Norse and PyTorch Lightning
+  </a>
+ </li>
 </ul>
 
     </div>
@@ -352,7 +386,7 @@ const thebe_selector_output = ".output, .cell_output"
 <p>First of all we need to install and import some prerequisites:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install -q matplotlib numpy scipy tqdm norse
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install -q matplotlib numpy scipy tqdm git+https://github.com/norse/norse
 </pre></div>
 </div>
 </div>
@@ -498,7 +532,7 @@ Exactly why this happens is explained much better in the book <a class="referenc
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(10.0030)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(9.8110)
 </pre></div>
 </div>
 </div>
@@ -568,7 +602,7 @@ Exactly why this happens is explained much better in the book <a class="referenc
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(2.5470, grad_fn=&lt;MeanBackward0&gt;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(2.4740, grad_fn=&lt;MeanBackward0&gt;)
 </pre></div>
 </div>
 </div>

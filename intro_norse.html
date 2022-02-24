@@ -133,6 +133,40 @@ const thebe_selector_output = ".output, .cell_output"
    Training an MNIST classifier
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="poker-dvs_classifier.html">
+   Training a classifier on the event-based POKER-DVS dataset
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Neuroscience
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="parameter-learning.html">
+   Parameter learning in SNN with Norse
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="stp_example.html">
+   Spike Time Dependent Plasticity
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Miscellaneous
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="high-performance-computing.html">
+   High-Performance Computing with Norse and PyTorch Lightning
+  </a>
+ </li>
 </ul>
 
     </div>
@@ -429,7 +463,7 @@ perficially). One way to do that is to go to their <a class="reference external"
 <p>Installing Norse is as simple as executing the following:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install --quiet norse matplotlib
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install --quiet matplotlib git+https://github.com/norse/norse
 </pre></div>
 </div>
 </div>
@@ -481,7 +515,7 @@ perficially). One way to do that is to go to their <a class="reference external"
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7fd6e49f43d0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7f5d67bf0c10&gt;
 </pre></div>
 </div>
 <img alt="_images/intro_norse_11_2.png" src="_images/intro_norse_11_2.png" />
@@ -588,7 +622,7 @@ Norse models are trained in <em>the exact same way</em> that PyTorch models are 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fd6d6fc74c0&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f5d5e1f8910&gt;]
 </pre></div>
 </div>
 <img alt="_images/intro_norse_28_1.png" src="_images/intro_norse_28_1.png" />
@@ -614,7 +648,7 @@ Norse models are trained in <em>the exact same way</em> that PyTorch models are 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fd6d6faab80&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f5d5e15dfd0&gt;]
 </pre></div>
 </div>
 <img alt="_images/intro_norse_31_1.png" src="_images/intro_norse_31_1.png" />
@@ -679,7 +713,7 @@ Let’s try to run the model one more time and plot the outputs — just like be
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fd6d445fa30&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f5d57603fd0&gt;]
 </pre></div>
 </div>
 <img alt="_images/intro_norse_38_1.png" src="_images/intro_norse_38_1.png" />
