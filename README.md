@@ -39,7 +39,7 @@ They provide excellent interactive tutorials on neuron dynamics, linear algebra,
 ## Miscellaneous 
 | Notebook | Topic | 
 | ------------------ | --- | 
-| [High Performance Computing with Norse](https://norse.github.io/notebooks/stp_example.html)  | Scale Norse models to HPCs! |
+| [High Performance Computing with Norse](https://norse.github.io/notebooks/high-performance-computing.html)  | Scale Norse models to HPCs! |
 | [Stochastic Computing](https://norse.github.io/notebooks/stochastic-computing.html) | Explore stochastic computing with spiking neurons |
 
 For more information we refer to our [documentation](https://norse.ai/docs) as well as [our suite of tasks](https://github.com/norse/norse/task/).
