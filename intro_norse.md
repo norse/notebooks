@@ -5,7 +5,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.14.4
+      jupytext_version: 1.14.0
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -13,15 +13,14 @@ jupyter:
 ---
 
 <!-- #region -->
-# Spiking neural networks with Norse 
+# Spiking neural networks with Norse
 
-Norse is a library where you can *simulate* neural networks that are driven by atomic and sparse events **over time**, rather than large and dense tensors *without* time. 
+Norse is a library where you can *simulate* neural networks that are driven by atomic and sparse events **over time**, rather than large and dense tensors *without* time.
 
 These event-driven (or spike-driven) neural networks are interesting for two reasons: 1) they are extremely energy- and compute efficient when [run on the correct hardware](https://en.wikipedia.org/wiki/Neuromorphic_engineering) and 2) they work in [the same way that the human brain operates](https://en.wikipedia.org/wiki/Biological_neuron_model).
 
 
 This notebook tells you how to install and use Norse. We will skip most of the details but we have plenty more resources in our [notebook repository](https://github.com/norse/notebooks) if you're feeling adventurous. Also, our documentation tells you much more about what Norse is and why we built it at: https://norse.github.io/norse/
-
 
 :::{note}
 You can execute the notebooks on this website by hitting <i class="fas fa-rocket"></i> above and pressing <i class="fas fa-play"></i> Live Code.
@@ -87,15 +86,16 @@ If this is weird to you, check out our notebook on [Simulating and plotting spik
 First of, we have to generate some random data to play with. As you may know, data is split into batches containing multiple data points. And because we have RGB data, we have three channels (Red, Green, Blue) and, in our case, a 28 x 28 pixel image. In sum, we have a `batch` dimension, a `channel` dimension, and two `pixel` dimensions:
 
 ```python
-torch.manual_seed(0) # Fix randomness
+torch.manual_seed(0)  # Fix randomness
 
-data = torch.randn(8, 3, 28, 28) # 8 batch, 3 channels, 28x28 pixels
+data = torch.randn(8, 3, 28, 28)  # 8 batch, 3 channels, 28x28 pixels
 ```
 
 This is just random, nonsense data, but we can now inspect the *first* datapoint in our batch using [Matplotlib](https://matplotlib.org/):
 
 ```python
 import matplotlib.pyplot as plt
+
 plt.imshow(data[0].permute(1, 2, 0))
 ```
 
@@ -138,7 +138,7 @@ Now that we've defined our model, we can use it! Don't worry if you don't unders
 ---
 
 ```python
-output, state = model(data) 
+output, state = model(data)
 ```
 
 You are probably asking why there are two outputs. Good question! The output contains the actual data. But the state describes the current status of the neuron *after* we gave it the input data. Why? Because neurons change behaviour over time. Sometimes they're active, sometimes they're not. This is a topic for later tutorials - which you're hopefully motivated to follow!
@@ -158,7 +158,7 @@ To validate our assumption, run this:
 output.shape
 ```
 
-Nice, it fits! We've successfully reduced the 8 images (3 channels, 28x28 pixels) down to 8 vectors of 10 numbers. 
+Nice, it fits! We've successfully reduced the 8 images (3 channels, 28x28 pixels) down to 8 vectors of 10 numbers.
 This is, of course just a random example because our network is not trained yet. However, it's already a big step: what's great about these vector outputs (actually, they're called tensors in many dimensions), is that they can be interpreted to mean almost anything. Birds, Handwritten digits, Voice commands, ... You name it!
 
 
@@ -214,7 +214,7 @@ plt.plot(output.detach()[0])
 
 Much better! Now the network gave some output. The final linear layer makes it difficult to read exactly, but this, ladies and gentlemen, is a fully spiking neural network in the making. If this was a bird classifier model, it would definitely go for the European Swallow.
 
-To train the network, we simply need to adjust our weights, like in normal PyTorch models. 
+To train the network, we simply need to adjust our weights, like in normal PyTorch models.
 This is typically done via [gradient based optimization](https://pytorch.org/tutorials/beginner/basics/optimization_tutorial.html) which is outside the scope of this tutorial.
 Luckily, it's easy to use and can be quickly explained: imagine that we are looking for a certain output of the model, say a spike.
 We can not take the **difference** between what *we expect* and what the model actually produced; that difference is how much the weights ($w$) in the model should change:
@@ -236,9 +236,9 @@ torch.optim.RMSprop
 ```
 
 ```python
-optimizer = torch.optim.RMSprop(model.parameters())   # Constructs the optimizer
-difference.backward()                                 # Records impact of weights - see note on optimization above
-optimizer.step()                                      # Takes a 'step' in the right direction
+optimizer = torch.optim.RMSprop(model.parameters())  # Constructs the optimizer
+difference.backward()  # Records impact of weights - see note on optimization above
+optimizer.step()  # Takes a 'step' in the right direction
 ```
 
 ## Reviewing the trained model
@@ -252,8 +252,8 @@ output = None
 state = None
 for timestep in range(timesteps):
     output, state = model(data, state)
-    
-    
+
+
 plt.plot(output.detach()[0])
 ```
 
