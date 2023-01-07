@@ -1,2 +1,5 @@
 matplotlib
 norse
+jupyter
+jupytext
+pre-commit
