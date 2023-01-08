@@ -7,7 +7,7 @@ jupyter:
       format_version: '1.3'
       jupytext_version: 1.14.4
   kernelspec:
-    display_name: Python 3.10.6 64-bit
+    display_name: norse_env
     language: python
     name: python3
 ---
@@ -16,7 +16,7 @@ jupyter:
 
 Norse is a library where you can *simulate* neural networks that are driven by atomic and sparse events **over time**, rather than large and dense tensors *without* time.
 
-This notebook shows you how how to install and use PyTorch and Norse. We will skip most of the details, and *we will not cover training*. Many more resources exist in our [notebook repository](https://github.com/norse/notebooks) if you're feeling adventurous. Also, our documentation tells you much more about what Norse is and why we built it at: https://norse.github.io/norse/
+This notebook shows you how to use and install PyTorch and Norse. We will skip most of the details, and *we will not cover training in neural networks*. Many more resources exist in our [notebook repository](https://github.com/norse/notebooks) if you're feeling adventurous. Also, our documentation tells you much more about what Norse is and why we built it at: https://norse.github.io/norse/
 
 :::{note}
 You can execute the notebooks on this website by hitting <i class="fas fa-rocket"></i> above and pressing <i class="fas fa-play"></i> Live Code.
@@ -24,25 +24,31 @@ You can execute the notebooks on this website by hitting <i class="fas fa-rocket
 
 ## Table of contents
 
-1. Using PyTorch
-  1. Installation
-  2. Creating a data and a network
-  3. Applying data to the network
-2. Using Norse
-  1. Creating temporal data
-  2. Creating a spiking network
-  3. Applying data to the network
-3. Next steps
+1. [Installing Norse](#11-installation)
+2. [Using PyTorch](#1-using-pytorch)
+
+    2.1. [Creating data](#21-creating-data)
+
+    2.2. [Creating a network](#22-creating-a-network)
+
+    2.3. [Using the network](#23-using-the-network)
+
+3. [Using Norse](#2-using-norse)
+
+    3.1. [Describing time](#31-describing-time)
+
+    3.2. [Creating a spiking network](#32-creating-a-spiking-network)
+
+    3.3. [Applying data to the network](#33-applying-data-to-the-network)
+4. [Next steps](#3-next-steps)
 
 
-# Something cool
+
 
 
 ---
 
-# 1. Using PyTorch
-
-## 1.1 Installing prerequisites
+# 1. Installing prerequisites
 
 Before we can get started, we need to install the necessary software. But! That's simple. Just run the cell below.
 
@@ -52,6 +58,10 @@ Before we can get started, we need to install the necessary software. But! That'
 
 Now that it's installed, we can import PyTorch and Norse directly into Python.
 
+
+
+# 2. Using PyTorch
+
 ```python
 import torch
 import norse.torch as norse
@@ -60,7 +70,7 @@ import norse.torch as norse
 _ = torch.manual_seed(0)
 ```
 
-## 1.2.1 Creating data with PyTorch
+## 2.1 Creating data
 
 First, we need some **data**. Let's start by creating a vector of 5 random numbers, that can be visualized like this.
 
@@ -71,13 +81,13 @@ data = torch.randn(5)
 data
 ```
 
-## 1.2.2 Creating a network
+## 2.2 Creating a network
 
 We will now create a simple neural **network** in PyTorch, consisting of a `Linear` layer and an *activation function*. The `Linear` layer combines the five inputs into a single output, like so:
 
 ![](images/one_layer.svg)
 
-The activation *activation function* determines *how* the neurons react to the data. For now, we will just use a [simple rectified linear unit (ReLU)](https://pytorch.org/docs/stable/generated/torch.nn.ReLU.html), which clips data data to the interval $[0, \inf)$. If the data is below 0, the *activation function* returns 0. If the data is above zero, ReLU returns that same data without change (identity).
+The activation *activation function* determines *how* the neurons react to the data. For now, we will just use a [simple rectified linear unit (ReLU)](https://pytorch.org/docs/stable/generated/torch.nn.ReLU.html), which clips data to the interval $[0, \inf)$. If the data is below 0, the *activation function* returns 0. If the data is above zero, ReLU returns that same data without change (identity).
 
 ![](images/relu.svg)
 
@@ -96,7 +106,7 @@ Together, our data and network now looks like this:
 ![](images/network.svg)
 
 
-## 1.3 Using the network
+## 2.3 Using the network
 
 It's now straight forward to give the **network** our **data**. That will give us a single number as output, but with any negative numbers zero'ed out because the ReLU layer removes them.
 
@@ -113,15 +123,15 @@ data = torch.rand(5)
 network(data)
 ```
 
-# 2. Using Norse
+# 3. Using Norse
 
-Now that we've seen how to use networks and data in PyTorch, we can extend the same principle to Norse. But before we do that, we need to discuss time.
+Now that we've seen a brief recap on how to use networks and data in PyTorch, we can extend the same principle to Norse. But before we do that, we need to discuss how "time" is relevant in this context.
 
 Neurons in biology receive data more than that single vector we used above. They exist in time and have intricate dynamics. What you see below is a small animation of a **constant** input that produces different outputs **over time**.
 
 ![](https://ncskth.github.io/norse-rl/_images/spikes.gif)
 
-## 2.1 Describing "time"
+## 3.1 Describing "time"
 
 In order to *simulate* our neuron over time we need be able to express "time".
 There are [many ways to approach this](https://en.wikipedia.org/wiki/Dynamical_system) and in Norse, this is approached by discretizing time into small bins.
@@ -132,7 +142,7 @@ Practically speaking, we can approach this by creating multiple versions of our 
 
 ![](images/time_vector.svg)
 
-One way to represent that would be to create a **single matrix**, where each "slice" represents a timesteps.
+One way to represent that would be to create a **single matrix**, where each "slice" represents a timestep.
 
 ![](images/time_matrix.svg)
 
@@ -143,7 +153,7 @@ data = torch.randn(4, 5)
 data
 ```
 
-## 2.2 Creating a spiking network
+## 3.2 Creating a spiking network
 
 As you remember, the ReLU function isn't spiking or even biological. That's where Norse comes in. Norse includes spiking neuron models that we can add directly into the previous network description. In this case, we'll use a leaky integrate-and-fire (LIF) model.
 
@@ -161,7 +171,7 @@ With time, our network can be visualized like this:
 Note the two changes: the are using *several* input data vectors and the ReLU *activation function* is replaced with a LIF *activation function*.
 
 
-## 2.3 Applying data to the network
+## 3.3 Applying data to the network
 
 Applying the data is as simple as we did above. We would now expect that for each timestep, we would get a single output in return (just as before). Because we have four timesteps, we would expect 4 numbers:
 
@@ -180,18 +190,14 @@ Before we conclude, we encourage you to play around with the data above. Here ar
 
 
 <!-- #region -->
-# 3 Next steps
+# 4. Next steps
 
 You may wonder why the data above are all zeros. Take a look at this animation.
 
 ![](https://ncskth.github.io/norse-rl/_images/spikes.gif)
 
 
-If the input is too low (like in the left panel), nothing will happen: the neuron stays silent. If we want the network to provide a certain output *we need to train it*. That is the topic for future notebooks and documentation. Specifically, we would recommend these notebooks
+If the input is too low (like in the left panel), nothing will happen: the neuron stays silent. If we want the network to provide a certain output *we need to train it*. That is the topic for future notebooks and documentation. Specifically, we would recommend going through all the notebooks under the Introduction section.
 
-* How to train a single spiking neuron with Norse: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/norse/notebooks/blob/master/single-neuron-experiments.ipynb)
-* How to work with state and time in Norse [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/norse/notebooks/blob/master/introduction-to-norse.ipynb)
-* How to work with event-based datasets with Tonic: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/norse/notebooks/blob/master/poker-dvs_classifier.ipynb)
-
-Much more informtion can be found in our [notebooks](https://github.com/norse/notebooks) and the [Norse documentation](https://norse.github.io/norse/index.html). Good luck!
+Much more informtion can be found in our other [notebooks](https://github.com/norse/notebooks) and the [Norse documentation](https://norse.github.io/norse/index.html). Good luck!
 <!-- #endregion -->

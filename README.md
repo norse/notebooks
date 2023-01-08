@@ -4,8 +4,8 @@
 
 # Norse Notebook Tutorials
 
-These notebooks are designed to familiarize yourself with the [Spiking Neural Network simulator, Norse](https://norse.github.io/notebooks/README.html#)
-This material can be **run the notebooks directly in your browser**.
+These notebooks are designed to familiarize yourself with the [Spiking Neural Network simulator, Norse](https://norse.github.io/norse/).
+These notebooks can be [directly run in your browser](https://norse.github.io/notebooks/README.html#).
 However, please note that the online execution relies on CPU, which can cause performance problems for larger networks.
 If you desire hardware acceleration (like GPU or TPU) you can either clone this repository and experiment locally, or use Google Colab.
 
@@ -14,12 +14,14 @@ They provide excellent interactive tutorials on neuron dynamics, linear algebra,
 
 ## Introductory notebooks
 
+Create
+
 | Notebook | Topic |
 | ------------------ | --- |
 | [Introduction to PyTorch and spiking neurons](https://norse.github.io/notebooks/intro_spikes.html) | Introduces biological neurons and PyTorch |
 | [Introduction to Spiking Neural Networks in Norse](https://norse.github.io/notebooks/intro_norse.html) | Build and train spiking models in Norse |
 | [Simulating and plotting spiking data](https://norse.github.io/notebooks/intro_plotting.html) | Learn how to describe and visualise event data |
-| *Single Neuron Experiments* | Learn how single neurons behave |
+
 
 ## Supervised Learning
 
@@ -27,7 +29,6 @@ They provide excellent interactive tutorials on neuron dynamics, linear algebra,
 | ------------------ | --- |
 | [Training with MNIST](https://norse.github.io/notebooks/mnist_classifiers.html) | Learn how to solve MNIST with spikes
 | [Learning event-based DVS Poker](https://norse.github.io/notebooks/poker-dvs_classifier.html) | Learn how to work with event-based datasets by classifying a set of poker cards
-| *Optimization of neuron parameters* | Explore how automatic differentiation can be useful to optimize neurons
 
 ## Neuroscience
 | Notebook | Topic |
