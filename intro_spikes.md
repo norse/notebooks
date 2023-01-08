@@ -22,6 +22,10 @@ This notebook shows you how to use and install PyTorch and Norse. We will skip m
 You can execute the notebooks on this website by hitting <i class="fas fa-rocket"></i> above and pressing <i class="fas fa-play"></i> Live Code.
 :::
 
+Outcomes: You will learn to interphase Norse and PyTorch and see how easy it is to plug and play with spiking neuron layers using Norse.
+
+**Before you continue** with this notebook, we strongly recommend you familiarize yourself with [PyTorch](https://pytorch.org) (at least superficially). One way to do that is to go to their [PyTorch Quickstart Tutorial](https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html).
+
 ## Table of contents
 
 1. [Installing Norse](#11-installation)
@@ -48,7 +52,7 @@ You can execute the notebooks on this website by hitting <i class="fas fa-rocket
 
 ---
 
-# 1. Installing prerequisites
+# 1. Installation
 
 Before we can get started, we need to install the necessary software. But! That's simple. Just run the cell below.
 
@@ -59,6 +63,8 @@ Before we can get started, we need to install the necessary software. But! That'
 Now that it's installed, we can import PyTorch and Norse directly into Python.
 
 
+
+---
 
 # 2. Using PyTorch
 
@@ -122,6 +128,8 @@ Below, we'll use the **network** again, but with a different input vector. Try r
 data = torch.rand(5)
 network(data)
 ```
+
+---
 
 # 3. Using Norse
 
@@ -190,6 +198,8 @@ Before we conclude, we encourage you to play around with the data above. Here ar
 
 
 <!-- #region -->
+---
+
 # 4. Next steps
 
 You may wonder why the data above are all zeros. Take a look at this animation.
@@ -198,6 +208,10 @@ You may wonder why the data above are all zeros. Take a look at this animation.
 
 
 If the input is too low (like in the left panel), nothing will happen: the neuron stays silent. If we want the network to provide a certain output *we need to train it*. That is the topic for future notebooks and documentation. Specifically, we would recommend going through all the notebooks under the Introduction section.
-
-Much more informtion can be found in our other [notebooks](https://github.com/norse/notebooks) and the [Norse documentation](https://norse.github.io/norse/index.html). Good luck!
 <!-- #endregion -->
+
+---
+
+We have plenty more resources in our [notebook repository](https://github.com/norse/notebooks) if you're feeling adventurous. Also, our documentation tells you much more about what Norse is and why we built it at: https://norse.github.io/norse/
+
+Don't forget to [join our Discord server](https://discord.gg/7fGN359) and to support us by either donating or contributing your work upstream. Norse is open-source and built with love for the community. We couldn't do it without your help!

@@ -7,29 +7,35 @@ jupyter:
       format_version: '1.3'
       jupytext_version: 1.14.4
   kernelspec:
-    display_name: Python 3 (ipykernel)
+    display_name: norse_env
     language: python
     name: python3
 ---
 
-<!-- #region -->
 # Spiking neural networks with Norse
 
 Norse is a library where you can *simulate* neural networks that are driven by atomic and sparse events **over time**, rather than large and dense tensors *without* time.
 
 These event-driven (or spike-driven) neural networks are interesting for two reasons: 1) they are extremely energy- and compute efficient when [run on the correct hardware](https://en.wikipedia.org/wiki/Neuromorphic_engineering) and 2) they work in [the same way that the human brain operates](https://en.wikipedia.org/wiki/Biological_neuron_model).
 
-
-This notebook tells you how to install and use Norse. We will skip most of the details but we have plenty more resources in our [notebook repository](https://github.com/norse/notebooks) if you're feeling adventurous. Also, our documentation tells you much more about what Norse is and why we built it at: https://norse.github.io/norse/
-
 :::{note}
 You can execute the notebooks on this website by hitting <i class="fas fa-rocket"></i> above and pressing <i class="fas fa-play"></i> Live Code.
 :::
 
-<!-- #endregion -->
 
-**Before you continue** with this notebook, we strongly recommend you familiarize yourself with [PyTorch](https://pytorch.org) (at least su
-perficially). One way to do that is to go to their [PyTorch Quickstart Tutorial](https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html).
+
+
+Outcomes: In this notebook, you will learn to setup spiking neuron layers and train the network using Norse and PyTorch.
+
+**Before you continue** with this notebook, we strongly recommend you familiarize yourself with [PyTorch](https://pytorch.org) (at least superficially). One way to do that is to go to their [PyTorch Quickstart Tutorial](https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html).
+
+<!-- vscode-markdown-toc -->
+
+<!-- vscode-markdown-toc-config
+	numbering=true
+	autoSave=true
+	/vscode-markdown-toc-config -->
+<!-- /vscode-markdown-toc -->
 
 
 <!-- #region -->
@@ -42,7 +48,7 @@ perficially). One way to do that is to go to their [PyTorch Quickstart Tutorial]
 <iframe width="560" height="315" src="https://emb.d.tube/#!//('files':('ipfs':('vid':('240':'QmfQXf5eETyEVVg5AFqwppFWwKhGkT62cX35q9Hsu8kZ4K','480':'QmW681hzdtKqHGpKSCk7VFqwwdHtsLLG4zcoh7GZBYkpXB','src':'Qma8aUx1fGNoa6YgivbaegtA4CNaLeqVmss5Xp7Su92vJF'),'img':('118':'QmdPu8sfZf6UV8sC1iqU2fqAqk2PF5Akbg1EEBD9Fdrss1','360':'QmRfdxzS164zaP2eNCuxnVWWv6AQPfz1uDnhVfpbDTVQ8U','spr':'QmZZb2kdbHrC3k5o67HST2M8GVLbkUDHwMxt9UpjkHcupS'),'gw':'https:!!player.d.tube')),'dur':'72','nsfw':0,'oc':1,'thumbnailUrl':'https:!!snap1.d.tube!ipfs!QmdPu8sfZf6UV8sC1iqU2fqAqk2PF5Akbg1EEBD9Fdrss1')" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </center>
 
----
+
 
 To install Norse you need an installation of [Python](https://www.python.org/) version 3.7 or more. You also need access to [pip](https://packaging.python.org/key_projects/#pip) which we'll use below. But modern Python installations will include this automatically.
 
@@ -73,20 +79,21 @@ A "spike" is a sudden burst of energy that arrives from neurons. Without being t
 If this is weird to you, check out our notebook on [Simulating and plotting spike data](https://github.com/norse/notebooks#level-beginner).
 <!-- #endregion -->
 
+<!-- #region -->
 ---
 
 # 2. Creating a model and preparing data
 
----
+
 
 <iframe width="560" height="315" src="https://emb.d.tube/#!//('files':('ipfs':('vid':('240':'QmXuvR3tHpzsdPDJMyYUTZKKoBZVUE6iwdFMcJxfFqFqpb','480':'QmfSRF3Ci8FCpdgjiBuaG4QfYAoxAgmMPBoZQgcLLD58bc','src':'QmUxtJzUM3BtaahDJNgpd9spwfV869N6Msa8C3CptprbNt'),'img':('118':'QmNhbYCTfzGzEAFUwUTe8u7hatD1roDa7ADxGmxLHJow2R','360':'QmY2UcKSMhd862atdtnNmeF6Ki6vTyarKPepM1LCDq4CWX','spr':'QmacxXujreaycCgNF8AaAiFPfxymP9GWFJ7LSPBKCdNFQ3'),'gw':'https:!!player.d.tube')),'dur':'99','nsfw':0,'oc':1,'thumbnailUrl':'https:!!snap1.d.tube!ipfs!QmNhbYCTfzGzEAFUwUTe8u7hatD1roDa7ADxGmxLHJow2R')" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
+<!-- #endregion -->
 
 ### Generating (toy) data
 First of, we have to generate some random data to play with. As you may know, data is split into batches containing multiple data points. And because we have RGB data, we have three channels (Red, Green, Blue) and, in our case, a 28 x 28 pixel image. In sum, we have a `batch` dimension, a `channel` dimension, and two `pixel` dimensions:
 
 ```python
-torch.manual_seed(0)  # Fix randomness
+torch.manual_seed(0)  # Fixing randomness for reproducibility
 
 data = torch.randn(8, 3, 28, 28)  # 8 batch, 3 channels, 28x28 pixels
 ```
@@ -141,7 +148,7 @@ Now that we've defined our model, we can use it! Don't worry if you don't unders
 output, state = model(data)
 ```
 
-You are probably asking why there are two outputs. Good question! The output contains the actual data. But the state describes the current status of the neuron *after* we gave it the input data. Why? Because neurons change behaviour over time. Sometimes they're active, sometimes they're not. This is a topic for later tutorials - which you're hopefully motivated to follow!
+You are probably asking why there are two variables returned when `model` is being called. Good question! The `output` contains the actual data. But the `state` describes and keeps track of the current status of the neuron layer *after* we gave it the input data. Why? Because neurons change behaviour over time. Sometimes they're active, sometimes they're not. This is a topic for later tutorials - which you're hopefully motivated to follow!
 
 Now we can look at the `output` and the `state` respectively.
 
@@ -168,7 +175,7 @@ We still have not looked at the state, you may (correctly) point out. The state 
 
 I can already now tell you that the state of a neuron layer contains two things: the voltage `v` and the current `i` (after the SI symbols). We don't have time to understand [why they are called `v` and `i`](https://norse.github.io/norse/auto_api/norse.torch.functional.lif.html), but it's sufficient to know that they inform us about how *close* the neuron is to firing (emitting a `1`). That is why we need the state.
 
-"Wait", you may think, "if the state keeps track of each *neuron layer*, we should have `6` states right"? Exactly! But, while it contains 6 elements, we actually only need states for the **spiking neuron layers**. Since we have *two* stateful layers (`LIFCell` layers) in our model, we only need to keep track of two states:
+"Wait", you may think, "if the state keeps track of each *neuron layer*, we should have `6` states right"? Exactly! But, while it contains 6 elements, we actually only need states for the **spiking neuron layers**. The other non-spiking layers give the same output over time so they can be considered as having constant state or can be ignored to be *stateless*. Since we have ***two** stateful* layers (`LIFCell` layers) in our model, we only need to keep track of two states:
 
 ```python
 [x.__class__ for x in state]
@@ -260,16 +267,23 @@ plt.plot(output.detach()[0])
 Granted, the model is not perfect. But look at the change in the y-axis. Something definitely happened!
 
 Properly training a network takes many, many iterations with a good and representative dataset.
-That's a topic for a different session and the summary section will point you to other notebooks that shows how to learn more challenging problems, like event-based vision, or reinforcement learning.
+That's a topic for a different session and the summary section will point you to other notebooks that shows how to learn more challenging and exciting problems, like event-based vision, or reinforcement learning.
 
 
 **Optional**: We did quite a bit of work to initialize variables, loop, and apply our model. This is actually already built into our `LIF` module. Try to rewrite the code above to use the `LIF` module instead of the `LIFCell` module. You can either re-work the entire model or just apply the data on a single `LIF` layer.
 
-
+<!-- #region -->
 ---
 # 4. Summary
+
+
+You've succesfully built and trained your first Spiking Neural Network *SNN* (which you can use to classify birds!). As you've seen so far, training a SNN is just adding these special type of layers called spiking layers in a regular PyTorch Neural Network framework that have states which change over time. We train the network using regular gradiant based optimisation and BAM, it's that simple.
+
+
+<!-- #endregion -->
+
 ---
 
-And that's it! That concludes your first encouter with Norse. Luckily, there are many more tutorials for more interesting uses of Norse available at https://github.com/norse/notebooks
+We have plenty more resources in our [notebook repository](https://github.com/norse/notebooks) if you're feeling adventurous. Also, our documentation tells you much more about what Norse is and why we built it at: https://norse.github.io/norse/
 
 Don't forget to [join our Discord server](https://discord.gg/7fGN359) and to support us by either donating or contributing your work upstream. Norse is open-source and built with love for the community. We couldn't do it without your help!
