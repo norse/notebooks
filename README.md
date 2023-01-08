@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/norse/norse/master/logo.png" alt="Norse logo"/>
+<a href="https://norse.github.io/norse"><img src="https://raw.githubusercontent.com/norse/norse/master/logo.png" alt="Norse logo"/></a>
 </p>
 
 # Norse Notebook Tutorials
