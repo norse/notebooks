@@ -29,13 +29,6 @@ Outcomes: In this notebook, you will learn to setup spiking neuron layers and tr
 
 **Before you continue** with this notebook, we strongly recommend you familiarize yourself with [PyTorch](https://pytorch.org) (at least superficially). One way to do that is to go to their [PyTorch Quickstart Tutorial](https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html).
 
-<!-- vscode-markdown-toc -->
-
-<!-- vscode-markdown-toc-config
-	numbering=true
-	autoSave=true
-	/vscode-markdown-toc-config -->
-<!-- /vscode-markdown-toc -->
 
 
 <!-- #region -->

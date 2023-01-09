@@ -12,15 +12,24 @@ jupyter:
     name: python3
 ---
 
+<!-- #region -->
 # Simulating and plotting neurons
 
-This notebook is a quick introduction on how to **simulate** and **analyse** neuron activity - that is neuron activity over time. Specifically you will learn how to simulate single neurons and plot their voltage traces, current traces, and spikes.
+Norse is a library where you can *simulate* neural networks that are driven by atomic and sparse events **over time**, rather than large and dense tensors *without* time.
+
+Outcomes: This notebook is a quick introduction on how to **simulate** and **analyse** neuron activity - that is neuron activity over time. Specifically you will learn how to simulate single neurons and plot their voltage traces, current traces, and spikes.
 
 :::{note}
 You can execute the notebooks on this website by hitting <i class="fas fa-rocket"></i> above and pressing <i class="fas fa-play"></i> Live Code.
 :::
 
+
+
+---
+# Installation
+
 First of all we need to install and import some prerequisites:
+<!-- #endregion -->
 
 ```python
 !pip install -q matplotlib numpy scipy tqdm git+https://github.com/norse/norse
@@ -35,7 +44,7 @@ from norse.torch.module.lif import LIF, LIFParameters
 
 ## Creating leaky integrate-and-fire (LIF) neurons
 
-To start simulating we need to create a population of LIF neurons of an arbitrary size. Each neuron in the population is set to a default state. We will not be covering this particular neuron model in this tutorial, but can find more information [here](https://norse.github.io/norse/auto_api/norse.torch.module.lif.html) and in our other tutorials.
+To start simulating we need to create a population of LIF neurons of an arbitrary size. Each neuron in the population is set to a default state. We will not be covering this particular neuron model in this tutorial; this tutorial is about learning how to visualise outputs from neuron layers.  But you can find more information [here](https://norse.github.io/norse/auto_api/norse.torch.module.lif.html) and in our other tutorials.
 
 Really, the only thing you need to remember is that that the neurons will **receive currents as inputs**, and **produce spikes** (0 and 1) as outputs.
 
