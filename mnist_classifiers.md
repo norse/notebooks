@@ -15,7 +15,11 @@ jupyter:
 <!-- #region id="b7IYU0Bqomb2" -->
 # Training an MNIST classifier
 
-This tutorial introduces the [norse](norse.ai) library by going through the "Hello World" of deep-learning: How to classify hand-written digits. Norse is based on the popular pytorch deep-learning library and this is in fact the only requirement you need to build your own models with it.
+Norse is a library where you can *simulate* neural networks that are driven by atomic and sparse events **over time**, rather than large and dense tensors *without* time.
+
+Outcomes: This tutorial introduces the "Hello World" task of deep-learning: How to classify hand-written digits using [norse](norse.ai)
+
+# 1. Installation
 <!-- #endregion -->
 
 ```python id="wu93JGgT2CJ2"
@@ -33,7 +37,7 @@ We can simply install Norse through pip:
 ```
 
 <!-- #region id="YrZ71gW94b1O" -->
-## Integrating point neuron model equations
+# 2. Spiking neurons
 
 Spiking neuron models are given as (typically very simple) systems of ordinary differential
 equations. A common example used is the so called current based leaky integrate and fire neuron model (LIF). Its differential equation is given by
@@ -81,9 +85,9 @@ plt.plot(voltages)
 ```
 
 <!-- #region id="MOYVGOvhrDty" -->
-## MNIST dataset
+# 3. MNIST Task
 
-A common toy dataset to test machine learning approaches on is the MNIST handwritten digit recognition dataset. The goal is to distinguish handwritten digits 0..9 based on a 28x28 grayscale picture.
+A common toy dataset to test machine learning approaches on is the MNIST handwritten digit recognition dataset. The goal is to distinguish handwritten digits 0..9 based on a 28x28 grayscale picture. Run the cell below to download the training and test data for MNIST.
 <!-- #endregion -->
 
 ```python colab={"base_uri": "https://localhost:8080/", "height": 420, "referenced_widgets": ["a39cccabae994485b9b3f0866d6f1891", "48509a5c085441f29d908f03e17104f1", "49e4961d66cf49d096fe542250bd7ea4", "699927de0a9a44438c7f77f53c80ca41", "be29cb04ef804c31acbe5b57a4254f8e", "18f3adf705754ed486b4860c38a443a9", "3313b75ccbea4d1f89409d4abb47b8f6", "d1268b0592cd4f9a9a4c04c939dc0402", "999ca0343fbd4693bfeb6e75df29aaa4", "2537d663e9a941cdb3239daa8f463145", "06c79d8b76d646f597091e64b3ac8a7c", "adf7256611d04523a8d77a6c0079db52", "34055b8bbea048378f7e71a498cba0f8", "eb3b3c6cf9024c7899fbc7f588dec2e0", "d3b69d17635c4be09e1e66d8bf3c190f", "700180bf289944e4898a6ea9bb7e6815", "b38e0b3b846d44f08a68884a6ec894eb", "83d347927a6147f8ae69818bfa66fd88", "58a275f42e63442fa5306f85ee09e094", "77fd86441e54485dad7dfee7b3b26d2b", "89a9086e97834567b65d188efdd0fe66", "dae7cfd7c37f4278b661c9fd14de3aed", "bbd4e89f0ed0472f83ebe824f6177020", "256419cbcfde4ee8bfe6fc35beb236ee", "d4a6f8b8cfc34899a809581d3f10b414", "40735b0849ad472b893f465085013963", "0f11348c44cc48a98135e4e5d2d5de73", "d1aa16b66d21488d93b9b54141190798", "23235a7e41c547f49395137b57387d69", "a4c87414f66747bb9532195c6569364b", "b33e85cc5a304bd798bbd294bae3e236", "50891ba2e81542eeba75ed311f1398ca"]} id="RPs81D-QrFWV" outputId="0eb067e3-fc00-486d-d618-7ca41bd70535"
@@ -120,7 +124,7 @@ test_loader = torch.utils.data.DataLoader(
 ```
 
 <!-- #region id="c_STHa4ethi4" -->
-## Encoding Input Data
+## 3.1 Encoding Input Data
 
 One of the distinguishing features of spiking neural networks is that they
 operate on temporal data encoded as spikes. Common datasets in machine learning
@@ -226,7 +230,7 @@ plt.show()
 ```
 
 <!-- #region id="cNEqcSNH2WfP" -->
-## Defining a Network
+## 3.2  Defining a Network
 
 Once the data is encoded into spikes, a spiking neural network can be constructed in the same way as a one would construct a recurrent neural network.
 Here we define a spiking neural network with one recurrently connected layer
@@ -328,7 +332,7 @@ plt.show()
 ```
 
 <!-- #region id="xq1mvp0ffIsI" -->
-## Decoding the Output
+# 3.3 Decoding the Output
 
 The output of the network we have defined are $10$ membrane voltage traces. What remains to do is to interpret those as a probabilty distribution. One way of doing so is to determine the maximum along the time dimension and to then compute the softmax of these values. There are other options of course, for example to consider
 the average membrane voltage in a given time window or use a LIF neuron output layer and consider the time to first spike.
@@ -353,7 +357,7 @@ def decode_last(x):
 ```
 
 <!-- #region id="K1jcJ7LnrlUi" -->
-## Training the Network
+## 3.4 Training the Network
 
 The final model is then simply the sequential composition of these three steps: Encoding, a spiking neural network and decoding.
 <!-- #endregion -->
@@ -495,10 +499,16 @@ plt.xlabel("Time [ms]")
 plt.show()
 ```
 
-<!-- #region id="RjaJS_Hj2qW4" -->
-## Network with Spike Latency Encoding
+That's your first MNIST classification task done using a *trained* Spiking Neural Network! As you must have seen the only difference was to change the data into a format compatible for SNNs, i.e. 'spikes' and adding LIF neuron layers in a regular PyTorch framework of building a Neural Network.
 
-As we've mentioned above there are alternative ways of encoding and decoding the data to and from spikes. Here we go through two such alternative with the same network we've used before.
+<!-- #region id="RjaJS_Hj2qW4" -->
+# 4. Modifying the Network
+
+We can change how the SNN behaves by modifying different aspects of the Network, the crucial ones are discussed below
+
+# 4.1 Encoding and Decoding Scheme
+
+There are alternative ways of encoding and decoding the data to and from spikes as discussed previously. Here we go through two such alternative with the same network we've used before.
 <!-- #endregion -->
 
 <!-- #region id="r4sGruNn8w49" -->
@@ -560,7 +570,7 @@ print(f"final accuracy: {accuracies[-1]}")
 ```
 
 <!-- #region id="jUQSr3GAQ_Wd" -->
-## Network with Poisson Encoded Input
+### Network with Poisson Encoded Input
 
 
 <!-- #endregion -->
@@ -618,7 +628,7 @@ In the next section we will see that choice of network architecture is also key 
 <!-- #endregion -->
 
 <!-- #region id="V2iFlyC-r40a" -->
-## Convolutional Networks
+## 4.2 Convolutional Networks
 
 The simple two layer recurrent spiking neural network we've defined above achieves a respectable ~96.5% accuracy after 10 training epochs. One common way
 to improve on this performance is to use convolutional neural networks. We define here two convolutional layers and one spiking classification layer. Just as in the recurrent spiking neural network before, we use a non-spiking leaky integrator for readout.
@@ -767,7 +777,7 @@ plt.matshow(np.squeeze(img, 0))
 ```
 
 <!-- #region id="M_OUx3IKlQLE" -->
-## Conclusions
+# 5. Conclusions
 
 We've seen that on a small supervised learning task it is relatively easy to define spiking neural networks that perform about as well as non-spiking artificial networks. The network architecture used is in direct correspondence to one that would be used to solve such a task with an artificial neural network, with the non-linearities replaced by spiking units.
 
@@ -785,3 +795,9 @@ The last three points are special to spiking neural network problems simply beca
 
 Finally we've also omitted any regularisation or data-augementation, which could further improve performance. Common techniques would be to introduce weight decay or penalise unbiologically high firing rates. In the simplest case those can enter as addtional terms in the loss function we've defined above.
 <!-- #endregion -->
+
+---
+
+We have plenty more resources in our [notebook repository](https://github.com/norse/notebooks) if you're feeling adventurous. Also, our documentation tells you much more about what Norse is and why we built it at: https://norse.github.io/norse/
+
+Don't forget to [join our Discord server](https://discord.gg/7fGN359) and to support us by either donating or contributing your work upstream. Norse is open-source and built with love for the community. We couldn't do it without your help!
