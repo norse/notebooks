@@ -4,11 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Parameter learning in SNN with Norse &#8212; Norse Tutorial Notebook</title>
     
-  <link href="_static/css/theme.css" rel="stylesheet">
-  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,20 +20,16 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
@@ -39,12 +37,13 @@
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script src="_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -56,7 +55,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Spike Time Dependent Plasticity" href="stp_example.html" />
-    <link rel="prev" title="Training a classifier on the event-based POKER-DVS dataset" href="poker-dvs_classifier.html" />
+    <link rel="prev" title="Detecting edges from event data with Norse" href="edge_detector.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -64,7 +63,21 @@ const thebe_selector_output = ".output, .cell_output"
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -73,9 +86,10 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="index.html">
       
         <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
@@ -93,14 +107,15 @@ const thebe_selector_output = ".output, .cell_output"
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="README.html">
-   Norse Notebook Tutorials
-  </a>
- </li>
-</ul>
-<p aria-level="2" class="caption" role="heading">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="README.html">
+                    Norse Notebook Tutorials
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Introduction
  </span>
@@ -141,6 +156,18 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
+  Real-time event processing
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="edge_detector.html">
+   Detecting edges from event data with Norse
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
   Neuroscience
  </span>
 </p>
@@ -170,115 +197,180 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
             
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/parameter-learning.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/norse/notebooks"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/norse/notebooks/issues/new?title=Issue%20on%20page%20%2Fparameter-learning.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        
-    </div>
-</div>
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/norse/norse/HEAD/v2/gh/norse/notebooks/master?urlpath=tree/parameter-learning.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        <a class="colab-button" href="https://colab.research.google.com/github/norse/notebooks/blob/master/parameter-learning.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
-                    src="_static/images/logo_colab.png"
-                    alt="Interact on Colab">Colab</button></a>
-        
-        <button type="button" class="btn btn-secondary topbarbtn"
-            onclick="initThebeSBT()" title="Launch Thebe" data-toggle="tooltip" data-placement="left"><i
-                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
-        
-    </div>
-</div>
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/norse/notebooks"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/norse/notebooks/issues/new?title=Issue%20on%20page%20%2Fparameter-learning.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/parameter-learning.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#step-0-installations">
    Step 0: Installations
@@ -333,12 +425,11 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
 </ul>
 
-            </nav>
-        </div>
-    </div>
+    </nav>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
                 <h1>Parameter learning in SNN with Norse</h1>
@@ -409,11 +500,12 @@ const thebe_selector_output = ".output, .cell_output"
                     </div>
                 </div>
             </div>
-            
+            <main id="main-content" role="main">
+                
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="parameter-learning-in-snn-with-norse">
-<h1>Parameter learning in SNN with Norse<a class="headerlink" href="#parameter-learning-in-snn-with-norse" title="Permalink to this headline">¶</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="parameter-learning-in-snn-with-norse">
+<h1>Parameter learning in SNN with Norse<a class="headerlink" href="#parameter-learning-in-snn-with-norse" title="Permalink to this headline">#</a></h1>
 <p>Norse explores an excillerating playground that exists somewhere between regular deep learning and biological neurophysiology. We can take existing machine learning ideas and extend them into the biological domain - and vice versa.
 Normally, you would train networks solely by altering connection weights. But in biological neurons we have a number of additional degrees of freedom in the neuron parameters.</p>
 <p>In this workshop we will be looking at how Norse models neuron parameters and include such parameters in our training.</p>
@@ -425,32 +517,29 @@ Normally, you would train networks solely by altering connection weights. But in
 <li><p>Training of a model with neuron parameter optimization (~5 min)</p></li>
 <li><p>Free experimentation and group discussion (~10 min)</p></li>
 </ul>
-<div class="section" id="step-0-installations">
-<h2>Step 0: Installations<a class="headerlink" href="#step-0-installations" title="Permalink to this headline">¶</a></h2>
+<section id="step-0-installations">
+<h2>Step 0: Installations<a class="headerlink" href="#step-0-installations" title="Permalink to this headline">#</a></h2>
 <p>First of all, we will need to install Norse and PyTorch Lightning. Please run the cell below. Read on while it’s running.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install norse pytorch-lightning --quiet
-    
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">norse.torch</span> <span class="k">as</span> <span class="nn">norse</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># We fix the random seed to get reproducible results</span>
-<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>!pip install norse pytorch-lightning --quiet
 
-<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ytick.left&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ytick.labelleft&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.spines.left&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.spines.right&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.spines.top&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.spines.bottom&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;legend.frameon&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+import torch
+import norse.torch as norse
+
+torch.manual_seed(0)  # We fix the random seed to get reproducible results
+import matplotlib as mpl
+
+mpl.rcParams[&quot;ytick.left&quot;] = True
+mpl.rcParams[&quot;ytick.labelleft&quot;] = True
+mpl.rcParams[&quot;axes.spines.left&quot;] = True
+mpl.rcParams[&quot;axes.spines.right&quot;] = False
+mpl.rcParams[&quot;axes.spines.top&quot;] = False
+mpl.rcParams[&quot;axes.spines.bottom&quot;] = True
+mpl.rcParams[&quot;legend.frameon&quot;] = False
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="step-1-lif-parameters-in-norse">
-<h2>Step 1: LIF parameters in Norse<a class="headerlink" href="#step-1-lif-parameters-in-norse" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="step-1-lif-parameters-in-norse">
+<h2>Step 1: LIF parameters in Norse<a class="headerlink" href="#step-1-lif-parameters-in-norse" title="Permalink to this headline">#</a></h2>
 <p>The leaky integrate-and-fire neuron is a popular neuron model that can be modelled as</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -483,91 +572,69 @@ z = \Theta(v - v_{\text{th}})
 </li>
 </ul>
 <p>All these parameters are difficult to keep track of, so we have grouped them in the class <code class="docutils literal notranslate"><span class="pre">LIFParameters</span></code> and assigned meaningful defaults. You can initialize and access the parameters like such</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">norse</span><span class="o">.</span><span class="n">LIFParameters</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">norse</span><span class="o">.</span><span class="n">LIFParameters</span><span class="p">()</span>
 <span class="n">p</span><span class="o">.</span><span class="n">tau_mem_inv</span>
 </pre></div>
 </div>
-</div>
-</div>
 <p>As a quick exercise, try to play around with the parameter object. What other values would you expect to be in the object? Print them out like we do above.</p>
-</div>
-<div class="section" id="step-2-optimizing-parameters-in-torch">
-<h2>Step 2: Optimizing parameters in torch<a class="headerlink" href="#step-2-optimizing-parameters-in-torch" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="step-2-optimizing-parameters-in-torch">
+<h2>Step 2: Optimizing parameters in torch<a class="headerlink" href="#step-2-optimizing-parameters-in-torch" title="Permalink to this headline">#</a></h2>
 <p>To not just apply the parameters, but also optimize upon them, we need to understand a bit about how this works in PyTorch.</p>
 <p>By default, the parameters are applied as constants. Simplified, it looks like this:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+
 
 <span class="k">class</span> <span class="nc">SomeModule</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span>
-        
+
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span>
-    
+
+
 <span class="n">module</span> <span class="o">=</span> <span class="n">SomeModule</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">out</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 <span class="n">loss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 <span class="n">loss</span>
 </pre></div>
 </div>
-</div>
-</div>
 <p>Wow, that is a big loss! Now, what are we going to do with that loss? How can we optimize the above model?</p>
 <p>The unfortunate answer is that we cannot. There parameter we would like to modify is kept constant. We need PyTorch to understand that the parameter <code class="docutils literal notranslate"><span class="pre">p</span></code> can be optimized and updated.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+
 
 <span class="k">class</span> <span class="nc">SomeModule</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>  <span class="c1"># Notice that we wrap p in a Parameter</span>
-        
+
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span>
-    
+
+
 <span class="n">module</span> <span class="o">=</span> <span class="n">SomeModule</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">10</span><span class="p">,),</span> <span class="mf">10.0</span><span class="p">))</span>
 </pre></div>
 </div>
-</div>
-</div>
 <p>Now, we wrapped our parameter in a <code class="docutils literal notranslate"><span class="pre">Parameter</span></code> object. That tells pytorch that we want PyTorch to optimize <code class="docutils literal notranslate"><span class="pre">p</span></code> similarly as with connection weights, for instance.</p>
 <p>We can now find the loss again:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">out</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">out</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 <span class="n">loss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 <span class="n">loss</span>
 </pre></div>
 </div>
-</div>
-</div>
 <p>Notice that there is now gradient information attached to the loss. That means we have an autograd graph we can optimize!
 Specifically, we can now run the loss backwards to identify the loss with respect to all tensors that assisted in creating the loss. For instance, our parameter p</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span> 
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
 </pre></div>
-</div>
-</div>
 </div>
 <p>One such parameter was our friend <code class="docutils literal notranslate"><span class="pre">p</span></code>. So if we are correct, we should be able to see any <em>gradient</em> (<code class="docutils literal notranslate"><span class="pre">.grad</span></code>) information attached to that parameter:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">module</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">grad</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">module</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">grad</span>
 </pre></div>
 </div>
-</div>
-</div>
 <p>Bingo! And now we can update the parameter in the module and recalculate the loss (which should decrease!). For technical reasons we need to wrap the code in the <code class="docutils literal notranslate"><span class="pre">.no_grad()</span></code> function.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.1</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.1</span>
 <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
     <span class="n">module</span><span class="o">.</span><span class="n">p</span> <span class="o">-=</span> <span class="n">module</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">grad</span> <span class="o">*</span> <span class="n">learning_rate</span>
 
@@ -576,20 +643,15 @@ Specifically, we can now run the loss backwards to identify the loss with respec
 <span class="n">loss</span>
 </pre></div>
 </div>
-</div>
-</div>
 <p>… which is significantly less than before.</p>
 <p>We recommend that you play around with the code. Perhaps think about what would happen if you ran the cell above again? Do you get the expected result? Why/why not?</p>
-</div>
-<div class="section" id="step-3-training-a-model-without-neuron-parameter-optimization">
-<h2>Step 3: Training a model without neuron parameter optimization<a class="headerlink" href="#step-3-training-a-model-without-neuron-parameter-optimization" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="step-3-training-a-model-without-neuron-parameter-optimization">
+<h2>Step 3: Training a model without neuron parameter optimization<a class="headerlink" href="#step-3-training-a-model-without-neuron-parameter-optimization" title="Permalink to this headline">#</a></h2>
 <p>Before we show how this can apply to neuron parameters as well, let us first train a model where <em>every fifth</em> neuron learns to spike. The example is quite uninspiring, but the same principle of learning applies to most models.</p>
-<div class="section" id="defining-our-model">
-<h3>3.1 Defining our model<a class="headerlink" href="#defining-our-model" title="Permalink to this headline">¶</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">OddFiringModel</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    
+<section id="defining-our-model">
+<h3>3.1 Defining our model<a class="headerlink" href="#defining-our-model" title="Permalink to this headline">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">OddFiringModel</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">norse</span><span class="o">.</span><span class="n">LIFParameters</span><span class="p">()):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">norse</span><span class="o">.</span><span class="n">SequentialState</span><span class="p">(</span>
@@ -598,32 +660,27 @@ Specifically, we can now run the loss backwards to identify the loss with respec
             <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
             <span class="n">norse</span><span class="o">.</span><span class="n">LIF</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">),</span>
         <span class="p">)</span>
-        
+
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="defining-our-data">
-<h3>3.2 Defining our data<a class="headerlink" href="#defining-our-data" title="Permalink to this headline">¶</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>       <span class="c1"># (training samples, batch_size, sequence)</span>
+</section>
+<section id="defining-our-data">
+<h3>3.2 Defining our data<a class="headerlink" href="#defining-our-data" title="Permalink to this headline">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>  <span class="c1"># (training samples, batch_size, sequence)</span>
 <span class="n">pattern</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span>
-<span class="n">labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">pattern</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">expand_as</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c1"># 100 labels (always the same)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">pattern</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">expand_as</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">)</span>  <span class="c1"># 100 labels (always the same)</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="training-the-model">
-<h3>3.3 Training the model<a class="headerlink" href="#training-the-model" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="training-the-model">
+<h3>3.3 Training the model<a class="headerlink" href="#training-the-model" title="Permalink to this headline">#</a></h3>
 <p>First we define our training function:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tqdm.notebook</span> <span class="k">as</span> <span class="nn">tqdm</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tqdm.notebook</span> <span class="k">as</span> <span class="nn">tqdm</span>
+
 
 <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">xs</span><span class="p">):</span>
     <span class="n">losses</span> <span class="o">=</span> <span class="p">[]</span>
@@ -637,39 +694,35 @@ Specifically, we can now run the loss backwards to identify the loss with respec
     <span class="k">return</span> <span class="n">losses</span>
 </pre></div>
 </div>
-</div>
-</div>
 <p>Then we can define our model and train it:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">OddFiringModel</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">OddFiringModel</span><span class="p">()</span>
 <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
 <span class="n">m1_losses</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">m1_losses</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="step-4-training-a-model-with-neuron-parameter-optimization">
-<h2>Step 4: Training a model with neuron parameter optimization<a class="headerlink" href="#step-4-training-a-model-with-neuron-parameter-optimization" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="step-4-training-a-model-with-neuron-parameter-optimization">
+<h2>Step 4: Training a model with neuron parameter optimization<a class="headerlink" href="#step-4-training-a-model-with-neuron-parameter-optimization" title="Permalink to this headline">#</a></h2>
 <p>That went well. But let’s see how we can do with a model that uses parameter optimization as well. To begin with, let us try to optimize on the <code class="docutils literal notranslate"><span class="pre">tau_mem_inv</span></code> parameter.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">OddFiringModelWithParameters</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">OddFiringModelWithParameters</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="n">p1</span> <span class="o">=</span> <span class="n">norse</span><span class="o">.</span><span class="n">LIFParameters</span><span class="p">(</span>
             <span class="c1"># 100 neurons in layer 1</span>
-            <span class="n">tau_mem_inv</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">200</span><span class="p">,),</span> <span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="mf">1e-2</span><span class="p">)))</span> 
+            <span class="n">tau_mem_inv</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span>
+                <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">200</span><span class="p">,),</span> <span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="mf">1e-2</span><span class="p">))</span>
+            <span class="p">)</span>
         <span class="p">)</span>
         <span class="n">p2</span> <span class="o">=</span> <span class="n">norse</span><span class="o">.</span><span class="n">LIFParameters</span><span class="p">(</span>
             <span class="c1"># 100 neurons in layer 2</span>
-            <span class="n">tau_mem_inv</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">100</span><span class="p">,),</span> <span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="mf">1e-2</span><span class="p">)))</span>
+            <span class="n">tau_mem_inv</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span>
+                <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">100</span><span class="p">,),</span> <span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="mf">1e-2</span><span class="p">))</span>
+            <span class="p">)</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">norse</span><span class="o">.</span><span class="n">SequentialState</span><span class="p">(</span>
             <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">),</span>
@@ -677,37 +730,27 @@ Specifically, we can now run the loss backwards to identify the loss with respec
             <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
             <span class="n">norse</span><span class="o">.</span><span class="n">LIF</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">p2</span><span class="p">),</span>
         <span class="p">)</span>
-        
+
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">OddFiringModelWithParameters</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">OddFiringModelWithParameters</span><span class="p">()</span>
 <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
 <span class="n">m2_losses</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">m2_losses</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
 <p>This model will learn slightly faster, as we can see when we compare the two graphs:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">m1_losses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Without neuron parameter optimization&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">m1_losses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Without neuron parameter optimization&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">m2_losses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;With neuron parameter optimization&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-</div>
 <p>Note, you might get different results, depending on the randomized initialization of the parameters. If the graphs look weird, try re-running the training.</p>
-</div>
-<div class="section" id="step-5-free-experimentation-and-discussion">
-<h2>Step 5: Free experimentation and discussion<a class="headerlink" href="#step-5-free-experimentation-and-discussion" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="step-5-free-experimentation-and-discussion">
+<h2>Step 5: Free experimentation and discussion<a class="headerlink" href="#step-5-free-experimentation-and-discussion" title="Permalink to this headline">#</a></h2>
 <p>We have now understood how neuron parameters are represented in Norse, how we can use the optimizer in PyTorch to optimize <em>on the neuron parameters</em>, and how we can train spiking neural networks using such an optimizer.</p>
 <p>There are much more interesting problems one could solve with this. The remainder of the workshop is meant to explore some of these. So, here are a few challenges to you in the final ~10 minutes:</p>
 <ul class="simple">
@@ -716,13 +759,13 @@ Specifically, we can now run the loss backwards to identify the loss with respec
 <li><p>Discuss with your peers: does neuron parameter optimization exist in nature? Will we see different values for, say, the membrane time constant parameter in the brain?</p></li>
 <li><p>Discuss with your peers: how can you apply this to your own work? Or to the work of your peers?</p></li>
 </ul>
-</div>
-<div class="section" id="step-6-conclusion">
-<h2>Step 6: Conclusion<a class="headerlink" href="#step-6-conclusion" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="step-6-conclusion">
+<h2>Step 6: Conclusion<a class="headerlink" href="#step-6-conclusion" title="Permalink to this headline">#</a></h2>
 <p>This concludes the workshop on parameter learning. We hope it was helpful and we deeply appreciate your attention.</p>
 <p><img alt="" src="https://raw.githubusercontent.com/norse/norse/master/logo.png" /></p>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -746,14 +789,16 @@ Specifically, we can now run the loss backwards to identify the loss with respec
 
               </div>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="poker-dvs_classifier.html" title="previous page">
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="edge_detector.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Training a classifier on the event-based POKER-DVS dataset</p>
+            <p class="prev-next-title">Detecting edges from event data with Norse</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="stp_example.html" title="next page">
@@ -764,24 +809,28 @@ Specifically, we can now run the loss backwards to identify the loss with respec
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-            
+            </footer>
         </div>
     </div>
-    <footer class="footer">
-  <p>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Norse authors<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
     
-      By Norse authors<br/>
-    
-        &copy; Copyright 2021.<br/>
-  </p>
-</footer>
-</main>
+</div>
 
 
       </div>
     </div>
   
-  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
 
   </body>
 </html>

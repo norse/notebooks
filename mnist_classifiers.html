@@ -4,11 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Training an MNIST classifier &#8212; Norse Tutorial Notebook</title>
     
-  <link href="_static/css/theme.css" rel="stylesheet">
-  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,20 +20,16 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
@@ -39,12 +37,13 @@
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script src="_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -64,7 +63,21 @@ const thebe_selector_output = ".output, .cell_output"
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -73,9 +86,10 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="index.html">
       
         <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
@@ -93,14 +107,15 @@ const thebe_selector_output = ".output, .cell_output"
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="README.html">
-   Norse Notebook Tutorials
-  </a>
- </li>
-</ul>
-<p aria-level="2" class="caption" role="heading">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="README.html">
+                    Norse Notebook Tutorials
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Introduction
  </span>
@@ -141,6 +156,18 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
+  Real-time event processing
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="edge_detector.html">
+   Detecting edges from event data with Norse
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
   Neuroscience
  </span>
 </p>
@@ -170,190 +197,275 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
             
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/mnist_classifiers.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/norse/notebooks"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/norse/notebooks/issues/new?title=Issue%20on%20page%20%2Fmnist_classifiers.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        
-    </div>
-</div>
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/norse/norse/HEAD/v2/gh/norse/notebooks/master?urlpath=tree/mnist_classifiers.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        <a class="colab-button" href="https://colab.research.google.com/github/norse/notebooks/blob/master/mnist_classifiers.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
-                    src="_static/images/logo_colab.png"
-                    alt="Interact on Colab">Colab</button></a>
-        
-        <button type="button" class="btn btn-secondary topbarbtn"
-            onclick="initThebeSBT()" title="Launch Thebe" data-toggle="tooltip" data-placement="left"><i
-                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
-        
-    </div>
-</div>
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#integrating-point-neuron-model-equations">
-   Integrating point neuron model equations
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/norse/notebooks"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/norse/notebooks/issues/new?title=Issue%20on%20page%20%2Fmnist_classifiers.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/mnist_classifiers.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Training an MNIST classifier
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#mnist-dataset">
-   MNIST dataset
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#installation">
+   1. Installation
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#encoding-input-data">
-   Encoding Input Data
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#spiking-neurons">
+   2. Spiking neurons
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#constant-current-encoder">
-     Constant Current Encoder
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mnist-task">
+   3. MNIST Task
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#encoding-input-data">
+     3.1 Encoding Input Data
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#constant-current-encoder">
+       Constant Current Encoder
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#poisson-encoding">
+       Poisson Encoding
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#spike-latency-encoding">
+       Spike Latency Encoding
+      </a>
+     </li>
+    </ul>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#poisson-encoding">
-     Poisson Encoding
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#spike-latency-encoding">
-     Spike Latency Encoding
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#defining-a-network">
+     3.2  Defining a Network
     </a>
    </li>
   </ul>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#defining-a-network">
-   Defining a Network
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
+ <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#decoding-the-output">
-   Decoding the Output
+   3.3 Decoding the Output
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#training-the-network">
+     3.4 Training the Network
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#modifying-the-network">
+   4. Modifying the Network
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#training-the-network">
-   Training the Network
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#encoding-and-decoding-scheme">
+   4.1 Encoding and Decoding Scheme
   </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#network-with-poisson-encoded-input">
+     Network with Poisson Encoded Input
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#convolutional-networks">
+     4.2 Convolutional Networks
+    </a>
+   </li>
+  </ul>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#network-with-spike-latency-encoding">
-   Network with Spike Latency Encoding
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#network-with-poisson-encoded-input">
-   Network with Poisson Encoded Input
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#convolutional-networks">
-   Convolutional Networks
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
+ <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#conclusions">
-   Conclusions
+   5. Conclusions
   </a>
  </li>
 </ul>
 
-            </nav>
-        </div>
-    </div>
+    </nav>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
                 <h1>Training an MNIST classifier</h1>
@@ -366,71 +478,92 @@ const thebe_selector_output = ".output, .cell_output"
                         </div>
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#integrating-point-neuron-model-equations">
-   Integrating point neuron model equations
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Training an MNIST classifier
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#mnist-dataset">
-   MNIST dataset
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#installation">
+   1. Installation
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#encoding-input-data">
-   Encoding Input Data
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#spiking-neurons">
+   2. Spiking neurons
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#constant-current-encoder">
-     Constant Current Encoder
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mnist-task">
+   3. MNIST Task
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#encoding-input-data">
+     3.1 Encoding Input Data
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#constant-current-encoder">
+       Constant Current Encoder
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#poisson-encoding">
+       Poisson Encoding
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#spike-latency-encoding">
+       Spike Latency Encoding
+      </a>
+     </li>
+    </ul>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#poisson-encoding">
-     Poisson Encoding
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#spike-latency-encoding">
-     Spike Latency Encoding
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#defining-a-network">
+     3.2  Defining a Network
     </a>
    </li>
   </ul>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#defining-a-network">
-   Defining a Network
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
+ <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#decoding-the-output">
-   Decoding the Output
+   3.3 Decoding the Output
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#training-the-network">
+     3.4 Training the Network
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#modifying-the-network">
+   4. Modifying the Network
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#training-the-network">
-   Training the Network
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#encoding-and-decoding-scheme">
+   4.1 Encoding and Decoding Scheme
   </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#network-with-poisson-encoded-input">
+     Network with Poisson Encoded Input
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#convolutional-networks">
+     4.2 Convolutional Networks
+    </a>
+   </li>
+  </ul>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#network-with-spike-latency-encoding">
-   Network with Spike Latency Encoding
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#network-with-poisson-encoded-input">
-   Network with Poisson Encoded Input
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#convolutional-networks">
-   Convolutional Networks
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
+ <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#conclusions">
-   Conclusions
+   5. Conclusions
   </a>
  </li>
 </ul>
@@ -439,31 +572,34 @@ const thebe_selector_output = ".output, .cell_output"
                     </div>
                 </div>
             </div>
-            
+            <main id="main-content" role="main">
+                
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="training-an-mnist-classifier">
-<h1>Training an MNIST classifier<a class="headerlink" href="#training-an-mnist-classifier" title="Permalink to this headline">¶</a></h1>
-<p>This tutorial introduces the <span class="xref myst">norse</span> library by going through the “Hello World” of deep-learning: How to classify hand-written digits. Norse is based on the popular pytorch deep-learning library and this is in fact the only requirement you need to build your own models with it.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+  <!-- #region id="b7IYU0Bqomb2" -->
+<section class="tex2jax_ignore mathjax_ignore" id="training-an-mnist-classifier">
+<h1>Training an MNIST classifier<a class="headerlink" href="#training-an-mnist-classifier" title="Permalink to this headline">#</a></h1>
+<p>Norse is a library where you can <em>simulate</em> neural networks that are driven by atomic and sparse events <strong>over time</strong>, rather than large and dense tensors <em>without</em> time.</p>
+<p>Outcomes: This tutorial introduces the “Hello World” task of deep-learning: How to classify hand-written digits using <span class="xref myst">norse</span></p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="installation">
+<h1>1. Installation<a class="headerlink" href="#installation" title="Permalink to this headline">#</a></h1>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 </div>
-</div>
-</div>
+<!-- #region id="9rmUJSdzqypr" -->
 <p>We can simply install Norse through pip:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install --quiet norse
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>!pip install --quiet norse
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="integrating-point-neuron-model-equations">
-<h2>Integrating point neuron model equations<a class="headerlink" href="#integrating-point-neuron-model-equations" title="Permalink to this headline">¶</a></h2>
+<!-- #region id="YrZ71gW94b1O" -->
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="spiking-neurons">
+<h1>2. Spiking neurons<a class="headerlink" href="#spiking-neurons" title="Permalink to this headline">#</a></h1>
 <p>Spiking neuron models are given as (typically very simple) systems of ordinary differential
 equations. A common example used is the so called current based leaky integrate and fire neuron model (LIF). Its differential equation is given by
 \begin{align*}
@@ -473,45 +609,44 @@ equations. A common example used is the so called current based leaky integrate 
 together with jump and transition equations, that specify when a jump occurs and
 how the state variables change. A prototypical equation is a leaky integrator
 with constant current input <span class="math notranslate nohighlight">\(I_\text{in}\)</span>, with jump condition <span class="math notranslate nohighlight">\(v - 1 = 0\)</span> and transition equation <span class="math notranslate nohighlight">\(v^+ - v^- = -1\)</span>.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch.functional</span> <span class="kn">import</span> <span class="n">lif_step</span><span class="p">,</span> <span class="n">lift</span><span class="p">,</span> <span class="n">lif_feed_forward_step</span><span class="p">,</span> <span class="n">lif_current_encoder</span><span class="p">,</span> <span class="n">LIFParameters</span>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch.functional</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">lif_step</span><span class="p">,</span>
+    <span class="n">lift</span><span class="p">,</span>
+    <span class="n">lif_feed_forward_step</span><span class="p">,</span>
+    <span class="n">lif_current_encoder</span><span class="p">,</span>
+    <span class="n">LIFParameters</span><span class="p">,</span>
+<span class="p">)</span>
 
-<span class="n">N</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># number of neurons to consider</span>
-<span class="n">T</span> <span class="o">=</span> <span class="mi">100</span> <span class="c1"># number of timesteps to integrate</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># number of neurons to consider</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># number of timesteps to integrate</span>
 
 <span class="n">p</span> <span class="o">=</span> <span class="n">LIFParameters</span><span class="p">()</span>
-<span class="n">v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="c1"># initial membrane voltage</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>  <span class="c1"># initial membrane voltage</span>
 <span class="n">input_current</span> <span class="o">=</span> <span class="mf">1.1</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
 
 <span class="n">voltages</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">ts</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
-  <span class="n">z</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">lif_current_encoder</span><span class="p">(</span><span class="n">input_current</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
-  <span class="n">voltages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="n">z</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">lif_current_encoder</span><span class="p">(</span><span class="n">input_current</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">voltages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
 
 <span class="n">voltages</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">voltages</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
 <p>We can now plot the voltages over time:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;time [ms]&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">voltages</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="mnist-dataset">
-<h2>MNIST dataset<a class="headerlink" href="#mnist-dataset" title="Permalink to this headline">¶</a></h2>
-<p>A common toy dataset to test machine learning approaches on is the MNIST handwritten digit recognition dataset. The goal is to distinguish handwritten digits 0..9 based on a 28x28 grayscale picture.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torchvision</span>
+<!-- #region id="MOYVGOvhrDty" -->
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="mnist-task">
+<h1>3. MNIST Task<a class="headerlink" href="#mnist-task" title="Permalink to this headline">#</a></h1>
+<p>A common toy dataset to test machine learning approaches on is the MNIST handwritten digit recognition dataset. The goal is to distinguish handwritten digits 0..9 based on a 28x28 grayscale picture. Run the cell below to download the training and test data for MNIST.</p>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torchvision</span>
 
 <span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">256</span>
 
@@ -530,9 +665,7 @@ with constant current input <span class="math notranslate nohighlight">\(I_\text
 <span class="p">)</span>
 
 <span class="n">train_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
-    <span class="n">train_data</span><span class="p">,</span>
-    <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span>
-    <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span>
+    <span class="n">train_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
 
 <span class="n">test_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
@@ -541,150 +674,135 @@ with constant current input <span class="math notranslate nohighlight">\(I_\text
         <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="encoding-input-data">
-<h2>Encoding Input Data<a class="headerlink" href="#encoding-input-data" title="Permalink to this headline">¶</a></h2>
+<!-- #region id="c_STHa4ethi4" -->
+<section id="encoding-input-data">
+<h2>3.1 Encoding Input Data<a class="headerlink" href="#encoding-input-data" title="Permalink to this headline">#</a></h2>
 <p>One of the distinguishing features of spiking neural networks is that they
 operate on temporal data encoded as spikes. Common datasets in machine learning
 of course don’t use such an encoding and therefore make a encoding step necessary. Here we choose to treat the grayscale value of an MNIST image
 as a constant current to produce input spikes to the rest of the network.
 Another option would be to interpret the grayscale value as a spike probabilty
 at each timestep.</p>
-<div class="section" id="constant-current-encoder">
-<h3>Constant Current Encoder<a class="headerlink" href="#constant-current-encoder" title="Permalink to this headline">¶</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch</span> <span class="kn">import</span> <span class="n">ConstantCurrentLIFEncoder</span>
+<!-- #endregion -->
+<!-- #region id="pVYrXB00-fqO" -->
+<section id="constant-current-encoder">
+<h3>Constant Current Encoder<a class="headerlink" href="#constant-current-encoder" title="Permalink to this headline">#</a></h3>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch</span> <span class="kn">import</span> <span class="n">ConstantCurrentLIFEncoder</span>
 </pre></div>
 </div>
-</div>
-</div>
+<!-- #region id="EHH7pA86l_nL" -->
 <p>We can easily visualise the effect of this choice of encoding on a sample image in the training data set</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">train_data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">train_data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">img</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
 <span class="n">example_encoder</span> <span class="o">=</span> <span class="n">ConstantCurrentLIFEncoder</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
 
 
 <span class="n">example_input</span> <span class="o">=</span> <span class="n">example_encoder</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-<span class="n">example_spikes</span> <span class="o">=</span> <span class="n">example_input</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">)</span><span class="o">.</span><span class="n">to_sparse</span><span class="p">()</span><span class="o">.</span><span class="n">coalesce</span><span class="p">()</span>
+<span class="n">example_spikes</span> <span class="o">=</span> <span class="n">example_input</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span><span class="o">.</span><span class="n">to_sparse</span><span class="p">()</span><span class="o">.</span><span class="n">coalesce</span><span class="p">()</span>
 <span class="n">t</span> <span class="o">=</span> <span class="n">example_spikes</span><span class="o">.</span><span class="n">indices</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">n</span> <span class="o">=</span> <span class="n">example_spikes</span><span class="o">.</span><span class="n">indices</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Input Unit&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time [ms]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;|&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Input Unit&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time [ms]&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="poisson-encoding">
-<h3>Poisson Encoding<a class="headerlink" href="#poisson-encoding" title="Permalink to this headline">¶</a></h3>
+<!-- #region id="Ouwn94PQipIw" -->
+</section>
+<section id="poisson-encoding">
+<h3>Poisson Encoding<a class="headerlink" href="#poisson-encoding" title="Permalink to this headline">#</a></h3>
 <p>As can be seen from the spike raster plot, this kind of encoding does not produce spike patterns which are necessarily biologically realistic. We could rectify this situation by employing cells with varying threshholds and a finer integration time step. Alternatively we can encode the grayscale input images into poisson spike trains</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch</span> <span class="kn">import</span> <span class="n">PoissonEncoder</span>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch</span> <span class="kn">import</span> <span class="n">PoissonEncoder</span>
 </pre></div>
 </div>
-</div>
-</div>
+<!-- #region id="sOlfpqnBjIrE" -->
 <p>This produces a more biological plausible input pattern, as can be seen below:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
 <span class="n">example_encoder</span> <span class="o">=</span> <span class="n">PoissonEncoder</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">f_max</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 
 <span class="n">example_input</span> <span class="o">=</span> <span class="n">example_encoder</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-<span class="n">example_spikes</span> <span class="o">=</span> <span class="n">example_input</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">)</span><span class="o">.</span><span class="n">to_sparse</span><span class="p">()</span><span class="o">.</span><span class="n">coalesce</span><span class="p">()</span>
+<span class="n">example_spikes</span> <span class="o">=</span> <span class="n">example_input</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span><span class="o">.</span><span class="n">to_sparse</span><span class="p">()</span><span class="o">.</span><span class="n">coalesce</span><span class="p">()</span>
 <span class="n">t</span> <span class="o">=</span> <span class="n">example_spikes</span><span class="o">.</span><span class="n">indices</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">n</span> <span class="o">=</span> <span class="n">example_spikes</span><span class="o">.</span><span class="n">indices</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Input Unit&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time [ms]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;|&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Input Unit&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time [ms]&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="spike-latency-encoding">
-<h3>Spike Latency Encoding<a class="headerlink" href="#spike-latency-encoding" title="Permalink to this headline">¶</a></h3>
+<!-- #region id="Z9QNqiwIx3HH" -->
+</section>
+<section id="spike-latency-encoding">
+<h3>Spike Latency Encoding<a class="headerlink" href="#spike-latency-encoding" title="Permalink to this headline">#</a></h3>
 <p>Yet another example is a spike latency encoder. In this case each input neuron spikes only once, the first time the input crosses the threshhold.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch</span> <span class="kn">import</span> <span class="n">SpikeLatencyLIFEncoder</span>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch</span> <span class="kn">import</span> <span class="n">SpikeLatencyLIFEncoder</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
 <span class="n">example_encoder</span> <span class="o">=</span> <span class="n">SpikeLatencyLIFEncoder</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
 
 
 <span class="n">example_input</span> <span class="o">=</span> <span class="n">example_encoder</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-<span class="n">example_spikes</span> <span class="o">=</span> <span class="n">example_input</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">)</span><span class="o">.</span><span class="n">to_sparse</span><span class="p">()</span><span class="o">.</span><span class="n">coalesce</span><span class="p">()</span>
+<span class="n">example_spikes</span> <span class="o">=</span> <span class="n">example_input</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span><span class="o">.</span><span class="n">to_sparse</span><span class="p">()</span><span class="o">.</span><span class="n">coalesce</span><span class="p">()</span>
 <span class="n">t</span> <span class="o">=</span> <span class="n">example_spikes</span><span class="o">.</span><span class="n">indices</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">n</span> <span class="o">=</span> <span class="n">example_spikes</span><span class="o">.</span><span class="n">indices</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Input Unit&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time [ms]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;|&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Input Unit&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time [ms]&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="defining-a-network">
-<h2>Defining a Network<a class="headerlink" href="#defining-a-network" title="Permalink to this headline">¶</a></h2>
+<!-- #region id="cNEqcSNH2WfP" -->
+</section>
+</section>
+<section id="defining-a-network">
+<h2>3.2  Defining a Network<a class="headerlink" href="#defining-a-network" title="Permalink to this headline">#</a></h2>
 <p>Once the data is encoded into spikes, a spiking neural network can be constructed in the same way as a one would construct a recurrent neural network.
 Here we define a spiking neural network with one recurrently connected layer
 with <code class="docutils literal notranslate"><span class="pre">hidden_features</span></code> LIF neurons and a readout layer with <code class="docutils literal notranslate"><span class="pre">output_features</span></code> and leaky-integrators. As you can see, we can freely combine spiking neural network primitives with ordinary <code class="docutils literal notranslate"><span class="pre">torch.nn.Module</span></code> layers.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch</span> <span class="kn">import</span> <span class="n">LIFParameters</span><span class="p">,</span> <span class="n">LIFState</span>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch</span> <span class="kn">import</span> <span class="n">LIFParameters</span><span class="p">,</span> <span class="n">LIFState</span>
 <span class="kn">from</span> <span class="nn">norse.torch.module.lif</span> <span class="kn">import</span> <span class="n">LIFCell</span><span class="p">,</span> <span class="n">LIFRecurrentCell</span>
+
 <span class="c1"># Notice the difference between &quot;LIF&quot; (leaky integrate-and-fire) and &quot;LI&quot; (leaky integrator)</span>
 <span class="kn">from</span> <span class="nn">norse.torch</span> <span class="kn">import</span> <span class="n">LICell</span><span class="p">,</span> <span class="n">LIState</span>
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
 
+
 <span class="k">class</span> <span class="nc">SNNState</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
-    <span class="n">lif0</span> <span class="p">:</span> <span class="n">LIFState</span>
-    <span class="n">readout</span> <span class="p">:</span> <span class="n">LIState</span>
+    <span class="n">lif0</span><span class="p">:</span> <span class="n">LIFState</span>
+    <span class="n">readout</span><span class="p">:</span> <span class="n">LIState</span>
 
 
 <span class="k">class</span> <span class="nc">SNN</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_features</span><span class="p">,</span> <span class="n">hidden_features</span><span class="p">,</span> <span class="n">output_features</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.001</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">input_features</span><span class="p">,</span> <span class="n">hidden_features</span><span class="p">,</span> <span class="n">output_features</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.001</span>
+    <span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">SNN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">l1</span> <span class="o">=</span> <span class="n">LIFRecurrentCell</span><span class="p">(</span>
             <span class="n">input_features</span><span class="p">,</span>
             <span class="n">hidden_features</span><span class="p">,</span>
             <span class="n">p</span><span class="o">=</span><span class="n">LIFParameters</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">v_th</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)),</span>
-            <span class="n">dt</span><span class="o">=</span><span class="n">dt</span>                     
+            <span class="n">dt</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_features</span> <span class="o">=</span> <span class="n">input_features</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fc_out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_features</span><span class="p">,</span> <span class="n">output_features</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -693,26 +811,24 @@ with <code class="docutils literal notranslate"><span class="pre">hidden_feature
         <span class="bp">self</span><span class="o">.</span><span class="n">hidden_features</span> <span class="o">=</span> <span class="n">hidden_features</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_features</span> <span class="o">=</span> <span class="n">output_features</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">record</span> <span class="o">=</span> <span class="n">record</span>
-        
 
-        
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="n">seq_length</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
         <span class="n">s1</span> <span class="o">=</span> <span class="n">so</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">voltages</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">record</span><span class="p">:</span>
-          <span class="bp">self</span><span class="o">.</span><span class="n">recording</span> <span class="o">=</span> <span class="n">SNNState</span><span class="p">(</span>
-              <span class="n">LIFState</span><span class="p">(</span>
-                <span class="n">z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">seq_length</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_features</span><span class="p">),</span>
-                <span class="n">v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">seq_length</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_features</span><span class="p">),</span>
-                <span class="n">i</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">seq_length</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_features</span><span class="p">)</span>
-              <span class="p">),</span>
-              <span class="n">LIState</span><span class="p">(</span>
-                <span class="n">v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">seq_length</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_features</span><span class="p">),</span>
-                <span class="n">i</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">seq_length</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_features</span><span class="p">)</span>
-              <span class="p">)</span>
-          <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">recording</span> <span class="o">=</span> <span class="n">SNNState</span><span class="p">(</span>
+                <span class="n">LIFState</span><span class="p">(</span>
+                    <span class="n">z</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">seq_length</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_features</span><span class="p">),</span>
+                    <span class="n">v</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">seq_length</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_features</span><span class="p">),</span>
+                    <span class="n">i</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">seq_length</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_features</span><span class="p">),</span>
+                <span class="p">),</span>
+                <span class="n">LIState</span><span class="p">(</span>
+                    <span class="n">v</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">seq_length</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_features</span><span class="p">),</span>
+                    <span class="n">i</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">seq_length</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_features</span><span class="p">),</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
 
         <span class="k">for</span> <span class="n">ts</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">seq_length</span><span class="p">):</span>
             <span class="n">z</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">ts</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_features</span><span class="p">)</span>
@@ -720,83 +836,67 @@ with <code class="docutils literal notranslate"><span class="pre">hidden_feature
             <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc_out</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
             <span class="n">vo</span><span class="p">,</span> <span class="n">so</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">so</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">record</span><span class="p">:</span>
-              <span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">lif0</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="n">ts</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">s1</span><span class="o">.</span><span class="n">z</span>
-              <span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">lif0</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">ts</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">s1</span><span class="o">.</span><span class="n">v</span>
-              <span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">lif0</span><span class="o">.</span><span class="n">i</span><span class="p">[</span><span class="n">ts</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">s1</span><span class="o">.</span><span class="n">i</span>
-              <span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">readout</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">ts</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">so</span><span class="o">.</span><span class="n">v</span>
-              <span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">readout</span><span class="o">.</span><span class="n">i</span><span class="p">[</span><span class="n">ts</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">so</span><span class="o">.</span><span class="n">i</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">lif0</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="n">ts</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">s1</span><span class="o">.</span><span class="n">z</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">lif0</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">ts</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">s1</span><span class="o">.</span><span class="n">v</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">lif0</span><span class="o">.</span><span class="n">i</span><span class="p">[</span><span class="n">ts</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">s1</span><span class="o">.</span><span class="n">i</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">readout</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">ts</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">so</span><span class="o">.</span><span class="n">v</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">readout</span><span class="o">.</span><span class="n">i</span><span class="p">[</span><span class="n">ts</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">so</span><span class="o">.</span><span class="n">i</span>
             <span class="n">voltages</span> <span class="o">+=</span> <span class="p">[</span><span class="n">vo</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">voltages</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
+<!-- #region id="yXzSK17BrmjT" -->
 <p>We can visualize the output produced by the recurrent spiking neural network on the example input.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">example_snn</span> <span class="o">=</span> <span class="n">SNN</span><span class="p">(</span><span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">example_snn</span> <span class="o">=</span> <span class="n">SNN</span><span class="p">(</span><span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
 
 <span class="n">example_readout_voltages</span> <span class="o">=</span> <span class="n">example_snn</span><span class="p">(</span><span class="n">example_input</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 <span class="n">voltages</span> <span class="o">=</span> <span class="n">example_readout_voltages</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">voltages</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Voltage [a.u.]&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time [ms]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Voltage [a.u.]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time [ms]&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">example_snn</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">lif0</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">example_snn</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">lif0</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">example_snn</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">lif0</span><span class="o">.</span><span class="n">i</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">example_snn</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">lif0</span><span class="o">.</span><span class="n">i</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="decoding-the-output">
-<h2>Decoding the Output<a class="headerlink" href="#decoding-the-output" title="Permalink to this headline">¶</a></h2>
+<!-- #region id="xq1mvp0ffIsI" -->
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="decoding-the-output">
+<h1>3.3 Decoding the Output<a class="headerlink" href="#decoding-the-output" title="Permalink to this headline">#</a></h1>
 <p>The output of the network we have defined are <span class="math notranslate nohighlight">\(10\)</span> membrane voltage traces. What remains to do is to interpret those as a probabilty distribution. One way of doing so is to determine the maximum along the time dimension and to then compute the softmax of these values. There are other options of course, for example to consider
 the average membrane voltage in a given time window or use a LIF neuron output layer and consider the time to first spike.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     <span class="n">log_p_y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">log_softmax</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">log_p_y</span>
 </pre></div>
 </div>
-</div>
-</div>
+<!-- #region id="ngp3zr5AstiH" -->
 <p>An alternative way of decoding would be to consider only the membrane trace at the last measured time step.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">decode_last</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">decode_last</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">log_p_y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">log_softmax</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">log_p_y</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="training-the-network">
-<h2>Training the Network<a class="headerlink" href="#training-the-network" title="Permalink to this headline">¶</a></h2>
+<!-- #region id="K1jcJ7LnrlUi" -->
+<section id="training-the-network">
+<h2>3.4 Training the Network<a class="headerlink" href="#training-the-network" title="Permalink to this headline">#</a></h2>
 <p>The final model is then simply the sequential composition of these three steps: Encoding, a spiking neural network and decoding.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">encoder</span><span class="p">,</span> <span class="n">snn</span><span class="p">,</span> <span class="n">decoder</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Model</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">encoder</span>
@@ -810,14 +910,12 @@ the average membrane voltage in a given time window or use a LIF neuron output l
         <span class="k">return</span> <span class="n">log_p_y</span>
 </pre></div>
 </div>
-</div>
-</div>
+<!-- #region id="vqxyhc_5Xpfg" -->
 <p>We can then instantiate the model with the recurrent <code class="docutils literal notranslate"><span class="pre">SNN</span></code> network defined above.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
 <span class="n">LR</span> <span class="o">=</span> <span class="mf">0.002</span>
-<span class="n">INPUT_FEATURES</span> <span class="o">=</span> <span class="mi">28</span><span class="o">*</span><span class="mi">28</span>
+<span class="n">INPUT_FEATURES</span> <span class="o">=</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span>
 <span class="n">HIDDEN_FEATURES</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">OUTPUT_FEATURES</span> <span class="o">=</span> <span class="mi">10</span>
 
@@ -828,28 +926,27 @@ the average membrane voltage in a given time window or use a LIF neuron output l
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span>
     <span class="n">encoder</span><span class="o">=</span><span class="n">ConstantCurrentLIFEncoder</span><span class="p">(</span>
-      <span class="n">seq_length</span><span class="o">=</span><span class="n">T</span><span class="p">,</span>
+        <span class="n">seq_length</span><span class="o">=</span><span class="n">T</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">snn</span><span class="o">=</span><span class="n">SNN</span><span class="p">(</span>
-      <span class="n">input_features</span><span class="o">=</span><span class="n">INPUT_FEATURES</span><span class="p">,</span>
-      <span class="n">hidden_features</span><span class="o">=</span><span class="n">HIDDEN_FEATURES</span><span class="p">,</span>
-      <span class="n">output_features</span><span class="o">=</span><span class="n">OUTPUT_FEATURES</span>
+        <span class="n">input_features</span><span class="o">=</span><span class="n">INPUT_FEATURES</span><span class="p">,</span>
+        <span class="n">hidden_features</span><span class="o">=</span><span class="n">HIDDEN_FEATURES</span><span class="p">,</span>
+        <span class="n">output_features</span><span class="o">=</span><span class="n">OUTPUT_FEATURES</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="n">decoder</span><span class="o">=</span><span class="n">decode</span>
+    <span class="n">decoder</span><span class="o">=</span><span class="n">decode</span><span class="p">,</span>
 <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
 
 <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">LR</span><span class="p">)</span>
 <span class="n">model</span>
 </pre></div>
 </div>
-</div>
-</div>
+<!-- #region id="rM5btRjKdEEv" -->
 <p>What remains to do is to setup training and test code. This code is completely independent of the fact that we are training a spiking neural network and in fact has been largely copied from the pytorch tutorials.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tqdm.notebook</span> <span class="kn">import</span> <span class="n">tqdm</span><span class="p">,</span> <span class="n">trange</span>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tqdm.notebook</span> <span class="kn">import</span> <span class="n">tqdm</span><span class="p">,</span> <span class="n">trange</span>
 
-<span class="n">EPOCHS</span>  <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># Increase this number for better performance </span>
+<span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># Increase this number for better performance</span>
+
 
 <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">max_epochs</span><span class="p">):</span>
     <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
@@ -868,12 +965,10 @@ the average membrane voltage in a given time window or use a LIF neuron output l
     <span class="k">return</span> <span class="n">losses</span><span class="p">,</span> <span class="n">mean_loss</span>
 </pre></div>
 </div>
-</div>
-</div>
+<!-- #region id="KtdcQi_18Xip" -->
 <p>Just like the training function, the test function is standard boilerplate, common with any other supervised learning task.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">,</span> <span class="n">epoch</span><span class="p">):</span>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">,</span> <span class="n">epoch</span><span class="p">):</span>
     <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
     <span class="n">test_loss</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
@@ -896,11 +991,7 @@ the average membrane voltage in a given time window or use a LIF neuron output l
     <span class="k">return</span> <span class="n">test_loss</span><span class="p">,</span> <span class="n">accuracy</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">training_losses</span> <span class="o">=</span> <span class="p">[]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">training_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">mean_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">test_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">accuracies</span> <span class="o">=</span> <span class="p">[]</span>
@@ -908,7 +999,9 @@ the average membrane voltage in a given time window or use a LIF neuron output l
 <span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">set_detect_anomaly</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="n">trange</span><span class="p">(</span><span class="n">EPOCHS</span><span class="p">):</span>
-    <span class="n">training_loss</span><span class="p">,</span> <span class="n">mean_loss</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">DEVICE</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">max_epochs</span><span class="o">=</span><span class="n">EPOCHS</span><span class="p">)</span>
+    <span class="n">training_loss</span><span class="p">,</span> <span class="n">mean_loss</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span>
+        <span class="n">model</span><span class="p">,</span> <span class="n">DEVICE</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">max_epochs</span><span class="o">=</span><span class="n">EPOCHS</span>
+    <span class="p">)</span>
     <span class="n">test_loss</span><span class="p">,</span> <span class="n">accuracy</span> <span class="o">=</span> <span class="n">test</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">DEVICE</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">,</span> <span class="n">epoch</span><span class="p">)</span>
     <span class="n">training_losses</span> <span class="o">+=</span> <span class="n">training_loss</span>
     <span class="n">mean_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mean_loss</span><span class="p">)</span>
@@ -918,43 +1011,44 @@ the average membrane voltage in a given time window or use a LIF neuron output l
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;final accuracy: </span><span class="si">{</span><span class="n">accuracies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
+<!-- #region id="XKEVGF76x_Ee" -->
 <p>We can visualize the output of the trained network on an example input</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trained_snn</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">snn</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">trained_snn</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">snn</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
 <span class="n">trained_readout_voltages</span> <span class="o">=</span> <span class="n">trained_snn</span><span class="p">(</span><span class="n">example_input</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">trained_readout_voltages</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Voltage [a.u.]&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time [ms]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Voltage [a.u.]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time [ms]&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="network-with-spike-latency-encoding">
-<h2>Network with Spike Latency Encoding<a class="headerlink" href="#network-with-spike-latency-encoding" title="Permalink to this headline">¶</a></h2>
-<p>As we’ve mentioned above there are alternative ways of encoding and decoding the data to and from spikes. Here we go through two such alternative with the same network we’ve used before.</p>
+<p>That’s your first MNIST classification task done using a <em>trained</em> Spiking Neural Network! As you must have seen the only difference was to change the data into a format compatible for SNNs, i.e. ‘spikes’ and adding LIF neuron layers in a regular PyTorch framework of building a Neural Network.</p>
+<!-- #region id="RjaJS_Hj2qW4" -->
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="modifying-the-network">
+<h1>4. Modifying the Network<a class="headerlink" href="#modifying-the-network" title="Permalink to this headline">#</a></h1>
+<p>We can change how the SNN behaves by modifying different aspects of the Network, the crucial ones are discussed below</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="encoding-and-decoding-scheme">
+<h1>4.1 Encoding and Decoding Scheme<a class="headerlink" href="#encoding-and-decoding-scheme" title="Permalink to this headline">#</a></h1>
+<p>There are alternative ways of encoding and decoding the data to and from spikes as discussed previously. Here we go through two such alternative with the same network we’ve used before.</p>
+<!-- #endregion -->
+<!-- #region id="r4sGruNn8w49" -->
 <p>As is the the outer training loop.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">importlib</span>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">importlib</span>
 <span class="kn">from</span> <span class="nn">norse.torch.module</span> <span class="kn">import</span> <span class="n">encode</span>
+
 <span class="n">encode</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">encode</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#from norse.torch.module import encode</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># from norse.torch.module import encode</span>
 
 <span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
 <span class="n">LR</span> <span class="o">=</span> <span class="mf">0.002</span>
-<span class="n">INPUT_FEATURES</span> <span class="o">=</span> <span class="mi">28</span><span class="o">*</span><span class="mi">28</span>
+<span class="n">INPUT_FEATURES</span> <span class="o">=</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span>
 <span class="n">HIDDEN_FEATURES</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">OUTPUT_FEATURES</span> <span class="o">=</span> <span class="mi">10</span>
 
@@ -966,28 +1060,26 @@ the average membrane voltage in a given time window or use a LIF neuron output l
 <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span>
     <span class="n">encoder</span><span class="o">=</span><span class="n">encode</span><span class="o">.</span><span class="n">SpikeLatencyLIFEncoder</span><span class="p">(</span><span class="n">T</span><span class="p">),</span>
     <span class="n">snn</span><span class="o">=</span><span class="n">SNN</span><span class="p">(</span>
-      <span class="n">input_features</span><span class="o">=</span><span class="n">INPUT_FEATURES</span><span class="p">,</span>
-      <span class="n">hidden_features</span><span class="o">=</span><span class="n">HIDDEN_FEATURES</span><span class="p">,</span>
-      <span class="n">output_features</span><span class="o">=</span><span class="n">OUTPUT_FEATURES</span>
+        <span class="n">input_features</span><span class="o">=</span><span class="n">INPUT_FEATURES</span><span class="p">,</span>
+        <span class="n">hidden_features</span><span class="o">=</span><span class="n">HIDDEN_FEATURES</span><span class="p">,</span>
+        <span class="n">output_features</span><span class="o">=</span><span class="n">OUTPUT_FEATURES</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="n">decoder</span><span class="o">=</span><span class="n">decode</span>
+    <span class="n">decoder</span><span class="o">=</span><span class="n">decode</span><span class="p">,</span>
 <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
 
 <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">LR</span><span class="p">)</span>
 <span class="n">model</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">training_losses</span> <span class="o">=</span> <span class="p">[]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">training_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">mean_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">test_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">accuracies</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="n">trange</span><span class="p">(</span><span class="n">EPOCHS</span><span class="p">):</span>
-    <span class="n">training_loss</span><span class="p">,</span> <span class="n">mean_loss</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">DEVICE</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">max_epochs</span><span class="o">=</span><span class="n">EPOCHS</span><span class="p">)</span>
+    <span class="n">training_loss</span><span class="p">,</span> <span class="n">mean_loss</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span>
+        <span class="n">model</span><span class="p">,</span> <span class="n">DEVICE</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">max_epochs</span><span class="o">=</span><span class="n">EPOCHS</span>
+    <span class="p">)</span>
     <span class="n">test_loss</span><span class="p">,</span> <span class="n">accuracy</span> <span class="o">=</span> <span class="n">test</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">DEVICE</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">,</span> <span class="n">epoch</span><span class="p">)</span>
     <span class="n">training_losses</span> <span class="o">+=</span> <span class="n">training_loss</span>
     <span class="n">mean_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mean_loss</span><span class="p">)</span>
@@ -997,16 +1089,13 @@ the average membrane voltage in a given time window or use a LIF neuron output l
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;final accuracy: </span><span class="si">{</span><span class="n">accuracies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="network-with-poisson-encoded-input">
-<h2>Network with Poisson Encoded Input<a class="headerlink" href="#network-with-poisson-encoded-input" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
+<!-- #region id="jUQSr3GAQ_Wd" -->
+<section id="network-with-poisson-encoded-input">
+<h2>Network with Poisson Encoded Input<a class="headerlink" href="#network-with-poisson-encoded-input" title="Permalink to this headline">#</a></h2>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
 <span class="n">LR</span> <span class="o">=</span> <span class="mf">0.002</span>
-<span class="n">INPUT_FEATURES</span> <span class="o">=</span> <span class="mi">28</span><span class="o">*</span><span class="mi">28</span>
+<span class="n">INPUT_FEATURES</span> <span class="o">=</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span>
 <span class="n">HIDDEN_FEATURES</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">OUTPUT_FEATURES</span> <span class="o">=</span> <span class="mi">10</span>
 
@@ -1018,51 +1107,49 @@ the average membrane voltage in a given time window or use a LIF neuron output l
 <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span>
     <span class="n">encoder</span><span class="o">=</span><span class="n">encode</span><span class="o">.</span><span class="n">PoissonEncoder</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">f_max</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
     <span class="n">snn</span><span class="o">=</span><span class="n">SNN</span><span class="p">(</span>
-      <span class="n">input_features</span><span class="o">=</span><span class="n">INPUT_FEATURES</span><span class="p">,</span>
-      <span class="n">hidden_features</span><span class="o">=</span><span class="n">HIDDEN_FEATURES</span><span class="p">,</span>
-      <span class="n">output_features</span><span class="o">=</span><span class="n">OUTPUT_FEATURES</span>
+        <span class="n">input_features</span><span class="o">=</span><span class="n">INPUT_FEATURES</span><span class="p">,</span>
+        <span class="n">hidden_features</span><span class="o">=</span><span class="n">HIDDEN_FEATURES</span><span class="p">,</span>
+        <span class="n">output_features</span><span class="o">=</span><span class="n">OUTPUT_FEATURES</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="n">decoder</span><span class="o">=</span><span class="n">decode</span>
+    <span class="n">decoder</span><span class="o">=</span><span class="n">decode</span><span class="p">,</span>
 <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
 
 <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">LR</span><span class="p">)</span>
 <span class="n">model</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">training_losses</span> <span class="o">=</span> <span class="p">[]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">training_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">mean_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">test_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">accuracies</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="n">trange</span><span class="p">(</span><span class="n">EPOCHS</span><span class="p">):</span>
-    <span class="n">training_loss</span><span class="p">,</span> <span class="n">mean_loss</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">DEVICE</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">max_epochs</span><span class="o">=</span><span class="n">EPOCHS</span><span class="p">)</span>
+    <span class="n">training_loss</span><span class="p">,</span> <span class="n">mean_loss</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span>
+        <span class="n">model</span><span class="p">,</span> <span class="n">DEVICE</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">max_epochs</span><span class="o">=</span><span class="n">EPOCHS</span>
+    <span class="p">)</span>
     <span class="n">test_loss</span><span class="p">,</span> <span class="n">accuracy</span> <span class="o">=</span> <span class="n">test</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">DEVICE</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">,</span> <span class="n">epoch</span><span class="p">)</span>
     <span class="n">training_losses</span> <span class="o">+=</span> <span class="n">training_loss</span>
     <span class="n">mean_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mean_loss</span><span class="p">)</span>
     <span class="n">test_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_loss</span><span class="p">)</span>
-    <span class="n">accuracies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span>       
+    <span class="n">accuracies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span>
     <span class="c1"># print(f&quot;epoch: {epoch}, mean_loss: {mean_loss}, test_loss: {test_loss}, accuracy: {accuracy}&quot;, flush=True)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;final accuracy: </span><span class="si">{</span><span class="n">accuracies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
+<!-- #region id="YFLeAQPrkNbi" -->
 <p>As can be seen from the training result, this combination of hyperparameters, decoding and encoding scheme performs worse than the alternative we’ve presented before. As with any machine learning approach one of the biggest challenges is to find a combination of these choices that works well. Sometimes theoretical knowledge helps in making these choices. For example it is well known that poisson encoded input will converge with <span class="math notranslate nohighlight">\(1/\sqrt{T}\)</span>, where <span class="math notranslate nohighlight">\(T\)</span> is the number of timesteps. So most likely the low number of timesteps (<span class="math notranslate nohighlight">\(T = 32\)</span>) contributes to the poor performance.</p>
 <p>In the next section we will see that choice of network architecture is also key in training performant spiking neural networks, just as it is for artifiicial neural networks.</p>
-</div>
-<div class="section" id="convolutional-networks">
-<h2>Convolutional Networks<a class="headerlink" href="#convolutional-networks" title="Permalink to this headline">¶</a></h2>
+<!-- #endregion -->
+<!-- #region id="V2iFlyC-r40a" -->
+</section>
+<section id="convolutional-networks">
+<h2>4.2 Convolutional Networks<a class="headerlink" href="#convolutional-networks" title="Permalink to this headline">#</a></h2>
 <p>The simple two layer recurrent spiking neural network we’ve defined above achieves a respectable ~96.5% accuracy after 10 training epochs. One common way
 to improve on this performance is to use convolutional neural networks. We define here two convolutional layers and one spiking classification layer. Just as in the recurrent spiking neural network before, we use a non-spiking leaky integrator for readout.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">torch.nn.functional.max_pool2d</span></code> on binary values is a logical <code class="docutils literal notranslate"><span class="pre">or</span></code> operation on its inputs.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch.module.leaky_integrator</span> <span class="kn">import</span> <span class="n">LILinearCell</span>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch.module.leaky_integrator</span> <span class="kn">import</span> <span class="n">LILinearCell</span>
 <span class="kn">from</span> <span class="nn">norse.torch.functional.lif</span> <span class="kn">import</span> <span class="n">LIFFeedForwardState</span>
 <span class="kn">from</span> <span class="nn">norse.torch.functional.leaky_integrator</span> <span class="kn">import</span> <span class="n">LIState</span>
 
@@ -1070,9 +1157,7 @@ to improve on this performance is to use convolutional neural networks. We defin
 
 
 <span class="k">class</span> <span class="nc">ConvNet</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>  <span class="n">num_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">feature_size</span><span class="o">=</span><span class="mi">28</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;super&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">100</span>
-    <span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">feature_size</span><span class="o">=</span><span class="mi">28</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;super&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ConvNet</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(((</span><span class="n">feature_size</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
@@ -1088,7 +1173,7 @@ to improve on this performance is to use convolutional neural networks. We defin
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="n">seq_length</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">batch_size</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        
+
         <span class="c1"># specify the initial states</span>
         <span class="n">s0</span> <span class="o">=</span> <span class="n">s1</span> <span class="o">=</span> <span class="n">s2</span> <span class="o">=</span> <span class="n">so</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -1103,51 +1188,41 @@ to improve on this performance is to use convolutional neural networks. We defin
             <span class="n">z</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
             <span class="n">z</span><span class="p">,</span> <span class="n">s1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lif1</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">s1</span><span class="p">)</span>
             <span class="n">z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">max_pool2d</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-            <span class="n">z</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
-            <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>        
+            <span class="n">z</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
             <span class="n">z</span><span class="p">,</span> <span class="n">s2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lif2</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span>
             <span class="n">v</span><span class="p">,</span> <span class="n">so</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="n">so</span><span class="p">)</span>
             <span class="n">voltages</span><span class="p">[</span><span class="n">ts</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">v</span>
         <span class="k">return</span> <span class="n">voltages</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">train_data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">train_data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">img</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
+<!-- #region id="oiIMzaks6wVp" -->
 <p>Just as we did we can visualise the output of the untrained convolutional network on a sample input. Notice that compared to the previous untrained
 output the first non-zero membrane trace values appear later. This is due to
 the fact that there is a finite delay for each added layer in the network.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">48</span>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">48</span>
 <span class="n">example_encoder</span> <span class="o">=</span> <span class="n">encode</span><span class="o">.</span><span class="n">ConstantCurrentLIFEncoder</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
 <span class="n">example_input</span> <span class="o">=</span> <span class="n">example_encoder</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 <span class="n">example_snn</span> <span class="o">=</span> <span class="n">ConvNet</span><span class="p">()</span>
 <span class="n">example_readout_voltages</span> <span class="o">=</span> <span class="n">example_snn</span><span class="p">(</span><span class="n">example_input</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">example_readout_voltages</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Voltage [a.u.]&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time [ms]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Voltage [a.u.]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time [ms]&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">48</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">48</span>
 <span class="n">LR</span> <span class="o">=</span> <span class="mf">0.001</span>
-<span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">5</span> <span class="c1"># Increase this for improved accuracy</span>
+<span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># Increase this for improved accuracy</span>
 
 <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
     <span class="n">DEVICE</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span>
@@ -1155,68 +1230,60 @@ the fact that there is a finite delay for each added layer in the network.</p>
     <span class="n">DEVICE</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span>
-    <span class="n">encoder</span><span class="o">=</span><span class="n">encode</span><span class="o">.</span><span class="n">ConstantCurrentLIFEncoder</span><span class="p">(</span><span class="n">T</span><span class="p">),</span>
-    <span class="n">snn</span><span class="o">=</span><span class="n">ConvNet</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">80</span><span class="p">),</span>
-    <span class="n">decoder</span><span class="o">=</span><span class="n">decode</span>
+    <span class="n">encoder</span><span class="o">=</span><span class="n">encode</span><span class="o">.</span><span class="n">ConstantCurrentLIFEncoder</span><span class="p">(</span><span class="n">T</span><span class="p">),</span> <span class="n">snn</span><span class="o">=</span><span class="n">ConvNet</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mi">80</span><span class="p">),</span> <span class="n">decoder</span><span class="o">=</span><span class="n">decode</span>
 <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
 
 <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">LR</span><span class="p">)</span>
 <span class="n">model</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">training_losses</span> <span class="o">=</span> <span class="p">[]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">training_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">mean_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">test_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">accuracies</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="n">trange</span><span class="p">(</span><span class="n">EPOCHS</span><span class="p">):</span>
-    <span class="n">training_loss</span><span class="p">,</span> <span class="n">mean_loss</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">DEVICE</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">max_epochs</span><span class="o">=</span><span class="n">EPOCHS</span><span class="p">)</span>
+    <span class="n">training_loss</span><span class="p">,</span> <span class="n">mean_loss</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span>
+        <span class="n">model</span><span class="p">,</span> <span class="n">DEVICE</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">max_epochs</span><span class="o">=</span><span class="n">EPOCHS</span>
+    <span class="p">)</span>
     <span class="n">test_loss</span><span class="p">,</span> <span class="n">accuracy</span> <span class="o">=</span> <span class="n">test</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">DEVICE</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">,</span> <span class="n">epoch</span><span class="p">)</span>
     <span class="n">training_losses</span> <span class="o">+=</span> <span class="n">training_loss</span>
     <span class="n">mean_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mean_loss</span><span class="p">)</span>
     <span class="n">test_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_loss</span><span class="p">)</span>
-    <span class="n">accuracies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span>       
+    <span class="n">accuracies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;final accuracy: </span><span class="si">{</span><span class="n">accuracies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trained_snn</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">snn</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">trained_snn</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">snn</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
 
 <span class="n">trained_readout_voltages</span> <span class="o">=</span> <span class="n">trained_snn</span><span class="p">(</span><span class="n">example_input</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">trained_readout_voltages</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">trained_readout_voltages</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="n">trained_readout_voltages</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Voltage [a.u.]&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time [ms]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Voltage [a.u.]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time [ms]&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-</div>
+<!-- #region id="4YKMRqTOfO9l" -->
 <p>As we can see the output neuron for the label ‘4’ indeed integrates
 the largest number of spikes.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+<!-- #endregion -->
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="conclusions">
-<h2>Conclusions<a class="headerlink" href="#conclusions" title="Permalink to this headline">¶</a></h2>
+<!-- #region id="M_OUx3IKlQLE" -->
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="conclusions">
+<h1>5. Conclusions<a class="headerlink" href="#conclusions" title="Permalink to this headline">#</a></h1>
 <p>We’ve seen that on a small supervised learning task it is relatively easy to define spiking neural networks that perform about as well as non-spiking artificial networks. The network architecture used is in direct correspondence to one that would be used to solve such a task with an artificial neural network, with the non-linearities replaced by spiking units.</p>
 <p>The remaining difference in performance might be related to a number of choices:</p>
 <ul class="simple">
@@ -1230,8 +1297,11 @@ the largest number of spikes.</p>
 <p>The first three points are in common with the problems encountered in the design and training of artificial neural network classifiers. Comparatively little is known though about their interplay for spiking neural network architectures.</p>
 <p>The last three points are special to spiking neural network problems simply because of their constraints on what kind of data they can process naturally. While their interplay has certainly been investigated in the literature, it is unclear if there is a good answer what encoding and decoding should be chosen in general.</p>
 <p>Finally we’ve also omitted any regularisation or data-augementation, which could further improve performance. Common techniques would be to introduce weight decay or penalise unbiologically high firing rates. In the simplest case those can enter as addtional terms in the loss function we’ve defined above.</p>
-</div>
-</div>
+<!-- #endregion -->
+<hr class="docutils" />
+<p>We have plenty more resources in our <a class="reference external" href="https://github.com/norse/notebooks">notebook repository</a> if you’re feeling adventurous. Also, our documentation tells you much more about what Norse is and why we built it at: <a class="reference external" href="https://norse.github.io/norse/">https://norse.github.io/norse/</a></p>
+<p>Don’t forget to <a class="reference external" href="https://discord.gg/7fGN359">join our Discord server</a> and to support us by either donating or contributing your work upstream. Norse is open-source and built with love for the community. We couldn’t do it without your help!</p>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1255,9 +1325,11 @@ the largest number of spikes.</p>
 
               </div>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="intro_plotting.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -1273,24 +1345,28 @@ the largest number of spikes.</p>
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-            
+            </footer>
         </div>
     </div>
-    <footer class="footer">
-  <p>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Norse authors<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
     
-      By Norse authors<br/>
-    
-        &copy; Copyright 2021.<br/>
-  </p>
-</footer>
-</main>
+</div>
 
 
       </div>
     </div>
   
-  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
 
   </body>
 </html>

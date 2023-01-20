@@ -4,11 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Simulating and plotting neurons &#8212; Norse Tutorial Notebook</title>
     
-  <link href="_static/css/theme.css" rel="stylesheet">
-  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,20 +20,16 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
@@ -39,12 +37,13 @@
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script src="_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -64,7 +63,21 @@ const thebe_selector_output = ".output, .cell_output"
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -73,9 +86,10 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="index.html">
       
         <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
@@ -93,14 +107,15 @@ const thebe_selector_output = ".output, .cell_output"
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="README.html">
-   Norse Notebook Tutorials
-  </a>
- </li>
-</ul>
-<p aria-level="2" class="caption" role="heading">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="README.html">
+                    Norse Notebook Tutorials
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Introduction
  </span>
@@ -141,6 +156,18 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
+  Real-time event processing
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="edge_detector.html">
+   Detecting edges from event data with Norse
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
   Neuroscience
  </span>
 </p>
@@ -170,118 +197,188 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
             
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/intro_plotting.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/norse/notebooks"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/norse/notebooks/issues/new?title=Issue%20on%20page%20%2Fintro_plotting.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        
-    </div>
-</div>
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/norse/norse/HEAD/v2/gh/norse/notebooks/master?urlpath=tree/intro_plotting.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        <a class="colab-button" href="https://colab.research.google.com/github/norse/notebooks/blob/master/intro_plotting.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
-                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
-                    src="_static/images/logo_colab.png"
-                    alt="Interact on Colab">Colab</button></a>
-        
-        <button type="button" class="btn btn-secondary topbarbtn"
-            onclick="initThebeSBT()" title="Launch Thebe" data-toggle="tooltip" data-placement="left"><i
-                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
-        
-    </div>
-</div>
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/norse/notebooks"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/norse/notebooks/issues/new?title=Issue%20on%20page%20%2Fintro_plotting.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/intro_plotting.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
    Simulating and plotting neurons
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#installation">
+   Installation
   </a>
   <ul class="visible nav section-nav flex-column">
    <li class="toc-h2 nav-item toc-entry">
@@ -300,12 +397,12 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal nav-link" href="#simulating-multiple-neurons">
    2. Simulating multiple neurons
   </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   3. Conclusion
+  </a>
   <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#conclusion">
-     Conclusion
-    </a>
-   </li>
    <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#additional-resources">
      Additional resources
@@ -315,12 +412,11 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
 </ul>
 
-            </nav>
-        </div>
-    </div>
+    </nav>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
                 <h1>Simulating and plotting neurons</h1>
@@ -337,6 +433,11 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal nav-link" href="#">
    Simulating and plotting neurons
   </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#installation">
+   Installation
+  </a>
   <ul class="visible nav section-nav flex-column">
    <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#creating-leaky-integrate-and-fire-lif-neurons">
@@ -354,12 +455,12 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal nav-link" href="#simulating-multiple-neurons">
    2. Simulating multiple neurons
   </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   3. Conclusion
+  </a>
   <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#conclusion">
-     Conclusion
-    </a>
-   </li>
    <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#additional-resources">
      Additional resources
@@ -373,71 +474,57 @@ const thebe_selector_output = ".output, .cell_output"
                     </div>
                 </div>
             </div>
-            
+            <main id="main-content" role="main">
+                
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="simulating-and-plotting-neurons">
-<h1>Simulating and plotting neurons<a class="headerlink" href="#simulating-and-plotting-neurons" title="Permalink to this headline">¶</a></h1>
-<p>This notebook is a quick introduction on how to <strong>simulate</strong> and <strong>analyse</strong> neuron activity - that is neuron activity over time. Specifically you will learn how to simulate single neurons and plot their voltage traces, current traces, and spikes.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="simulating-and-plotting-neurons">
+<h1>Simulating and plotting neurons<a class="headerlink" href="#simulating-and-plotting-neurons" title="Permalink to this headline">#</a></h1>
+<p>Norse is a library where you can <em>simulate</em> neural networks that are driven by atomic and sparse events <strong>over time</strong>, rather than large and dense tensors <em>without</em> time.</p>
+<p>Outcomes: This notebook is a quick introduction on how to <strong>simulate</strong> and <strong>analyse</strong> neuron activity,i.e, neuron activity over time. Specifically you will learn how to simulate single neurons and plot their voltage traces, current traces, and spikes.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>You can execute the notebooks on this website by hitting <i class="fas fa-rocket"></i> above and pressing <i class="fas fa-play"></i> Live Code.</p>
 </div>
+<p><strong>Before you continue</strong> with this notebook, we strongly recommend you familiarize yourself with <a class="reference external" href="https://pytorch.org">PyTorch</a> (at least superficially). One way to do that is to go to their <a class="reference external" href="https://pytorch.org/tutorials/beginner/basics/quickstart_tutorial.html">PyTorch Quickstart Tutorial</a>.</p>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">#</a></h1>
 <p>First of all we need to install and import some prerequisites:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install -q matplotlib numpy scipy tqdm git+https://github.com/norse/norse
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>!pip install -q matplotlib numpy scipy tqdm git+https://github.com/norse/norse
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>          <span class="c1"># PyTorch</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>  <span class="c1"># PyTorch</span>
 
 <span class="c1"># Import a the leaky integrate-and-fire feedforward model</span>
 <span class="kn">from</span> <span class="nn">norse.torch.module.lif</span> <span class="kn">import</span> <span class="n">LIF</span><span class="p">,</span> <span class="n">LIFParameters</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="creating-leaky-integrate-and-fire-lif-neurons">
-<h2>Creating leaky integrate-and-fire (LIF) neurons<a class="headerlink" href="#creating-leaky-integrate-and-fire-lif-neurons" title="Permalink to this headline">¶</a></h2>
-<p>To start simulating we need to create a population of LIF neurons of an arbitrary size. Each neuron in the population is set to a default state. We will not be covering this particular neuron model in this tutorial, but can find more information <a class="reference external" href="https://norse.github.io/norse/auto_api/norse.torch.module.lif.html">here</a> and in our other tutorials.</p>
+<section id="creating-leaky-integrate-and-fire-lif-neurons">
+<h2>Creating leaky integrate-and-fire (LIF) neurons<a class="headerlink" href="#creating-leaky-integrate-and-fire-lif-neurons" title="Permalink to this headline">#</a></h2>
+<p>To start simulating we need to create a population of LIF neurons of an arbitrary size. Each neuron in the population is set to a default state. We will not be covering this particular neuron model in this tutorial; this tutorial is about learning how to visualise outputs from neuron layers.  But you can find more information <a class="reference external" href="https://norse.github.io/norse/auto_api/norse.torch.module.lif.html">here</a> and in our other tutorials.</p>
 <p>Really, the only thing you need to remember is that that the neurons will <strong>receive currents as inputs</strong>, and <strong>produce spikes</strong> (0 and 1) as outputs.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Creates a LIF population of arbitrary size</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Creates a LIF population of arbitrary size</span>
 <span class="c1"># Note that we record all the states for future use (not recommended unless necessary)</span>
 <span class="n">lif</span> <span class="o">=</span> <span class="n">LIF</span><span class="p">(</span><span class="n">record_states</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">lif</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LIF(p=LIFParameters(tau_syn_inv=tensor(200.), tau_mem_inv=tensor(100.), v_leak=tensor(0.), v_th=tensor(1.), v_reset=tensor(0.), method=&#39;super&#39;, alpha=tensor(100.)), dt=0.001)
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="tex2jax_ignore mathjax_ignore section" id="simulating-a-single-neuron">
-<h1>1. Simulating a single neuron<a class="headerlink" href="#simulating-a-single-neuron" title="Permalink to this headline">¶</a></h1>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="simulating-a-single-neuron">
+<h1>1. Simulating a single neuron<a class="headerlink" href="#simulating-a-single-neuron" title="Permalink to this headline">#</a></h1>
 <p>To actually use the neuron, we need to <strong>simulate it in time</strong>.
 Why in time? Well, neurons works by <strong>integrating current over time</strong>.
 In Norse, time is discretized into <strong>steps</strong>, where each step <em>advances</em> the neuron simulation a bit into the future.
 If this confuses you, take a look at the earlier <a class="reference external" href="https://norse.github.io/notebooks/intro_spikes.html">Tutorial on spiking neurons in PyTorch</a>.</p>
 <p>We can easily simulate a single neuron in, say, 1000 timesteps, that is 1 second by creating a tensor with 1000 zeros. Note that the time is the outer (first) dimension and the number of neurons is the second (last). In order for something interesting to happen we also inject input spikes at 100 ms and 120 ms.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">data</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c1"># inject input spike at 100 ms</span>
-<span class="n">data</span><span class="p">[</span><span class="mi">120</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c1"># and at 120 ms</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">data</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># inject input spike at 100 ms</span>
+<span class="n">data</span><span class="p">[</span><span class="mi">120</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># and at 120 ms</span>
 <span class="n">output</span><span class="p">,</span> <span class="n">states</span> <span class="o">=</span> <span class="n">lif</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">output</span></code> now stores the output spikes and the <code class="docutils literal notranslate"><span class="pre">states</span></code> contain the internal variables of the neuron dynamics, such as the voltage trace.</p>
 <div class="admonition note">
@@ -446,62 +533,35 @@ If this confuses you, take a look at the earlier <a class="reference external" h
 <p>And what happens if you go back to the previous cell and sets <code class="docutils literal notranslate"><span class="pre">record_states=False</span></code>?</p>
 </div>
 <p>Now, how can we tell what happens? We have chosen to record the output state, so immediately plot the voltage state with <a class="reference external" href="https://matplotlib.org/">Matplotlib</a>:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">detach</span><span class="p">())</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time [ms]&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Voltage&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time [ms]&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Voltage&quot;</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Voltage&#39;)
-</pre></div>
-</div>
-<img alt="_images/intro_plotting_9_1.png" src="_images/intro_plotting_9_1.png" />
-</div>
 </div>
 <p>As you can see the neuron receives an input around timestep 100, which causes the neuron voltage membrane to react.
 However, the voltage trace does not reach the default threshold value of <code class="docutils literal notranslate"><span class="pre">1.0</span></code>. Indeed we can compute the maximal value and timestep at which it is attained:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">voltages</span> <span class="o">=</span> <span class="n">states</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">voltages</span> <span class="o">=</span> <span class="n">states</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
 <span class="n">max_voltage</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">voltages</span><span class="p">)</span>
 <span class="sa">f</span><span class="s2">&quot;maximal voltage: </span><span class="si">{</span><span class="n">max_voltage</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">voltages</span><span class="p">)</span><span class="si">}</span><span class="s2"> ms&quot;</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;maximal voltage: 0.33088549971580505 at 126 ms&#39;
-</pre></div>
-</div>
-</div>
-</div>
 <p>Note how that value is much below 1.0.
 Therefore we can simply rescale the input to ellicit at least one output spike (we also now only show the membrane evolution between 0 and 200 ms).</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scaled_data</span> <span class="o">=</span> <span class="mf">1.001</span> <span class="o">*</span> <span class="p">(</span><span class="n">data</span> <span class="o">/</span> <span class="n">max_voltage</span><span class="p">)</span> <span class="c1"># rescale data according to max voltage + some headroom just computed</span>
-<span class="n">output</span><span class="p">,</span> <span class="n">states</span> <span class="o">=</span> <span class="n">lif</span><span class="p">(</span><span class="n">scaled_data</span><span class="p">[:</span><span class="mi">200</span><span class="p">])</span> 
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">scaled_data</span> <span class="o">=</span> <span class="mf">1.001</span> <span class="o">*</span> <span class="p">(</span>
+    <span class="n">data</span> <span class="o">/</span> <span class="n">max_voltage</span>
+<span class="p">)</span>  <span class="c1"># rescale data according to max voltage + some headroom just computed</span>
+<span class="n">output</span><span class="p">,</span> <span class="n">states</span> <span class="o">=</span> <span class="n">lif</span><span class="p">(</span><span class="n">scaled_data</span><span class="p">[:</span><span class="mi">200</span><span class="p">])</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">detach</span><span class="p">())</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time [ms]&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Voltage&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time [ms]&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Voltage&quot;</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Voltage&#39;)
-</pre></div>
-</div>
-<img alt="_images/intro_plotting_13_1.png" src="_images/intro_plotting_13_1.png" />
-</div>
 </div>
 <p>What happens here is that the neuron receives an input around timestep 100 - and again at 120.
 The neuron racts more strongly than before (the voltage values are higher).
@@ -509,135 +569,72 @@ Around timestep 123, after the second current injection, the neuron gets suffici
 After the spike, the neuron resets, but there is some residual current that still produces an effect in the voltage membrane.
 Exactly why this happens is explained much better in the book <a class="reference external" href="https://neuronaldynamics.epfl.ch/online/Ch5.S1.html">Neural Dynamics by W. Gerstner et al</a>.</p>
 <p>As a small exercise, can you figure out how to visualize the current term (<code class="docutils literal notranslate"><span class="pre">&quot;i&quot;</span></code>)?</p>
-</div>
-<div class="tex2jax_ignore mathjax_ignore section" id="simulating-multiple-neurons">
-<h1>2. Simulating multiple neurons<a class="headerlink" href="#simulating-multiple-neurons" title="Permalink to this headline">¶</a></h1>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="simulating-multiple-neurons">
+<h1>2. Simulating multiple neurons<a class="headerlink" href="#simulating-multiple-neurons" title="Permalink to this headline">#</a></h1>
 <p>A nice feature of the fact that we are using pytorch is that we can easily simulate many neurons at the same time. Here we consider 10000 neurons over 1000 timesteps (that is one second). We do so by generating random spike input as follows</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">timesteps</span> <span class="o">=</span> <span class="mi">1000</span> <span class="c1"># simulate for 1 second (1 ms timestep)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">timesteps</span> <span class="o">=</span> <span class="mi">1000</span>  <span class="c1"># simulate for 1 second (1 ms timestep)</span>
 <span class="n">num_neurons</span> <span class="o">=</span> <span class="mi">1000</span>
 
 <span class="c1"># expect ~ 10 input spikes per neuron</span>
-<span class="n">input_spikes</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="n">timesteps</span><span class="p">,</span> <span class="n">num_neurons</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">0.01</span> 
+<span class="n">input_spikes</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="n">timesteps</span><span class="p">,</span> <span class="n">num_neurons</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">0.01</span>
 </pre></div>
-</div>
-</div>
 </div>
 <p>We can verify our expectation that there are around <span class="math notranslate nohighlight">\(10\)</span> input spikes per neuron by computing the <em>sum</em> of the spikes over time</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_spikes</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">input_spikes</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 </pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(9.8110)
-</pre></div>
-</div>
-</div>
 </div>
 <p>… And by plotting the activity histogram</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">input_spikes</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Number of spikes&quot;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Occurrences&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Occurrences&#39;)
-</pre></div>
-</div>
-<img alt="_images/intro_plotting_20_1.png" src="_images/intro_plotting_20_1.png" />
-</div>
-</div>
 <p>The histogram tells us that for our random data over 1000 timesteps, <em>most</em> neuron will receive 10 input spikes, less around 5 or 15 times, almost none will receive 0 or 20, and so on.</p>
 <p>To run an actual simulation, we simply inject these input_spikes into our <code class="docutils literal notranslate"><span class="pre">LIF</span></code> neuron. This will provide an output of 1000 timesteps with 1000 neurons per timestep (so, a <code class="docutils literal notranslate"><span class="pre">1000x1000</span></code> matrix) and a state-variable, where the neuron states will be updated in. During the simulation, the states will update independently, resulting in different behaviours for every neuron.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lif</span> <span class="o">=</span> <span class="n">LIF</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">LIFParameters</span><span class="p">(</span><span class="n">v_th</span><span class="o">=</span><span class="mf">0.3</span><span class="p">),</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lif</span> <span class="o">=</span> <span class="n">LIF</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">LIFParameters</span><span class="p">(</span><span class="n">v_th</span><span class="o">=</span><span class="mf">0.3</span><span class="p">),</span> <span class="n">record_states</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">spikes</span><span class="p">,</span> <span class="n">states</span> <span class="o">=</span> <span class="n">lif</span><span class="p">(</span><span class="n">input_spikes</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spikes</span><span class="o">.</span><span class="n">shape</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">spikes</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([1000, 1000])
-</pre></div>
-</div>
-</div>
 </div>
 <p>We can visualise the spikes that the neurons produced as follows:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">spikes</span><span class="o">.</span><span class="n">to_sparse</span><span class="p">()</span><span class="o">.</span><span class="n">indices</span><span class="p">(),</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time [ms]&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Neuron index&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time [ms]&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Neuron index&quot;</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Neuron index&#39;)
-</pre></div>
-</div>
-<img alt="_images/intro_plotting_26_1.png" src="_images/intro_plotting_26_1.png" />
-</div>
 </div>
 <p>We can compute the number of spikes per neuron again as follows</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 </pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(2.4740, grad_fn=&lt;MeanBackward0&gt;)
-</pre></div>
-</div>
-</div>
 </div>
 <p>We gave different inputs to different neurons.
 For some neurons,  enough to cause any spikes!
 For the other neurons, however, there are gradually more spikes as the input current increases.</p>
 <p>We can inspect this spike pattern by summing up all the events in the time dimension and look at the activity histogram for the population:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">spikes</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Spike Count&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Occurrence&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Spike Count&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Occurrence&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Occurrence&#39;)
-</pre></div>
-</div>
-<img alt="_images/intro_plotting_30_1.png" src="_images/intro_plotting_30_1.png" />
-</div>
-</div>
-<div class="section" id="conclusion">
-<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="conclusion">
+<h1>3. Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">#</a></h1>
 <p>Hopefully, this tutorial helped you gain some tools to plot spikes and neuron state variables and gave you some pointers on how to gain insights into spiking data in Norse.
 There are more <a class="reference external" href="https://norse.github.io/norse/norse.torch.utils.html">primivites to explore for plotting</a> that we did not get to, but they are relatively simple; the most important thing is to understand the shape and nature of your data, such that you can manipulate it in any way you need.</p>
-</div>
-<div class="section" id="additional-resources">
-<h2>Additional resources<a class="headerlink" href="#additional-resources" title="Permalink to this headline">¶</a></h2>
-<p>Please have a look <a class="reference external" href="https://github.com/norse/notebooks">at our other notebooks</a> and <a class="reference external" href="https://norse.github.io/norse/">our documentation</a> - particularly for the <a class="reference external" href="https://norse.github.io/norse/norse.torch.utils.html">plotting utilities</a>.</p>
+<section id="additional-resources">
+<h2>Additional resources<a class="headerlink" href="#additional-resources" title="Permalink to this headline">#</a></h2>
 <p>For an excellent introduction to neuron dynamics and much more, see the <a class="reference external" href="https://compneuro.neuromatch.io/tutorials/W0D1_PythonWorkshop1/student/W0D1_Tutorial1.html">Neuromatch Academy Python tutorial</a>.</p>
-</div>
-</div>
+<hr class="docutils" />
+<p>We have plenty more resources in our <a class="reference external" href="https://github.com/norse/notebooks">notebook repository</a> if you’re feeling adventurous. Also, our documentation tells you much more about what Norse is and why we built it at: <a class="reference external" href="https://norse.github.io/norse/">https://norse.github.io/norse/</a></p>
+<p>Don’t forget to <a class="reference external" href="https://discord.gg/7fGN359">join our Discord server</a> and to support us by either donating or contributing your work upstream. Norse is open-source and built with love for the community. We couldn’t do it without your help!</p>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -661,9 +658,11 @@ There are more <a class="reference external" href="https://norse.github.io/norse
 
               </div>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="intro_norse.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -679,24 +678,28 @@ There are more <a class="reference external" href="https://norse.github.io/norse
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-            
+            </footer>
         </div>
     </div>
-    <footer class="footer">
-  <p>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Norse authors<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
     
-      By Norse authors<br/>
-    
-        &copy; Copyright 2021.<br/>
-  </p>
-</footer>
-</main>
+</div>
 
 
       </div>
     </div>
   
-  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
 
   </body>
 </html>
