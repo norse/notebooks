@@ -30,6 +30,13 @@ Create
 | [Training with MNIST](https://norse.github.io/notebooks/mnist_classifiers.html) | Learn how to solve MNIST with spikes
 | [Learning event-based DVS Poker](https://norse.github.io/notebooks/poker-dvs_classifier.html) | Learn how to work with event-based datasets by classifying a set of poker cards
 
+
+## Real-time event processing
+
+| Notebook | Topic |
+| ------------------ | --- |
+| [Edge detection with Norse](https://norse.github.io/notebooks/edge_detector.html) | Process events from `.aedat4` files with Norse. Prerequisite to streaming real-time events. |
+
 ## Neuroscience
 | Notebook | Topic |
 | ------------------ | --- |
