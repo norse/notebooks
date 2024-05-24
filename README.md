@@ -10,7 +10,7 @@ However, please note that the online execution relies on CPU, which can cause pe
 If you desire hardware acceleration (like GPU or TPU) you can either clone this repository and experiment locally, or use Google Colab.
 
 If this is your first brush with computational neuroscience, we recommend [this excellent serious of tutorials by Neuromatch Academy](https://compneuro.neuromatch.io/tutorials/W0D1_PythonWorkshop1/student/W0D1_Tutorial1.html).
-They provide excellent interactive tutorials on neuron dynamics, linear algebra, calculus, statistics, and deep learning.
+They provide interactive tutorials on neuron dynamics, linear algebra, calculus, statistics, and deep learning.
 
 ## Introductory notebooks
 
@@ -53,4 +53,27 @@ Create
 For more information we refer to our [documentation](https://norse.ai/docs).
 
 We are also more than happy to accept contributions such as improving or adding notebooks, suggestions for improvements, issues for bugs, or donations to support our work. Thank you!
+
+## Citing Norse
+If you use Norse in your work, please cite it as follows:
+  ```BibTex
+ @software{norse2021,
+   author       = {Pehle, Christian and
+                   Pedersen, Jens Egholm},
+   title        = {{Norse -  A deep learning library for spiking
+                    neural networks}},
+   month        = jan,
+   year         = 2021,
+   note         = {Documentation: https://norse.ai/docs/},
+   publisher    = {Zenodo},
+   version      = {0.0.7},
+   doi          = {10.5281/zenodo.4422025},
+   url          = {https://doi.org/10.5281/zenodo.4422025}
+ }
+ ```
+Norse is actively applied and cited in the literature. See [Semantic Scholar to view the citations](https://www.semanticscholar.org/paper/Norse-A-deep-learning-library-for-spiking-neural-Pehle-Pedersen/bdd21dfe8c4a503365a49bfdb099e63c74823c7c#citing-papers).
+
+ ## 8. License
+
+ LGPLv3. See [LICENSE](LICENSE) for license details.
 
