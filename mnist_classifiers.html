@@ -1,112 +1,175 @@
 
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" data-content_root="./" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Training an MNIST classifier &#8212; Norse Tutorial Notebook</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'mnist_classifiers';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Training a classifier on the event-based POKER-DVS dataset" href="poker-dvs_classifier.html" />
     <link rel="prev" title="Simulating and plotting neurons" href="intro_plotting.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
 
-    
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
 
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="index.html">
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="README.html">
+  
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="_static/logo.png" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">Norse Tutorial Notebook</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Norse Tutorial Notebook - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Norse Tutorial Notebook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
@@ -115,491 +178,376 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Introduction
- </span>
-</p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="intro_spikes.html">
-   Spiking neurons in PyTorch
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="intro_norse.html">
-   Spiking neural networks with Norse
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="intro_plotting.html">
-   Simulating and plotting neurons
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="intro_spikes.html">Spiking neurons in PyTorch</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="intro_norse.html">Spiking neural networks with Norse</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="intro_plotting.html">Simulating and plotting neurons</a></li>
+
+
+
+
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Supervised Learning
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Supervised Learning</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Training an MNIST classifier
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="poker-dvs_classifier.html">
-   Training a classifier on the event-based POKER-DVS dataset
-  </a>
- </li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Training an MNIST classifier</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="poker-dvs_classifier.html">Training a classifier on the event-based POKER-DVS dataset</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Real-time event processing
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Real-time event processing</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="edge_detector.html">
-   Detecting edges from event data with Norse
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="edge_detector.html">Detecting edges from event data with Norse</a></li>
+
+
+
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Neuroscience
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Neuroscience</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="parameter-learning.html">
-   Parameter learning in SNN with Norse
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="stp_example.html">
-   Spike Time Dependent Plasticity
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="parameter-learning.html">Parameter learning in SNN with Norse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stp_example.html">Spike Time Dependent Plasticity</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Miscellaneous
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Miscellaneous</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="high-performance-computing.html">
-   High-Performance Computing with Norse and PyTorch Lightning
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="high-performance-computing.html">High-Performance Computing with Norse and PyTorch Lightning</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/norse/norse/HEAD/v2/gh/norse/notebooks/master?urlpath=tree/mnist_classifiers.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/norse/notebooks/blob/master/mnist_classifiers.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
 </div>
 
 
-          
-
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
-<div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
 
 
 
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/norse/notebooks" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
   </span>
-
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
-<button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/norse/notebooks/issues/new?title=Issue%20on%20page%20%2Fmnist_classifiers.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/mnist_classifiers.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-repository-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Source repositories">
-      <i class="fab fa-github"></i>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://github.com/norse/notebooks"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Source repository"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="headerbtn__text-container">repository</span>
-</a>
 
-      </li>
-      
-      <li>
-        <a href="https://github.com/norse/notebooks/issues/new?title=Issue%20on%20page%20%2Fmnist_classifiers.html&body=Your%20issue%20content%20here."
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Open an issue"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="headerbtn__text-container">open issue</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="_sources/mnist_classifiers.md"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.md</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
 </label>
-
+</div></div>
+      
     </div>
+  
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Training an MNIST classifier
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#installation">
-   1. Installation
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#spiking-neurons">
-   2. Spiking neurons
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#mnist-task">
-   3. MNIST Task
-  </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#encoding-input-data">
-     3.1 Encoding Input Data
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#constant-current-encoder">
-       Constant Current Encoder
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#poisson-encoding">
-       Poisson Encoding
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#spike-latency-encoding">
-       Spike Latency Encoding
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#defining-a-network">
-     3.2  Defining a Network
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#decoding-the-output">
-   3.3 Decoding the Output
-  </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#training-the-network">
-     3.4 Training the Network
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#modifying-the-network">
-   4. Modifying the Network
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#encoding-and-decoding-scheme">
-   4.1 Encoding and Decoding Scheme
-  </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#network-with-poisson-encoded-input">
-     Network with Poisson Encoded Input
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#convolutional-networks">
-     4.2 Convolutional Networks
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#conclusions">
-   5. Conclusions
-  </a>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Training an MNIST classifier</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Training an MNIST classifier
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#installation">
-   1. Installation
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#spiking-neurons">
-   2. Spiking neurons
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#mnist-task">
-   3. MNIST Task
-  </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#encoding-input-data">
-     3.1 Encoding Input Data
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#constant-current-encoder">
-       Constant Current Encoder
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#poisson-encoding">
-       Poisson Encoding
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#spike-latency-encoding">
-       Spike Latency Encoding
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#defining-a-network">
-     3.2  Defining a Network
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#decoding-the-output">
-   3.3 Decoding the Output
-  </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#training-the-network">
-     3.4 Training the Network
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#modifying-the-network">
-   4. Modifying the Network
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#encoding-and-decoding-scheme">
-   4.1 Encoding and Decoding Scheme
-  </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#network-with-poisson-encoded-input">
-     Network with Poisson Encoded Input
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#convolutional-networks">
-     4.2 Convolutional Networks
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#conclusions">
-   5. Conclusions
-  </a>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Training an MNIST classifier</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Training an MNIST classifier</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">1. Installation</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#spiking-neurons">2. Spiking neurons</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mnist-task">3. MNIST Task</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#encoding-input-data">3.1 Encoding Input Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constant-current-encoder">Constant Current Encoder</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-encoding">Poisson Encoding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spike-latency-encoding">Spike Latency Encoding</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-a-network">3.2  Defining a Network</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#decoding-the-output">3.3 Decoding the Output</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-network">3.4 Training the Network</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#modifying-the-network">4. Modifying the Network</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#encoding-and-decoding-scheme">4.1 Encoding and Decoding Scheme</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#network-with-poisson-encoded-input">Network with Poisson Encoded Input</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convolutional-networks">4.2 Convolutional Networks</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">5. Conclusions</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
-  <!-- #region id="b7IYU0Bqomb2" -->
-<section class="tex2jax_ignore mathjax_ignore" id="training-an-mnist-classifier">
-<h1>Training an MNIST classifier<a class="headerlink" href="#training-an-mnist-classifier" title="Permalink to this headline">#</a></h1>
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="training-an-mnist-classifier">
+<h1>Training an MNIST classifier<a class="headerlink" href="#training-an-mnist-classifier" title="Link to this heading">#</a></h1>
 <p>Norse is a library where you can <em>simulate</em> neural networks that are driven by atomic and sparse events <strong>over time</strong>, rather than large and dense tensors <em>without</em> time.</p>
-<p>Outcomes: This tutorial introduces the “Hello World” task of deep-learning: How to classify hand-written digits using <span class="xref myst">norse</span></p>
+<p>Outcomes: This tutorial introduces the “Hello World” task of deep-learning: How to classify hand-written digits using <a class="reference internal" href="#norse.ai"><span class="xref myst">norse</span></a></p>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="installation">
-<h1>1. Installation<a class="headerlink" href="#installation" title="Permalink to this headline">#</a></h1>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<h1>1. Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 </div>
-<!-- #region id="9rmUJSdzqypr" -->
+</div>
+</div>
 <p>We can simply install Norse through pip:</p>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>!pip install --quiet norse
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>--quiet<span class="w"> </span>norse
 </pre></div>
 </div>
-<!-- #region id="YrZ71gW94b1O" -->
+</div>
+</div>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="spiking-neurons">
-<h1>2. Spiking neurons<a class="headerlink" href="#spiking-neurons" title="Permalink to this headline">#</a></h1>
+<h1>2. Spiking neurons<a class="headerlink" href="#spiking-neurons" title="Link to this heading">#</a></h1>
 <p>Spiking neuron models are given as (typically very simple) systems of ordinary differential
 equations. A common example used is the so called current based leaky integrate and fire neuron model (LIF). Its differential equation is given by
 \begin{align*}
@@ -609,8 +557,9 @@ equations. A common example used is the so called current based leaky integrate 
 together with jump and transition equations, that specify when a jump occurs and
 how the state variables change. A prototypical equation is a leaky integrator
 with constant current input <span class="math notranslate nohighlight">\(I_\text{in}\)</span>, with jump condition <span class="math notranslate nohighlight">\(v - 1 = 0\)</span> and transition equation <span class="math notranslate nohighlight">\(v^+ - v^- = -1\)</span>.</p>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch.functional</span> <span class="kn">import</span> <span class="p">(</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch.functional</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">lif_step</span><span class="p">,</span>
     <span class="n">lift</span><span class="p">,</span>
     <span class="n">lif_feed_forward_step</span><span class="p">,</span>
@@ -634,19 +583,31 @@ with constant current input <span class="math notranslate nohighlight">\(I_\text
 <span class="n">voltages</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">voltages</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+</div>
 <p>We can now plot the voltages over time:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">)</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;time [ms]&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">voltages</span><span class="p">)</span>
 </pre></div>
 </div>
-<!-- #region id="MOYVGOvhrDty" -->
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f995f3a6310&gt;]
+</pre></div>
+</div>
+<img alt="_images/f814a80ed2ce65a724cbdb9d83dc72deaaa103112356d8f3d311fcf47aba79cc.png" src="_images/f814a80ed2ce65a724cbdb9d83dc72deaaa103112356d8f3d311fcf47aba79cc.png" />
+</div>
+</div>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="mnist-task">
-<h1>3. MNIST Task<a class="headerlink" href="#mnist-task" title="Permalink to this headline">#</a></h1>
+<h1>3. MNIST Task<a class="headerlink" href="#mnist-task" title="Link to this heading">#</a></h1>
 <p>A common toy dataset to test machine learning approaches on is the MNIST handwritten digit recognition dataset. The goal is to distinguish handwritten digits 0..9 based on a 28x28 grayscale picture. Run the cell below to download the training and test data for MNIST.</p>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torchvision</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torchvision</span>
 
 <span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">256</span>
 
@@ -678,34 +639,73 @@ with constant current input <span class="math notranslate nohighlight">\(I_\text
 <span class="p">)</span>
 </pre></div>
 </div>
-<!-- #region id="c_STHa4ethi4" -->
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz
+Downloading http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz to ./MNIST/raw/train-images-idx3-ubyte.gz
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "cafa5d9724384710b6e5a31c37ce728f", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Extracting ./MNIST/raw/train-images-idx3-ubyte.gz to ./MNIST/raw
+
+Downloading http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz
+Downloading http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz to ./MNIST/raw/train-labels-idx1-ubyte.gz
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "7642120353264fd7ad8b605e801b7035", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Extracting ./MNIST/raw/train-labels-idx1-ubyte.gz to ./MNIST/raw
+
+Downloading http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz
+Downloading http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz to ./MNIST/raw/t10k-images-idx3-ubyte.gz
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "3196ea84e7cc42089eb3b05c181e014d", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Extracting ./MNIST/raw/t10k-images-idx3-ubyte.gz to ./MNIST/raw
+
+Downloading http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz
+Downloading http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz to ./MNIST/raw/t10k-labels-idx1-ubyte.gz
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "dae75ecd240a4d479d4072d812f9e66b", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Extracting ./MNIST/raw/t10k-labels-idx1-ubyte.gz to ./MNIST/raw
+</pre></div>
+</div>
+</div>
+</div>
 <section id="encoding-input-data">
-<h2>3.1 Encoding Input Data<a class="headerlink" href="#encoding-input-data" title="Permalink to this headline">#</a></h2>
+<h2>3.1 Encoding Input Data<a class="headerlink" href="#encoding-input-data" title="Link to this heading">#</a></h2>
 <p>One of the distinguishing features of spiking neural networks is that they
 operate on temporal data encoded as spikes. Common datasets in machine learning
 of course don’t use such an encoding and therefore make a encoding step necessary. Here we choose to treat the grayscale value of an MNIST image
 as a constant current to produce input spikes to the rest of the network.
 Another option would be to interpret the grayscale value as a spike probabilty
 at each timestep.</p>
-<!-- #endregion -->
-<!-- #region id="pVYrXB00-fqO" -->
 <section id="constant-current-encoder">
-<h3>Constant Current Encoder<a class="headerlink" href="#constant-current-encoder" title="Permalink to this headline">#</a></h3>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch</span> <span class="kn">import</span> <span class="n">ConstantCurrentLIFEncoder</span>
+<h3>Constant Current Encoder<a class="headerlink" href="#constant-current-encoder" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch</span> <span class="kn">import</span> <span class="n">ConstantCurrentLIFEncoder</span>
 </pre></div>
 </div>
-<!-- #region id="EHH7pA86l_nL" -->
+</div>
+</div>
 <p>We can easily visualise the effect of this choice of encoding on a sample image in the training data set</p>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">train_data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">train_data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">img</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0
+</pre></div>
+</div>
+<img alt="_images/fb2766b8d82b02d524e212113f0e96d34f6277f4262689d2df76a076b537f188.png" src="_images/fb2766b8d82b02d524e212113f0e96d34f6277f4262689d2df76a076b537f188.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
 <span class="n">example_encoder</span> <span class="o">=</span> <span class="n">ConstantCurrentLIFEncoder</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
 
 
@@ -720,19 +720,26 @@ at each timestep.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<!-- #region id="Ouwn94PQipIw" -->
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/c0f31f5594eabbf5e639e4b87ba3df6baf9606c95e08113333f664e3b3874a8f.png" src="_images/c0f31f5594eabbf5e639e4b87ba3df6baf9606c95e08113333f664e3b3874a8f.png" />
+</div>
+</div>
 </section>
 <section id="poisson-encoding">
-<h3>Poisson Encoding<a class="headerlink" href="#poisson-encoding" title="Permalink to this headline">#</a></h3>
+<h3>Poisson Encoding<a class="headerlink" href="#poisson-encoding" title="Link to this heading">#</a></h3>
 <p>As can be seen from the spike raster plot, this kind of encoding does not produce spike patterns which are necessarily biologically realistic. We could rectify this situation by employing cells with varying threshholds and a finer integration time step. Alternatively we can encode the grayscale input images into poisson spike trains</p>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch</span> <span class="kn">import</span> <span class="n">PoissonEncoder</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch</span> <span class="kn">import</span> <span class="n">PoissonEncoder</span>
 </pre></div>
 </div>
-<!-- #region id="sOlfpqnBjIrE" -->
+</div>
+</div>
 <p>This produces a more biological plausible input pattern, as can be seen below:</p>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
 <span class="n">example_encoder</span> <span class="o">=</span> <span class="n">PoissonEncoder</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">f_max</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 
 <span class="n">example_input</span> <span class="o">=</span> <span class="n">example_encoder</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
@@ -746,16 +753,25 @@ at each timestep.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<!-- #region id="Z9QNqiwIx3HH" -->
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/082d43db364be0f35bffc6c29bd8bfe09b9b91090437ff98c62b89c0c20d8d6a.png" src="_images/082d43db364be0f35bffc6c29bd8bfe09b9b91090437ff98c62b89c0c20d8d6a.png" />
+</div>
+</div>
 </section>
 <section id="spike-latency-encoding">
-<h3>Spike Latency Encoding<a class="headerlink" href="#spike-latency-encoding" title="Permalink to this headline">#</a></h3>
+<h3>Spike Latency Encoding<a class="headerlink" href="#spike-latency-encoding" title="Link to this heading">#</a></h3>
 <p>Yet another example is a spike latency encoder. In this case each input neuron spikes only once, the first time the input crosses the threshhold.</p>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch</span> <span class="kn">import</span> <span class="n">SpikeLatencyLIFEncoder</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch</span> <span class="kn">import</span> <span class="n">SpikeLatencyLIFEncoder</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
 <span class="n">example_encoder</span> <span class="o">=</span> <span class="n">SpikeLatencyLIFEncoder</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
 
 
@@ -770,16 +786,21 @@ at each timestep.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<!-- #region id="cNEqcSNH2WfP" -->
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/357f68aba35e7ba097e723160ae5f44879059bc3a2e8425a1065ac0cab9c4c7b.png" src="_images/357f68aba35e7ba097e723160ae5f44879059bc3a2e8425a1065ac0cab9c4c7b.png" />
+</div>
+</div>
 </section>
 </section>
 <section id="defining-a-network">
-<h2>3.2  Defining a Network<a class="headerlink" href="#defining-a-network" title="Permalink to this headline">#</a></h2>
+<h2>3.2  Defining a Network<a class="headerlink" href="#defining-a-network" title="Link to this heading">#</a></h2>
 <p>Once the data is encoded into spikes, a spiking neural network can be constructed in the same way as a one would construct a recurrent neural network.
 Here we define a spiking neural network with one recurrently connected layer
 with <code class="docutils literal notranslate"><span class="pre">hidden_features</span></code> LIF neurons and a readout layer with <code class="docutils literal notranslate"><span class="pre">output_features</span></code> and leaky-integrators. As you can see, we can freely combine spiking neural network primitives with ordinary <code class="docutils literal notranslate"><span class="pre">torch.nn.Module</span></code> layers.</p>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch</span> <span class="kn">import</span> <span class="n">LIFParameters</span><span class="p">,</span> <span class="n">LIFState</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch</span> <span class="kn">import</span> <span class="n">LIFParameters</span><span class="p">,</span> <span class="n">LIFState</span>
 <span class="kn">from</span> <span class="nn">norse.torch.module.lif</span> <span class="kn">import</span> <span class="n">LIFCell</span><span class="p">,</span> <span class="n">LIFRecurrentCell</span>
 
 <span class="c1"># Notice the difference between &quot;LIF&quot; (leaky integrate-and-fire) and &quot;LI&quot; (leaky integrator)</span>
@@ -846,10 +867,12 @@ with <code class="docutils literal notranslate"><span class="pre">hidden_feature
         <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">voltages</span><span class="p">)</span>
 </pre></div>
 </div>
-<!-- #region id="yXzSK17BrmjT" -->
+</div>
+</div>
 <p>We can visualize the output produced by the recurrent spiking neural network on the example input.</p>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">example_snn</span> <span class="o">=</span> <span class="n">SNN</span><span class="p">(</span><span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">example_snn</span> <span class="o">=</span> <span class="n">SNN</span><span class="p">(</span><span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
 
 <span class="n">example_readout_voltages</span> <span class="o">=</span> <span class="n">example_snn</span><span class="p">(</span><span class="n">example_input</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 <span class="n">voltages</span> <span class="o">=</span> <span class="n">example_readout_voltages</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
@@ -860,43 +883,66 @@ with <code class="docutils literal notranslate"><span class="pre">hidden_feature
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">example_snn</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">lif0</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/aa930994ed0291250e29b22b3c1f6fad171bedd99cd8a4ceb477e11ee9912c84.png" src="_images/aa930994ed0291250e29b22b3c1f6fad171bedd99cd8a4ceb477e11ee9912c84.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">example_snn</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">lif0</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">example_snn</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">lif0</span><span class="o">.</span><span class="n">i</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/9144697ac6b13a6bc02fee75126620a73d90bd58d609d97734f0e38657335af0.png" src="_images/9144697ac6b13a6bc02fee75126620a73d90bd58d609d97734f0e38657335af0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">example_snn</span><span class="o">.</span><span class="n">recording</span><span class="o">.</span><span class="n">lif0</span><span class="o">.</span><span class="n">i</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<!-- #region id="xq1mvp0ffIsI" -->
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/a4ae10e2c7151baa272ba0bf95b2c08e4612f9be133572027da572082883fbbc.png" src="_images/a4ae10e2c7151baa272ba0bf95b2c08e4612f9be133572027da572082883fbbc.png" />
+</div>
+</div>
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="decoding-the-output">
-<h1>3.3 Decoding the Output<a class="headerlink" href="#decoding-the-output" title="Permalink to this headline">#</a></h1>
+<h1>3.3 Decoding the Output<a class="headerlink" href="#decoding-the-output" title="Link to this heading">#</a></h1>
 <p>The output of the network we have defined are <span class="math notranslate nohighlight">\(10\)</span> membrane voltage traces. What remains to do is to interpret those as a probabilty distribution. One way of doing so is to determine the maximum along the time dimension and to then compute the softmax of these values. There are other options of course, for example to consider
 the average membrane voltage in a given time window or use a LIF neuron output layer and consider the time to first spike.</p>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     <span class="n">log_p_y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">log_softmax</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">log_p_y</span>
 </pre></div>
 </div>
-<!-- #region id="ngp3zr5AstiH" -->
+</div>
+</div>
 <p>An alternative way of decoding would be to consider only the membrane trace at the last measured time step.</p>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">decode_last</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">decode_last</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">log_p_y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">log_softmax</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">log_p_y</span>
 </pre></div>
 </div>
-<!-- #region id="K1jcJ7LnrlUi" -->
+</div>
+</div>
 <section id="training-the-network">
-<h2>3.4 Training the Network<a class="headerlink" href="#training-the-network" title="Permalink to this headline">#</a></h2>
+<h2>3.4 Training the Network<a class="headerlink" href="#training-the-network" title="Link to this heading">#</a></h2>
 <p>The final model is then simply the sequential composition of these three steps: Encoding, a spiking neural network and decoding.</p>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">encoder</span><span class="p">,</span> <span class="n">snn</span><span class="p">,</span> <span class="n">decoder</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Model</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">encoder</span>
@@ -910,10 +956,12 @@ the average membrane voltage in a given time window or use a LIF neuron output l
         <span class="k">return</span> <span class="n">log_p_y</span>
 </pre></div>
 </div>
-<!-- #region id="vqxyhc_5Xpfg" -->
+</div>
+</div>
 <p>We can then instantiate the model with the recurrent <code class="docutils literal notranslate"><span class="pre">SNN</span></code> network defined above.</p>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
 <span class="n">LR</span> <span class="o">=</span> <span class="mf">0.002</span>
 <span class="n">INPUT_FEATURES</span> <span class="o">=</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span>
 <span class="n">HIDDEN_FEATURES</span> <span class="o">=</span> <span class="mi">100</span>
@@ -940,10 +988,24 @@ the average membrane voltage in a given time window or use a LIF neuron output l
 <span class="n">model</span>
 </pre></div>
 </div>
-<!-- #region id="rM5btRjKdEEv" -->
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model(
+  (encoder): ConstantCurrentLIFEncoder()
+  (snn): SNN(
+    (l1): LIFRecurrentCell(input_size=784, hidden_size=100, p=LIFParameters(tau_syn_inv=tensor(200.), tau_mem_inv=tensor(100.), v_leak=tensor(0.), v_th=tensor(0.5000), v_reset=tensor(0.), method=&#39;super&#39;, alpha=tensor(100)), autapses=False, dt=0.001)
+    (fc_out): Linear(in_features=100, out_features=10, bias=False)
+    (out): LICell(p=LIParameters(tau_syn_inv=tensor(200.), tau_mem_inv=tensor(100.), v_leak=tensor(0.)), dt=0.001)
+  )
+)
+</pre></div>
+</div>
+</div>
+</div>
 <p>What remains to do is to setup training and test code. This code is completely independent of the fact that we are training a spiking neural network and in fact has been largely copied from the pytorch tutorials.</p>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tqdm.notebook</span> <span class="kn">import</span> <span class="n">tqdm</span><span class="p">,</span> <span class="n">trange</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tqdm.notebook</span> <span class="kn">import</span> <span class="n">tqdm</span><span class="p">,</span> <span class="n">trange</span>
 
 <span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># Increase this number for better performance</span>
 
@@ -965,10 +1027,12 @@ the average membrane voltage in a given time window or use a LIF neuron output l
     <span class="k">return</span> <span class="n">losses</span><span class="p">,</span> <span class="n">mean_loss</span>
 </pre></div>
 </div>
-<!-- #region id="KtdcQi_18Xip" -->
+</div>
+</div>
 <p>Just like the training function, the test function is standard boilerplate, common with any other supervised learning task.</p>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">,</span> <span class="n">epoch</span><span class="p">):</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">,</span> <span class="n">epoch</span><span class="p">):</span>
     <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
     <span class="n">test_loss</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
@@ -991,7 +1055,11 @@ the average membrane voltage in a given time window or use a LIF neuron output l
     <span class="k">return</span> <span class="n">test_loss</span><span class="p">,</span> <span class="n">accuracy</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">training_losses</span> <span class="o">=</span> <span class="p">[]</span>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">training_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">mean_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">test_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">accuracies</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1011,10 +1079,17 @@ the average membrane voltage in a given time window or use a LIF neuron output l
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;final accuracy: </span><span class="si">{</span><span class="n">accuracies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<!-- #region id="XKEVGF76x_Ee" -->
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "2dd58101678a4322acf4b8d15168c349", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "88961d2e9a8246bab74ff58e287f6bce", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "5c9dd3cb09384ddbac7b68616fdea095", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "d15882141016494cafa4058133802a1c", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "6504d2f1926248dca865fdbd80085b89", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "61677a58a8fb4c3585cf9d1e421bca01", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>final accuracy: 94.5
+</pre></div>
+</div>
+</div>
+</div>
 <p>We can visualize the output of the trained network on an example input</p>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">trained_snn</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">snn</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trained_snn</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">snn</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
 <span class="n">trained_readout_voltages</span> <span class="o">=</span> <span class="n">trained_snn</span><span class="p">(</span><span class="n">example_input</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">trained_readout_voltages</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
 
@@ -1023,28 +1098,32 @@ the average membrane voltage in a given time window or use a LIF neuron output l
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+</div>
 <p>That’s your first MNIST classification task done using a <em>trained</em> Spiking Neural Network! As you must have seen the only difference was to change the data into a format compatible for SNNs, i.e. ‘spikes’ and adding LIF neuron layers in a regular PyTorch framework of building a Neural Network.</p>
-<!-- #region id="RjaJS_Hj2qW4" -->
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="modifying-the-network">
-<h1>4. Modifying the Network<a class="headerlink" href="#modifying-the-network" title="Permalink to this headline">#</a></h1>
+<h1>4. Modifying the Network<a class="headerlink" href="#modifying-the-network" title="Link to this heading">#</a></h1>
 <p>We can change how the SNN behaves by modifying different aspects of the Network, the crucial ones are discussed below</p>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="encoding-and-decoding-scheme">
-<h1>4.1 Encoding and Decoding Scheme<a class="headerlink" href="#encoding-and-decoding-scheme" title="Permalink to this headline">#</a></h1>
+<h1>4.1 Encoding and Decoding Scheme<a class="headerlink" href="#encoding-and-decoding-scheme" title="Link to this heading">#</a></h1>
 <p>There are alternative ways of encoding and decoding the data to and from spikes as discussed previously. Here we go through two such alternative with the same network we’ve used before.</p>
-<!-- #endregion -->
-<!-- #region id="r4sGruNn8w49" -->
 <p>As is the the outer training loop.</p>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">importlib</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">importlib</span>
 <span class="kn">from</span> <span class="nn">norse.torch.module</span> <span class="kn">import</span> <span class="n">encode</span>
 
 <span class="n">encode</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">encode</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># from norse.torch.module import encode</span>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># from norse.torch.module import encode</span>
 
 <span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
 <span class="n">LR</span> <span class="o">=</span> <span class="mf">0.002</span>
@@ -1071,7 +1150,11 @@ the average membrane voltage in a given time window or use a LIF neuron output l
 <span class="n">model</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">training_losses</span> <span class="o">=</span> <span class="p">[]</span>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">training_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">mean_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">test_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">accuracies</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1089,11 +1172,13 @@ the average membrane voltage in a given time window or use a LIF neuron output l
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;final accuracy: </span><span class="si">{</span><span class="n">accuracies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<!-- #region id="jUQSr3GAQ_Wd" -->
+</div>
+</div>
 <section id="network-with-poisson-encoded-input">
-<h2>Network with Poisson Encoded Input<a class="headerlink" href="#network-with-poisson-encoded-input" title="Permalink to this headline">#</a></h2>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
+<h2>Network with Poisson Encoded Input<a class="headerlink" href="#network-with-poisson-encoded-input" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">32</span>
 <span class="n">LR</span> <span class="o">=</span> <span class="mf">0.002</span>
 <span class="n">INPUT_FEATURES</span> <span class="o">=</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span>
 <span class="n">HIDDEN_FEATURES</span> <span class="o">=</span> <span class="mi">100</span>
@@ -1118,7 +1203,11 @@ the average membrane voltage in a given time window or use a LIF neuron output l
 <span class="n">model</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">training_losses</span> <span class="o">=</span> <span class="p">[]</span>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">training_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">mean_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">test_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">accuracies</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1137,19 +1226,19 @@ the average membrane voltage in a given time window or use a LIF neuron output l
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;final accuracy: </span><span class="si">{</span><span class="n">accuracies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<!-- #region id="YFLeAQPrkNbi" -->
+</div>
+</div>
 <p>As can be seen from the training result, this combination of hyperparameters, decoding and encoding scheme performs worse than the alternative we’ve presented before. As with any machine learning approach one of the biggest challenges is to find a combination of these choices that works well. Sometimes theoretical knowledge helps in making these choices. For example it is well known that poisson encoded input will converge with <span class="math notranslate nohighlight">\(1/\sqrt{T}\)</span>, where <span class="math notranslate nohighlight">\(T\)</span> is the number of timesteps. So most likely the low number of timesteps (<span class="math notranslate nohighlight">\(T = 32\)</span>) contributes to the poor performance.</p>
 <p>In the next section we will see that choice of network architecture is also key in training performant spiking neural networks, just as it is for artifiicial neural networks.</p>
-<!-- #endregion -->
-<!-- #region id="V2iFlyC-r40a" -->
 </section>
 <section id="convolutional-networks">
-<h2>4.2 Convolutional Networks<a class="headerlink" href="#convolutional-networks" title="Permalink to this headline">#</a></h2>
+<h2>4.2 Convolutional Networks<a class="headerlink" href="#convolutional-networks" title="Link to this heading">#</a></h2>
 <p>The simple two layer recurrent spiking neural network we’ve defined above achieves a respectable ~96.5% accuracy after 10 training epochs. One common way
 to improve on this performance is to use convolutional neural networks. We define here two convolutional layers and one spiking classification layer. Just as in the recurrent spiking neural network before, we use a non-spiking leaky integrator for readout.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">torch.nn.functional.max_pool2d</span></code> on binary values is a logical <code class="docutils literal notranslate"><span class="pre">or</span></code> operation on its inputs.</p>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch.module.leaky_integrator</span> <span class="kn">import</span> <span class="n">LILinearCell</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">norse.torch.module.leaky_integrator</span> <span class="kn">import</span> <span class="n">LILinearCell</span>
 <span class="kn">from</span> <span class="nn">norse.torch.functional.lif</span> <span class="kn">import</span> <span class="n">LIFFeedForwardState</span>
 <span class="kn">from</span> <span class="nn">norse.torch.functional.leaky_integrator</span> <span class="kn">import</span> <span class="n">LIState</span>
 
@@ -1196,19 +1285,25 @@ to improve on this performance is to use convolutional neural networks. We defin
         <span class="k">return</span> <span class="n">voltages</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">train_data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">train_data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">img</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
 </pre></div>
 </div>
-<!-- #region id="oiIMzaks6wVp" -->
+</div>
+</div>
 <p>Just as we did we can visualise the output of the untrained convolutional network on a sample input. Notice that compared to the previous untrained
 output the first non-zero membrane trace values appear later. This is due to
 the fact that there is a finite delay for each added layer in the network.</p>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">48</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">48</span>
 <span class="n">example_encoder</span> <span class="o">=</span> <span class="n">encode</span><span class="o">.</span><span class="n">ConstantCurrentLIFEncoder</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
 <span class="n">example_input</span> <span class="o">=</span> <span class="n">example_encoder</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 <span class="n">example_snn</span> <span class="o">=</span> <span class="n">ConvNet</span><span class="p">()</span>
@@ -1220,7 +1315,11 @@ the fact that there is a finite delay for each added layer in the network.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">48</span>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">48</span>
 <span class="n">LR</span> <span class="o">=</span> <span class="mf">0.001</span>
 <span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># Increase this for improved accuracy</span>
 
@@ -1237,7 +1336,11 @@ the fact that there is a finite delay for each added layer in the network.</p>
 <span class="n">model</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">training_losses</span> <span class="o">=</span> <span class="p">[]</span>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">training_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">mean_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">test_losses</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">accuracies</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1255,7 +1358,11 @@ the fact that there is a finite delay for each added layer in the network.</p>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;final accuracy: </span><span class="si">{</span><span class="n">accuracies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">trained_snn</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">snn</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trained_snn</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">snn</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
 
 <span class="n">trained_readout_voltages</span> <span class="o">=</span> <span class="n">trained_snn</span><span class="p">(</span><span class="n">example_input</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 
@@ -1272,18 +1379,21 @@ the fact that there is a finite delay for each added layer in the network.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<!-- #region id="4YKMRqTOfO9l" -->
+</div>
+</div>
 <p>As we can see the output neuron for the label ‘4’ indeed integrates
 the largest number of spikes.</p>
-<!-- #endregion -->
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
-<!-- #region id="M_OUx3IKlQLE" -->
+</div>
+</div>
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="conclusions">
-<h1>5. Conclusions<a class="headerlink" href="#conclusions" title="Permalink to this headline">#</a></h1>
+<h1>5. Conclusions<a class="headerlink" href="#conclusions" title="Link to this heading">#</a></h1>
 <p>We’ve seen that on a small supervised learning task it is relatively easy to define spiking neural networks that perform about as well as non-spiking artificial networks. The network architecture used is in direct correspondence to one that would be used to solve such a task with an artificial neural network, with the non-linearities replaced by spiking units.</p>
 <p>The remaining difference in performance might be related to a number of choices:</p>
 <ul class="simple">
@@ -1297,7 +1407,6 @@ the largest number of spikes.</p>
 <p>The first three points are in common with the problems encountered in the design and training of artificial neural network classifiers. Comparatively little is known though about their interplay for spiking neural network architectures.</p>
 <p>The last three points are special to spiking neural network problems simply because of their constraints on what kind of data they can process naturally. While their interplay has certainly been investigated in the literature, it is unclear if there is a good answer what encoding and decoding should be chosen in general.</p>
 <p>Finally we’ve also omitted any regularisation or data-augementation, which could further improve performance. Common techniques would be to introduce weight decay or penalise unbiologically high firing rates. In the simplest case those can enter as addtional terms in the loss function we’ve defined above.</p>
-<!-- #endregion -->
 <hr class="docutils" />
 <p>We have plenty more resources in our <a class="reference external" href="https://github.com/norse/notebooks">notebook repository</a> if you’re feeling adventurous. Also, our documentation tells you much more about what Norse is and why we built it at: <a class="reference external" href="https://norse.github.io/norse/">https://norse.github.io/norse/</a></p>
 <p>Don’t forget to <a class="reference external" href="https://discord.gg/7fGN359">join our Discord server</a> and to support us by either donating or contributing your work upstream. Norse is open-source and built with love for the community. We couldn’t do it without your help!</p>
@@ -1315,7 +1424,7 @@ the largest number of spikes.</p>
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./."
         },
         predefinedOutput: true
@@ -1323,50 +1432,127 @@ the largest number of spikes.</p>
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="intro_plotting.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Simulating and plotting neurons</p>
-        </div>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro_plotting.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Simulating and plotting neurons</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="poker-dvs_classifier.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="poker-dvs_classifier.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">Training a classifier on the event-based POKER-DVS dataset</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Training an MNIST classifier</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">1. Installation</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#spiking-neurons">2. Spiking neurons</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mnist-task">3. MNIST Task</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#encoding-input-data">3.1 Encoding Input Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constant-current-encoder">Constant Current Encoder</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-encoding">Poisson Encoding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spike-latency-encoding">Spike Latency Encoding</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-a-network">3.2  Defining a Network</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#decoding-the-output">3.3 Decoding the Output</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-network">3.4 Training the Network</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#modifying-the-network">4. Modifying the Network</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#encoding-and-decoding-scheme">4.1 Encoding and Decoding Scheme</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#network-with-poisson-encoded-input">Network with Poisson Encoded Input</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convolutional-networks">4.2 Convolutional Networks</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">5. Conclusions</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
   
-    By Norse authors<br/>
-  
-      &copy; Copyright 2022.<br/>
-</p>
-        </footer>
-    </div>
+  <div class="footer-item">
     
+<p class="component-author">
+By Norse authors
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
 </div>
+          </footer>
+        
 
-
-      </div>
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>
