@@ -62,7 +62,7 @@ import aestream
 During this tutorial, we will process a sample of ~600MB, which is downloaded below:
 
 ```python
-!wget -O sample.aedat4 https://kth-my.sharepoint.com/:u:/g/personal/jeped_ug_kth_se/EVcTWdMy91xNm3NqxgYwttYB_RyB5cK_GbKywUMN7Qpubw?download=1
+!wget -O sample.aedat4 https://cloud.jepedersen.dk/s/ze5Xjxe8wCHwkxD
 ```
 
 With AEStream, we can now *open* the file:
